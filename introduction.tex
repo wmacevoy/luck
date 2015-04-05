@@ -1,0 +1,38 @@
+\chapter*{Introduction}
+\marginnote{These might easily exist, perhaps as another name, in the literature; I just don't know what it is called.}
+
+The point of these notes is to introduce an idea which is named ``luck,'' as a concept that connects mathematical probability with the everyday notion.
+
+As a motivating problem, imagine walking along the beach and asking a random person to toss a tennis ball so that it lands in the sand.  The probability that it lands at some point would depend on the habits of the thrower and the details of the beach, but we can summarize this as some probability distribution, $P(x)$, where $x\in\R^2$ is a suitable coordinate system for the beach in question.  It would almost certainly not be a uniform distribution, and it would almost certainly not be particularly concentrated.
+
+Traditional probability feels uncomfortable here.  The chances of the ball landing at a given point is zero\marginnote{For a continuous probablity distribution such as this, the chance of the ball landing in some small area $dx$ near $x$ is $P(x) dx$.  But the ball lands at a point, so $dx$ is zero, so the probablity $P(x) dx$ is zero.}, and so miraculous.  Yet anyone watching this process would only occasionaly be surprized by the outcome.
+
+As common (and mundane, not miraculous) such situations are, the language of statistics seems to have difficulty with the notion.  Nor is it limited to continuous cases, just when there are a lot of possible outcomes.  Such examples lead to non-zero but very small probabilities.
+
+To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) with some outcome compared to others.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal liklyhood ought to be equally lucky.  This leads to the following definition of luck:
+\begin{definition}{Luck}
+The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome that is more likely than $x$, plus one-half the probability of getting any outcome that is equally likely to $x$:
+\begin{equation*}
+L(x) = P(p(y) > p(x)) + \frac{1}{2} P(p(y) = p(x)) \,.
+\end{equation*}
+Here $y$ is any possible outcome (including $x$).
+\end{definition}
+
+In the finite/countable case:
+\begin{equation}
+L(x) = \sum_{y \in \Omega(x)} p(y) + \frac{1}{2} \sum_{y \in \omega (x)} p(x) \,,
+\end{equation}
+and in the continuous case:
+\begin{equation}
+L(x) = \int_{\Omega(x)} p(y) \, dy + \frac{1}{2} \int_{\omega(x)} p(y) \, dy \,.
+\end{equation}
+Here 
+\begin{equation}
+\Omega(x) = \left\{ y \mid p(y)>p(x) \right\} \,,
+\end{equation}
+and
+\begin{equation}
+\omega(x) = \left\{ y \mid p(y)=p(x) \right\} \,.
+\end{equation}
+
+
