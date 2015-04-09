@@ -1,22 +1,66 @@
 \chapter*{Introduction}
 \marginnote{These might easily exist, perhaps as another name, in the literature; I just don't know what it is called.}
 
-The point of these notes is to introduce an idea which is named ``luck,'' as a concept that connects mathematical probability with the everyday notion.
+The point of these notes is to introduce an idea of ``luck'' that connects mathematical probability with the everyday notion.
 
-As a motivating problem, imagine walking along the beach and asking a random person to toss a tennis ball so that it lands in the sand.  The probability that it lands at some point would depend on the habits of the thrower and the details of the beach, but we can summarize this as some probability distribution, $P(x)$, where $x\in\R^2$ is a suitable coordinate system for the beach in question.  It would almost certainly not be a uniform distribution, and it would almost certainly not be particularly concentrated.
+As a motivating problem, imagine walking along the beach and asking a random person to toss a tennis ball so that it lands in the sand.  The probability that it lands at some point would depend on the habits of the thrower and the details of the beach, but we can summarize this as some probability distribution, $p(x)=\rho(x) dx$, where $x\in\R^2$ is a suitable coordinate system for the beach in question.  It would almost certainly not be a uniform distribution, and it would almost certainly not be particularly concentrated.
 
-Traditional probability feels uncomfortable here.  The chances of the ball landing at a given point is zero\marginnote{For a continuous probablity distribution such as this, the chance of the ball landing in some small area $dx$ near $x$ is $P(x) dx$.  But the ball lands at a point, so $dx$ is zero, so the probablity $P(x) dx$ is zero.}, and so miraculous.  Yet anyone watching this process would only occasionaly be surprized by the outcome.
+Traditional probability feels uncomfortable here.  The chances of the ball landing at a given point is zero\marginnote{For a continuous probablity distribution such as this, the chance of the ball landing in some small area $dx$ near $x$ is $p(x)=\rho(x) dx$.  But the ball lands at a point, so $dx$ is zero, so the probablity $p(x)=\rho(x) dx$ is zero.}, and so miraculous.  Yet anyone watching this process would only occasionaly be surprized by the outcome.
 
 As common (and mundane, not miraculous) such situations are, the language of statistics seems to have difficulty with the notion.  Nor is it limited to continuous cases, just when there are a lot of possible outcomes.  Such examples lead to non-zero but very small probabilities.
 
-To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) with some outcome compared to others.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal liklyhood ought to be equally lucky.  This leads to the following definition of luck:
+To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) associated with outcomes.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal probability ought to be equally lucky.  This observation leads to the following definition of luck:
 \begin{definition}{Luck}
-The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome that is more likely than $x$, plus one-half the probability of getting any outcome that is equally likely to $x$:
-\begin{equation*}
+The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome $y$ that is more probable than $x$, plus one-half the probability of getting any outcome $y$ that is equally probable to $x$:
+\begin{equation}
 L(x) = P(p(y) > p(x)) + \frac{1}{2} P(p(y) = p(x)) \,.
-\end{equation*}
-Here $y$ is any possible outcome (including $x$).
+\end{equation}
+\begin{itemize}
+\item $0 \leq L(x) \leq 1$, and $L(x)=1$ only if $p(x)=0$, so you must be perfectly lucky to get an impossible outcome.
+\item If $L(x)$ is close to 1, then $p(x)$ is comparatively small, and most outcomes would have a higher probability (you are lucky).  
+\item If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
+\end{itemize}
 \end{definition}
+
+As a small example, suppose we toss 8 fair coins.  What is the luck associated with each head-tails outcome?  If $x$ is the number of heads, then 
+\begin{table}
+\caption{Luck assocated with $x$ heads from 8 fair coins: $p(x)=\frac{8!}{x!(8-x)!}\left(\frac{1}{2}\right)^8$.  Table is arranged in increasing luck (which is decreasing probability).}
+\begin{tabular}{|c|S[table-format=2.4]|S[table-format=2.4]|}
+\multicolumn{1}{c}{$x$} &
+\multicolumn{1}{c}{$p(x)$} &
+\multicolumn{1}{c}{$L(x)$} \\
+\hline
+     4 & 0.2734 & 0.1367 \\
+3 or 5 & 0.2188 & 0.4922 \\
+2 or 6 & 0.1094 & 0.8203 \\
+1 or 7 & 0.0313 & 0.9609 \\
+0 or 8 & 0.0039 & 0.9961 \\
+\hline
+\end{tabular}
+\end{table}
+Using our luck terminology, getting exactly 4 heads is unlucky, requiring only $14\%$ luck, while getting $0$ or $8$ heads is almost $100\%$ luck.
+
+
+A measure of how much the probabilty distribution does not distingush between different outcomes is the second term.  This figures into error estimates below, and so
+\begin{definition}{Flatness}  Flatness is the largest constant probability 
+\begin{equation}
+F = \max_{p(x)} P(p(y) = p(x)) \,.
+\end{equation}
+\end{definition}
+Here are some properties of luck.  Let ${\mathbb{X}}=\left\{x_i\right\}_{i=1}^{n}$ be a large independent sample of outcomes.
+\begin{itemize}
+\item If all outcomes are equally likely, then $L(x)=\frac{1}{2}$.
+\item $E(L(x))=\bar{L}=\frac{1}{2}$.
+\item $E((L(x)-\frac{1}{2})^2)=\sigma_L^2 =\frac{1}{12}$.
+\item $E(0 \leq a < L(x) < b \leq 1) = b-a + \varepsilon $, with $|\varepsilon| \leq 2\Delta$.
+\end{itemize}
+
+For any fixed outcome $x$ and large independent sample 
+\begin{itemize}
+\item The fraction of outcomes which are more probable plus 1/2 the outcomes that are equally probable compared to $x$ is about $L(w)$.
+\item The fraction of outcomes which are less probable plus 1/2 the outcomes that are equally probable compared to $w$ is about $1-L(w)$.
+\item The $f$ fraction of typical (neither lucky nor unlucky) outcomes would have luck in the range $\frac{1}{2} \pm \frac{1}{2}f$. 
+\end{itemize}
 
 In the finite/countable case:
 \begin{equation}
@@ -31,6 +75,7 @@ Here
 \Omega(x) = \left\{ y \mid p(y)>p(x) \right\} \,,
 \end{equation}
 and
+
 \begin{equation}
 \omega(x) = \left\{ y \mid p(y)=p(x) \right\} \,.
 \end{equation}
