@@ -5,7 +5,7 @@ VIEW=evince
 graphics/%.pdf : graphics/%.asy
 	asy -f pdf -o $@ $<
 
-all : graphs main.tex introduction.tex
+all : graphs main.tex introduction.tex normal.tex computation.tex
 	pdflatex main
 #	latexmk -pdf main
 
