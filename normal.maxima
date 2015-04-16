@@ -1,0 +1,2 @@
+f(x,r) := gamma_greek(n/2,r^2/2)/gamma(n/2);
+g(x,r) := (1/2)*(1+erf(r-sqrt(n-1/2)));

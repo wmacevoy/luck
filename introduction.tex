@@ -10,21 +10,75 @@ Traditional probability feels uncomfortable here.  The chances of the ball landi
 As common (and mundane, not miraculous) such situations are, the language of statistics seems to have difficulty with the notion.  Nor is it limited to continuous cases, just when there are a lot of possible outcomes.  Such examples lead to non-zero but very small probabilities.
 
 To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) associated with outcomes.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal probability ought to be equally lucky.  This observation leads to the following definition of luck:
-\begin{definition}{Luck}
-The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome $y$ that is more probable than $x$, plus one-half the probability of getting any outcome $y$ that is equally probable to $x$:
+\begin{quote}
+The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome $y$ that is more probable than $x$, plus one-half the probability of getting any outcome $y$ that is equally probable to $x$.
+\end{quote}
+From the perspective of discussing luck, it it convenient to have few sets: $\Omega(x)$, the outcomes more likely than $x$, and $\omega(x)$, the outcomes equally likely to $x$.
+
+\begin{definition}{Omega.}  $\Omega(x)$ is set of outcomes more likely than $x$:
 \begin{equation}
-L(x) = P(p(y) > p(x)) + \frac{1}{2} P(p(y) = p(x)) \,.
+\Omega(x) = \left\{ y \mid p(y)>p(x) \right\} \,.
 \end{equation}
-\begin{itemize}
-\item $0 \leq L(x) \leq 1$, and $L(x)=1$ only if $p(x)=0$, so you must be perfectly lucky to get an impossible outcome.
-\item If $L(x)$ is close to 1, then $p(x)$ is comparatively small, and most outcomes would have a higher probability (you are lucky).  
-\item If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
-\end{itemize}
+We define $|\Omega(x)|$ as the probability an outcome is in $\Omega(x)$,
+$|\Omega(x)| = P(y\in\Omega(x))$.  In the discrete case, this is
+\begin{equation}
+|\Omega(x)| = \sum_{y \in \Omega(x)} p(y),
+\end{equation}
+and, in the continuous case,
+\begin{equation}
+|\Omega(x)| = \int_{\Omega(x)} \rho(y)\,dy \,.
+\end{equation}
 \end{definition}
 
-As a small example, suppose we toss 8 fair coins.  What is the luck associated with each head-tails outcome?  If $x$ is the number of heads, then 
+\begin{definition}{omega.}\marginnote{For the tyical case of many outcomes with different probabilities, $|\omega(x)|$ is small.  For example, $|\omega(x)|=0$ for any multivariate normal distribution.}
+$\omega(x)$ is the set of outcomes equally likley to $x$:
+\begin{equation}
+\omega(x) = \left\{ y \mid p(y)=p(x) \right\} \,.
+\end{equation}
+Similar to $\Omega(x)$, we define $|\omega(x)|$ as the probability an outcome is in $\omega(x)$,
+$|\omega(x)| = P(y\in\omega(x))$.  
+
+In the discrete case, this is
+\begin{equation}
+|\omega(x)| = \sum_{y \in \omega(x)} p(y),
+\end{equation}
+and, in the continuous case,
+\begin{equation}
+|\omega(x)| = \int_{\omega(x)} \rho(y)\,dy \,.
+\end{equation}
+\end{definition}
+
+With these definitions in place, we define luck mathematically as follows:
+\begin{definition}{Luck.}  The luck of an outcome is the probability getting any more likely outome, plus half the probability of getting any equally likely outcome:
+\begin{equation}
+L(x)=|\Omega(x)| + \frac{1}{2} |\omega(x)| \,.
+\end{equation}
+\end{definition}
+
+
+\subsection{Properties of Luck.}
+\begin{itemize}
+\item $0 \leq L(x) \leq 1$.  This ranges from no luck to perfect luck.
+\item If $L(x)$ is close to 1, then $p(x)$ is comparatively small, and most outcomes would have a higher probability (you are lucky).  
+\item If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
+\item $E(L)=\frac{1}{2}$.  On average, luck is always 50:50.
+\end{itemize}
+
+We are interested in cases which have many possible outcomes with low but somewhat different probabilites (like the tennis ball on the beach).  If the space is well divided (so $\max |\omega|=\max_{x}|\omega(x)|$ is small), then there are other interesting properties of luck:\marginnote{In particular $\omega(x)=0$ for the normal, exponential, beta, and gamma distributions.  As a worst-case counterexample, the flattest distribution is the uniform distribution, for which $\omega(x)=1$.}
+\begin{itemize}
+\item $E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 12$.
+\item For $p>1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p^2 \max |\omega|^2/12$.
+\item For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a + \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
+\end{itemize}
+
+\begin{example}{Coins.}
+Suppose we toss 8 fair coins.  The probability of getting exactly $x$ heads out of 8 tosses is given by the binomial distribution
+\begin{equation}
+p(x)=\frac{8!}{x!(8-x)!}\left(\frac{1}{2}\right)^8
+\end{equation}
+What is the luck associated with this distribution?
 \begin{table}
-\caption{Luck assocated with $x$ heads from 8 fair coins: $p(x)=\frac{8!}{x!(8-x)!}\left(\frac{1}{2}\right)^8$.  Table is arranged in increasing luck (which is decreasing probability).}
+\caption{Table is arranged in increasing luck (which is decreasing probability). Getting exactly $x=4$ heads is unlucky, requiring only $L=14\%$ luck, while getting $x=0$ or $x=8$ heads is almost $100\%$ luck.}
 \begin{tabular}{|c|S[table-format=2.4]|S[table-format=2.4]|}
 \multicolumn{1}{c}{$x$} &
 \multicolumn{1}{c}{$p(x)$} &
@@ -38,46 +92,11 @@ As a small example, suppose we toss 8 fair coins.  What is the luck associated w
 \hline
 \end{tabular}
 \end{table}
-Using our luck terminology, getting exactly 4 heads is unlucky, requiring only $14\%$ luck, while getting $0$ or $8$ heads is almost $100\%$ luck.
-
-
-A measure of how much the probabilty distribution does not distingush between different outcomes is the second term.  This figures into error estimates below, and so
-\begin{definition}{Flatness}  Flatness is the largest constant probability 
-\begin{equation}
-F = \max_{p(x)} P(p(y) = p(x)) \,.
-\end{equation}
-\end{definition}
-Here are some properties of luck.  Let ${\mathbb{X}}=\left\{x_i\right\}_{i=1}^{n}$ be a large independent sample of outcomes.
-\begin{itemize}
-\item If all outcomes are equally likely, then $L(x)=\frac{1}{2}$.
-\item $E(L(x))=\bar{L}=\frac{1}{2}$.
-\item $E((L(x)-\frac{1}{2})^2)=\sigma_L^2 =\frac{1}{12}$.
-\item $E(0 \leq a < L(x) < b \leq 1) = b-a + \varepsilon $, with $|\varepsilon| \leq 2\Delta$.
-\end{itemize}
-
-For any fixed outcome $x$ and large independent sample 
-\begin{itemize}
-\item The fraction of outcomes which are more probable plus 1/2 the outcomes that are equally probable compared to $x$ is about $L(w)$.
-\item The fraction of outcomes which are less probable plus 1/2 the outcomes that are equally probable compared to $w$ is about $1-L(w)$.
-\item The $f$ fraction of typical (neither lucky nor unlucky) outcomes would have luck in the range $\frac{1}{2} \pm \frac{1}{2}f$. 
-\end{itemize}
-
-In the finite/countable case:
-\begin{equation}
-L(x) = \sum_{y \in \Omega(x)} p(y) + \frac{1}{2} \sum_{y \in \omega (x)} p(x) \,,
-\end{equation}
-and in the continuous case:
-\begin{equation}
-L(x) = \int_{\Omega(x)} p(y) \, dy + \frac{1}{2} \int_{\omega(x)} p(y) \, dy \,.
-\end{equation}
-Here 
-\begin{equation}
-\Omega(x) = \left\{ y \mid p(y)>p(x) \right\} \,,
-\end{equation}
-and
-
-\begin{equation}
-\omega(x) = \left\{ y \mid p(y)=p(x) \right\} \,.
-\end{equation}
-
-
+\begin{figure}
+\begin{center}
+\includegraphics[width=1.00\linewidth]{graphics/arrange.pdf}
+\end{center}
+\caption{Luck to get $x$ heads on $8$ fair coins.  After the probabilities are arranged in decreasing order on the unit interval, $L(x)$ is the center point of equally probable outcomes.}
+\label{fig:arrange}
+\end{figure}
+\end{example}

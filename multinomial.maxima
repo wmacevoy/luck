@@ -1,0 +1,34 @@
+/* built-in 
+   subset(set,pred) does not work with lambda predicates, I don't know why */
+
+setbuild(set_or_list,predicate) :=
+  block([ans,element],
+    (ans : {},
+     for element in set_or_list do 
+       if predicate(element) then ans:adjoin(element,ans),
+     ans));
+
+setreduce(set_or_list,binary_op) :=
+  block([first:true,ans,element],
+    (first : true,
+     for element in set_or_list do
+       if first then
+         (first:false,ans:element)
+       else
+         ans : binary_op(ans,element),
+     ans));
+
+log_stirling(n) := n*log(n)-n+log(sqrt(%pi*(2*n+1/3)));
+
+log_poisson(n,p,x) := x*(log(n*p)-log(x))-log(sqrt(%pi*(2*x+1/3)))+log(sqrt(%pi*(2*n+1/3)))*x/n;
+
+n : 8;
+phead : 1/2;
+ptail : 1-phead;
+p(x) := (n!/(x!*(n-x)!))*(phead)^x*(ptail)^(n-x);
+X : makelist(k,k,0,n);
+Omega(x) := setbuild(X,lambda([y],p(y)>p(x)));
+omega(x) := setbuild(X,lambda([y],p(y)=p(x)));
+L(x) := lsum(p(y),y,listify(Omega(x)))+(1/2)*lsum(p(y),y,listify(omega(x)));
+W(x) := lsum(p(y),y,listify(omega(x)));
+maxW : setreduce(map(W,X),max),numer;

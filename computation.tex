@@ -1,0 +1,16 @@
+\chapter*{Computation}
+
+Unfortunately, the explicit computations for luck may be impractical.  However, if $n$ independent samples are taken $S=(x_1, \ldots, x_n)$, then it can be estimated as: 
+\begin{align*}
+ \ell(x_0) = & \frac{1}{n} \left\{\text{\# of outcomes in S more probable than $x$}\right\}  \\
+ & + \frac{1}{2n} \left\{\text{\# of outcomes in S equally probable to $x$}\right\} 
+\end{align*}
+
+It is a reasonably straightforward calculation to show that
+\begin{equation}
+E(\ell)=L \,,
+\end{equation}
+and
+\begin{equation}
+E((\ell-L)^2) \leq \frac{1}{n} L \cdot (1-L)\,.
+\end{equation}

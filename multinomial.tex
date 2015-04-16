@@ -1,0 +1,15 @@
+\section{Multinomial Distribution}
+Selecting independent samples (with repetition) from a discrete set of outcomes follows the multinomial distribution.
+
+Specifically, select $N$ independent samples (with repetition) from a discrete set of possible outcomes $\left\{x_i in \Z_{0+}\right\}_{i=1}^{\infty}$ with probabilities $p_i$,  $\sum_{i=1}^{\infty} p_i = 1$.  Not considering order, this will result in $x_i \in Z_{0+}$ counts of outcome $w_i$, $\sum_{i=1}^\infty x_i = N$.  Note only finitely many $x_i$ can be non-zero.
+The probability of such a sample is given by the multinomial distribution:
+\begin{equation}
+\label{eq:multinomial}
+P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{\infty} \frac{p_i^{x_i}}{x_i!} \,. 
+\end{equation}
+Since only finite number of $x_i$ are not zero, only a finite number of the factors in the product are not one.
+
+The counts $x_i$ are not independent (they must sum to $N$), but if the probabilities are small, then the multinomial distribution can be treated as a product of independent Poisson distributions:
+\begin{equation}
+P_{\text{poisson}}(x;p) = \prod_{i=1}^{\infty} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
+\end{equation}

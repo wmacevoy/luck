@@ -42,6 +42,7 @@
 \usepackage{graphicx} % Needed to insert images into the document
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
 \graphicspath{{graphics/}} % Sets the default location of pictures
 
 \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio} % Improves figure scaling
@@ -53,6 +54,13 @@
 \newcommand{\hangstar}{\makebox[0pt][l]{*}} % New command to create asterisks in tables which take up no horizontal space - this improves column spacing
 
 \usepackage{xspace} % Used for printing a trailing space better than using a tilde (~) using the \xspace command
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\erf}{erf}
+
 
 \newcommand{\monthyear}{\ifcase\month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi\space\number\year} % A command to print the current month and year
 
@@ -122,7 +130,6 @@
 \makeindex % Generate the index which is printed at the end of the document
 
 % This block contains a number of shortcuts used throughout the book
-\newcommand{\R}{\mathbb{R}}
 
 %----------------------------------------------------------------------------------------
 %	BOOK META-INFORMATION
@@ -209,13 +216,10 @@ Under the following terms:
 %% \vfill
 
 
-%----------------------------------------------------------------------------------------
-%	INTRODUCTION
-%----------------------------------------------------------------------------------------
 \cleardoublepage
-
 \include{introduction}
-
+\include{normal}
+\include{computation}
 \backmatter
 
 \bibliography{bibliography} % Use the bibliography.bib file for the bibliography
