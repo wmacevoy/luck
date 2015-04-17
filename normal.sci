@@ -1,5 +1,5 @@
-d=25; // dimension
-n=1000; // number of samples 
+d=24; // dimension
+n=100000; // number of samples 
 
 // random mean & covariance
 mu1=rand(d,1);
@@ -17,34 +17,43 @@ Z2=grand(n, "mn", mu2,sigma2);
 
 // luckij is the luck of seeing a sample generated using distribution
 // i as an outcome in distribution j.
+
+luck=hypermat([2,2,n]);
+luck2=hypermat([2,2,n]);
 for i=1:n
-    z11(i)=norm(a1*(Z1(:,i)-mu1))-sqrt(d-0.5);
-    luck11(i)=0.5*(1+erf(z11(i)));
-    z12(i)=norm(a2*(Z1(:,i)-mu2))-sqrt(d-0.5);
-    luck12(i)=0.5*(1+erf(z12(i)));
-    z21(i)=norm(a1*(Z2(:,i)-mu1))-sqrt(d-0.5);
-    luck21(i)=0.5*(1+erf(z21(i)));
-    z22(i)=norm(a2*(Z2(:,i)-mu2))-sqrt(d-0.5);
-    luck22(i)=0.5*(1+erf(z22(i)));
+    r=zeros(2,2);
+    r(1,1)=norm(a1*(Z1(:,i)-mu1));
+    r(1,2)=norm(a2*(Z1(:,i)-mu2));
+    r(2,1)=norm(a1*(Z2(:,i)-mu1));
+    r(2,2)=norm(a2*(Z2(:,i)-mu2));
+    L=cdfgam("PQ",r.^2/2.0,d/2.0*ones(2,2),ones(2,2));
+    z=r-sqrt(d-0.5);
+    el=0.5*(1+erf(z));
+        
+    luck(:,:,i)=L;
+    luck2(:,:,i)=el;
+//    luck11(i)=L(1,1);
+//    luck12(i)=L(1,2);
+//    luck21(i)=L(2,1);
+//    luck22(i)=L(2,2);
 //    printf("%12.10f & %12.10f & %12.10f & %12.10f \\\\\n",luck11(i),luck12(i),luck21(i),luck22(i));
 end
 
-c = linspace(-0.0001,1.0001,21);
-f1=scf(1);
-clf();
-histplot(c,luck11',style=1);
-xtitle("L^x(x)");
-f2=scf(2);
-clf();
-histplot(c,luck12',style=1);
-xtitle("L^x(y)");
-f3=scf(3)
-clf();
-histplot(c,luck21',style=1);
-xtitle("L^y(x)");
-f4=scf(4);
-clf();
-histplot(c,luck22',style=1);
-xtitle("L^y(y)");
+luck=max(0,luck);
+luck=min(1,luck);
+luck2=max(0,luck2);
+luck2=min(1,luck2);
 
 
+xy=["x","y"];
+clf();
+c = linspace(0,1.0,101);
+for i=1:2
+    for j=1:2
+        subplot(2,2,2*(i-1)+j);
+        histplot(c,matrix(luck(i,j,:),n,1),style=1);
+        histplot(c,matrix(luck2(i,j,:),n,1),style=2);
+         xtitle("L^"+xy(j)+"(" + xy(i) + ")");
+
+    end
+end
