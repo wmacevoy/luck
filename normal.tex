@@ -8,40 +8,41 @@ P_{\text{normal}}(x;\mu,\sigma) &= \frac{e^{-\frac{1}{2}(x-\mu)^T \sigma^{-1} (x
 \sigma_{ij} &= E((x_i-\mu_i)(x_j-\mu_j)) \,.
 \end{align}
 
-Suppose an observation $x$ is made, how lucky is it?
-
-\begin{equation}
-L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\sigma) \,dy
-\end{equation}
-where 
+How lucky is some outcome $x$? From the definition:
 \begin{align}
-\Omega(x) &= \left\{ y \in \R^n \middle| P_{\text{normal}}(y) > P_{\text{normal}}(x) \right\} \\
-          &= \left\{ y \middle| |\sqrt{\sigma^{-1}}(y-\mu)| < |\sqrt{\sigma^{-1}}(x-\mu)| \right\}
+L(x)&=|\Omega(x)|+\frac{1}{2}|\omega(x)| \,,\\
+\intertext{where}
+\Omega(x) =& \left\{ y \in \R^n \middle| P_{\text{normal}}(y) > P_{\text{normal}}(x) \right\} \\
+          =& \left\{ y \middle| |\sqrt{\sigma^{-1}}(y-\mu)| < |\sqrt{\sigma^{-1}}(x-\mu)| \right\}
+\intertext{and}
+\omega(x) =& \left\{ y \middle| |\sqrt{\sigma^{-1}}(y-\mu)| = |\sqrt{\sigma^{-1}}(x-\mu)| \right\} \,.
 \end{align}
-Note, for any $x \in \R^n$, $\omega(x)$ has zero volume, and so $|\omega(x)|=0$.
-
-So now let's compute $L(x)$, starting from the definition:
+Since $\omega(x)$ has no volume, $|\omega(x)|=0$.  So
 \begin{align}
-L(x)&=|\Omega(x)|+\frac{1}{2}|\omega(x)| \\
-    &=|\Omega(x)|+0 \\
-    &=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\sigma) \,dy \\
-\intertext{changing variables to $z=\sqrt{\sigma^{-1}} (x-\mu)$,}
-    &=\int_{|w|<|z|}  P_{\text{normal}}(w;0,I) \, dw \\
-\intertext{converting to spherical coordinates with $r_0 = |\sqrt{\sigma^{-1}} (x-\mu)|$,}
+L(x) &=|\Omega(x)|\\
+L(x) &=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\sigma) \,dy\,.
+\end{align}
+
+By writing changing variables to $z=\sqrt{\sigma^{-1}} (y-\mu)$,
+\begin{equation}
+L(x) = \int_{|z|<R}  P_{\text{normal}}(z;0,I) \, dz \,,
+\end{equation}
+where $R = |\sqrt{\sigma^{-1}} (x-\mu)|$.
+
+This can be evaluated in spherical coordinates:
+\begin{align}
 \label{eq:normal-luck-as-integral}
-    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{r_0} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \\
-    &=\frac{\gamma(n/2,r_0^2/2)}{\Gamma(n/2)}
+L(x)    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{R} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \\
+    &=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)}
 \end{align}
 The last form uses the lower incomplete gamma function, defined to be
 \begin{equation}
 \gamma(s,x) = \int_0^{x} t^{s-1} e^{-t} \, dt
 \end{equation}
 For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral})}:
-\begin{align}
-L(x) \approx & \frac{1}{2}\left[1+\erf(r(x)-\sqrt{n-1/2})\right] \,, \\
-\intertext{where}
-r(x) = & |\sqrt{\sigma^{-1}} (x-\mu)|
-\end{align}
+\begin{equation}
+L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\sigma^{-1}} (x-\mu)|-\sqrt{n-1/2})\right] \,.
+\end{equation}
 \begin{figure}
   \caption{Exact (blue) vs approximate (red) luck for normal distribution for $n=1$, $10$, and $100$.}
   \centering
