@@ -7,12 +7,15 @@ As a motivating problem, imagine walking along the beach and asking a random per
 
 Traditional probability feels uncomfortable here.  The chances of the ball landing at a given point is zero\marginnote{For a continuous probablity distribution such as this, the chance of the ball landing in some small area $dx$ near $x$ is $p(x)=\rho(x) dx$.  But the ball lands at a point, so $dx$ is zero, so the probablity $p(x)=\rho(x) dx$ is zero.}, and so miraculous.  Yet anyone watching this process would only occasionaly be surprized by the outcome.
 
-As common (and mundane, not miraculous) such situations are, the language of statistics seems to have difficulty with the notion.  Nor is it limited to continuous cases, just when there are a lot of possible outcomes.  Such examples lead to non-zero but very small probabilities.
+As common (and mundane, not miraculous) such situations are, the language of statistics seems to have difficulty with the notion.  Nor is it limited to continuous cases, just when there are a lot of possible outcomes.  Such examples lead to non-zero but very small probabilities.\marginnote{The real motivation of this came from space of passwords a person might choose from, which is an effectively infinite discrete space.}
 
-To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) associated with outcomes.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal probability ought to be equally lucky.  This observation leads to the following definition of luck:
+To distinguish from the more general notion of luck, note that that there is no extrinsic value on an outcome.  To say something is ``lucky'' often means there is some value (different from the probability) associated with outcomes.  However, outcomes that are the most valuable are often the least probable, and outcomes of equal probability ought to be equally lucky.  In the most extreme case of all equally probable outcomes (uniform probability), every outcome should have a luck of $\frac{1}{2}$.  
+
+These observations lead to the following definition of luck:
 \begin{quote}
 The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome $y$ that is more probable than $x$, plus one-half the probability of getting any outcome $y$ that is equally probable to $x$.
 \end{quote}
+
 From the perspective of discussing luck, it it convenient to have few sets: $\Omega(x)$, the outcomes more likely than $x$, and $\omega(x)$, the outcomes equally likely to $x$.
 
 \begin{definition}{Omega.}  $\Omega(x)$ is set of outcomes more likely than $x$:
@@ -67,7 +70,7 @@ L(x)=|\Omega(x)| + \frac{1}{2} |\omega(x)| \,.
 We are interested in cases which have many possible outcomes with low but somewhat different probabilities (like the tennis ball on the beach).  If the space is well divided (so $\max |\omega|=\max_{x}|\omega(x)|$ is small), then there are other interesting properties of luck:\marginnote{In particular $|\omega(x)|=0$ for the normal, exponential, beta, and gamma distributions.  As a worst-case counterexample, the flattest distribution is the uniform distribution, for which $|\omega(x)|=1$.}
 \begin{itemize}
 \item $E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 12$.
-\item For $p>1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p^2 \max |\omega|^2/12$.
+\item For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/12$.
 \item For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a + \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
 \end{itemize}
 
@@ -79,16 +82,20 @@ p(x)=\frac{8!}{x!(8-x)!}\left(\frac{1}{2}\right)^8
 What is the luck associated with this distribution?
 \begin{table}
 \caption{Table is arranged in increasing luck (which is decreasing probability). Getting exactly $x=4$ heads is unlucky, requiring only $L=14\%$ luck, while getting $x=0$ or $x=8$ heads is almost $100\%$ luck.}
-\begin{tabular}{|c|S[table-format=2.4]|S[table-format=2.4]|}
+\begin{tabular}{|c|S[table-format=2.4]|c|S[table-format=2.4]|c|S[table-format=2.4]|c|S[table-format=2.4]|S[table-format=2.4]|}
 \multicolumn{1}{c}{$x$} &
 \multicolumn{1}{c}{$p(x)$} &
+\multicolumn{1}{c}{$\Omega(x)$} &
+\multicolumn{1}{c}{$|\Omega(x)|$} &
+\multicolumn{1}{c}{$\omega(x)$} &
+\multicolumn{1}{c}{$|\omega(x)|$} &
 \multicolumn{1}{c}{$L(x)$} \\
 \hline
-     4 & 0.2734 & 0.1367 \\
-3 or 5 & 0.2188 & 0.4922 \\
-2 or 6 & 0.1094 & 0.8203 \\
-1 or 7 & 0.0313 & 0.9609 \\
-0 or 8 & 0.0039 & 0.9961 \\
+     4 & 0.2734 &  \{\} & 0.0000 & \{4\} & 0.2734 & 0.1367 \\
+3 or 5 & 0.2188 & \{4\} & 0.2734 & \{3,5\} & 0.4375 & 0.4922 \\
+2 or 6 & 0.1094 & \{3,4,5\} & 0.7109 & \{2,6\} & 0.2188 & 0.8203 \\
+1 or 7 & 0.0313 & \{2,3,4,5,6\} & 0.9297 & \{1,7\} & 0.0625 & 0.9609 \\
+0 or 8 & 0.0039 & \{1,2,3,4,5,6,7\} & 0.9922 & \{0,8\} & 0.0078 & 0.9961 \\
 \hline
 \end{tabular}
 \end{table}
@@ -99,4 +106,36 @@ What is the luck associated with this distribution?
 \caption{Luck to get $x$ heads on $8$ fair coins.  After the probabilities are arranged in decreasing order on the unit interval, $L(x)$ is the center point of equally probable outcomes.}
 \label{fig:arrange}
 \end{figure}
+
+Luck on average is $\frac{1}{2}$:
+\marginnote{For any distribution, $E(L)=\frac{1}{2}$.}
+\begin{equation}
+E(L)=\sum_{x=0}^8 p(x) \cdot L(x) = \frac{1}{2} \,.
+\end{equation}
+
+The second moment should be close to $\frac{1}{3}$:
+\marginnote{For any distribution, $E(L^2)=\frac{1}{3}-\varepsilon$, with $0 \leq \varepsilon \leq \max |\omega|^2/6$.
+
+For the coin distribution, the bound is $0 \leq \varepsilon \leq 0.032$, and the actual error $\varepsilon=0.0096$.}
+\begin{equation}
+E(L^2)=\sum_{x=0}^8 p(x) \cdot L(x)^2 = \frac{1}{3} - 0.0096
+\end{equation}
+
+The probability luck is in the middle half is about $\frac{1}{2}$:
+\marginnote{For any distribution, $E(L \in [a,b]) = b-a+\varepsilon$, with $|\varepsilon|\leq \max |\omega|$.
+
+For the coin distribution and $[a,b]=[\frac{1}{4},\frac{3}{4}]$, $E(L \in [a,b])=\frac{1}{2}+\varepsilon$ with $|\varepsilon|\leq 0.4375$ as the (poor) error bound, and the actual error of $\varepsilon=0.0625$}
+\begin{equation}
+\begin{split}
+E(L \in [\frac{1}{4},\frac{3}{4}]) &= \sum_{x=0}^8 p(x) \cdot 
+\left\{ \begin{array}{cl} 1 & \text{if $L(x) \in [\frac{1}{4},\frac{3}{4}]$} \\
+                          0 & \text{otherwise} 
+\end{array} \right\} \\
+&= \frac{1}{2} - 0.0625 \,.
+\end{split}
+\end{equation}
 \end{example}
+
+%
+% How about normal distribution as well?
+%

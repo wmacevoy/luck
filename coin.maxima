@@ -24,7 +24,23 @@ ptail : 1-phead;
 p(x) := (n!/(x!*(n-x)!))*(phead)^x*(ptail)^(n-x);
 X : makelist(k,k,0,n);
 Omega(x) := setbuild(X,lambda([y],p(y)>p(x)));
+abs_Omega(x) := lsum(p(y),y,listify(Omega(x)));
 omega(x) := setbuild(X,lambda([y],p(y)=p(x)));
-L(x) := lsum(p(y),y,listify(Omega(x)))+(1/2)*lsum(p(y),y,listify(omega(x)));
-W(x) := lsum(p(y),y,listify(omega(x)));
-maxW : setreduce(map(W,X),max),numer;
+abs_omega(x) := lsum(p(y),y,listify(omega(x)));
+max_abs_omega : setreduce(map(abs_omega,X),max);
+L(x) := abs_Omega(x)+(1/2)*abs_omega(x);
+
+L_list: makelist(L(k),k,0,n);
+P_list: makelist(p(k),k,0,n);
+
+middle_third(el) := if (1/3 <= el and el <= 2/3) then 1 else 0;
+
+L1 : sum(L_list[i]*P_list[i],i,1,n+1);
+L2 : sum(L_list[i]^2*P_list[i],i,1,n+1);
+L2_eps : 1/3-L2;
+L2_bound : 2*max_abs_omega^2/12,numer;
+
+third : sum(middle_third(L_list[i])*P_list[i],i,1,n+1);
+third_eps : 1/3-third;
+third_bound
+
