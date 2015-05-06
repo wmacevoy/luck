@@ -135,7 +135,51 @@ E(L \in [\frac{1}{4},\frac{3}{4}]) &= \sum_{x=0}^8 p(x) \cdot
 \end{split}
 \end{equation}
 \end{example}
+\begin{example}{Normal.}  This is a special case of the multivariate normal we cover in the next section, but working out the details for the one-dimensional case can be illuminating.  We define the one-dimensional normal distribution with mean $\mu$ and variance $\Sigma$ as
+\begin{align}
+P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{(x-\mu)^2}{2\Sigma}}}{\sqrt{(2\pi\Sigma}} \,,\\
+\intertext{where}
+\mu &= E(x)\,,\\
+\intertext{and}
+\Sigma &= E((x-\mu)^2) \,.
+\end{align}
 
-%
-% How about normal distribution as well?
-%
+First note that $\Omega(x)$ is the open the interval between $x$ and $x$ reflected around $\mu$:
+\begin{equation}
+\Omega(x)=(\min(x,2\mu-x),\max(x,2\mu-x)) \,,
+\end{equation}
+and $\omega(x)$ is the endpoints of that interval:
+\begin{equation}
+\omega(x)=\{x,2\mu-x\} \,.
+\end{equation}
+
+Since the 1-dimensional normal distribution is a continuous distribution and $\omega(x)$ is a finite set, $|\omega(x)|=0$, i.e.,
+\begin{equation}
+|\omega(x)|=\int_{\omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy = 0 \,.
+\end{equation}
+This means all the luck properties are exact (the error terms are zero), and the $\frac{1}{2}|\omega(x)|$ contributes nothing to the luck of an outcome.
+
+What remains is to calculate luck,
+\begin{equation}
+L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy
+\end{equation}
+Changing variables to the normalized $z$-score: $z=\sqrt{\Sigma^{-1}}(x-\mu)$, this can be rewritten as
+\begin{equation}
+L(x)=\int_{-R}^{R} P_{\text{normal}}(y,0,1) \, dy \,,
+\end{equation}
+where
+\begin{equation}
+R=|\sqrt{\Sigma^{-1}}(x-\mu)|
+\end{equation}
+
+Using $\erf(x)$, defined as
+\begin{equation}
+\erf(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-y^2} \, dy \,, 
+\end{equation}
+the luck of an outcome can be written as
+\begin{equation}
+\label{eq:normal-1d-luck}
+L(x)=\erf\left|\frac{x-\mu}{\sqrt{2\Sigma}} \right| \,.
+\end{equation}
+
+\end{example}
