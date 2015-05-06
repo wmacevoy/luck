@@ -124,7 +124,7 @@ E(L^2)=\sum_{x=0}^8 p(x) \cdot L(x)^2 = \frac{1}{3} - 0.0096
 The probability luck is in the middle half is about $\frac{1}{2}$:
 \marginnote{For any distribution, $E(L \in [a,b]) = b-a+\varepsilon$, with $|\varepsilon|\leq \max |\omega|$.
 
-For the coin distribution and $[a,b]=[\frac{1}{4},\frac{3}{4}]$, $E(L \in [a,b])=\frac{1}{2}+\varepsilon$ with $|\varepsilon|\leq 0.4375$ as the (poor) error bound, and the actual error of $\varepsilon=0.0625$}
+For the coin distribution and $[a,b]=[\frac{1}{4},\frac{3}{4}]$, $E(L \in [a,b])=\frac{1}{2}+\varepsilon$ with $|\varepsilon|\leq 0.4375$ as the (poor) error bound, and the actual error of $\varepsilon=-0.0625$}
 \begin{equation}
 \begin{split}
 E(L \in [\frac{1}{4},\frac{3}{4}]) &= \sum_{x=0}^8 p(x) \cdot 
@@ -137,7 +137,7 @@ E(L \in [\frac{1}{4},\frac{3}{4}]) &= \sum_{x=0}^8 p(x) \cdot
 \end{example}
 \begin{example}{Normal.}  This is a special case of the multivariate normal we cover in the next section, but working out the details for the one-dimensional case can be illuminating.  We define the one-dimensional normal distribution with mean $\mu$ and variance $\Sigma$ as
 \begin{align}
-P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{(x-\mu)^2}{2\Sigma}}}{\sqrt{(2\pi\Sigma}} \,,\\
+P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{(x-\mu)^2}{2\Sigma}}}{\sqrt{2\pi\Sigma}} \,,\\
 \intertext{where}
 \mu &= E(x)\,,\\
 \intertext{and}
