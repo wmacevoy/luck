@@ -73,6 +73,7 @@ We are interested in cases which have many possible outcomes with low but somewh
 \item For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/12$.
 \item For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a + \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
 \end{itemize}
+The proofs of these come from the midpoint integration rule and thinking about the general case for figure~\ref{fig:arrange} below.
 
 \begin{example}{Coins.}
 Suppose we toss 8 fair coins.  The probability of getting exactly $x$ heads out of 8 tosses is given by the binomial distribution
@@ -103,7 +104,7 @@ What is the luck associated with this distribution?
 \begin{center}
 \includegraphics[width=1.00\linewidth]{graphics/arrange.pdf}
 \end{center}
-\caption{Luck to get $x$ heads on $8$ fair coins.  After the probabilities are arranged in decreasing order on the unit interval, $L(x)$ is the center point of equally probable outcomes.}
+\caption{\label{fig:arrange}Luck to get $x$ heads on $8$ fair coins.  After the probabilities are arranged in decreasing order on the unit interval, $L(x)$ is the center point of equally probable outcomes.}
 \label{fig:arrange}
 \end{figure}
 
@@ -172,7 +173,7 @@ where
 R=|\sqrt{\Sigma^{-1}}(x-\mu)|
 \end{equation}
 
-Using $\erf(x)$, defined as
+Using $\erf(x)$, defined as\marginnote{$\erf(x)$ is a normalized integral of the $P_{\text{normal}}(x;\mu=0,\Sigma=1/2)$ so that $\erf(0)=0$ and $\erf(\pm \infty)=\pm 1$.}
 \begin{equation}
 \erf(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-y^2} \, dy \,, 
 \end{equation}
