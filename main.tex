@@ -29,9 +29,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{sudoku}
-\renewcommand*\sudokuformat[1]{\sffamily #1}
-\newenvironment{smallsudoku}{\setlength\sudokusize{12em}\setlength\sudokuthickline{1.5pt}\setlength\sudokuthinline{0.5pt}\begin{sudoku}}{\end{sudoku}}
+\usepackage{listings}
 \usepackage{siunitx} % align decimals in tables
 \usepackage{nth}     % 1st, 2nd, ...
 \usepackage{microtype} % Improves character and word spacing
@@ -219,6 +217,7 @@ Under the following terms:
 \cleardoublepage
 \include{introduction}
 \include{normal}
+\include{multinomial}
 \include{computation}
 \backmatter
 

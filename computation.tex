@@ -14,3 +14,197 @@ and
 \begin{equation}
 E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x))\,.
 \end{equation}
+
+\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples?  This example is small enough to compute the exact luck of $0.6287498$,  indicating this is a fairly typical result.
+
+The probability in this case is the multinomial probability (see figure~\ref{fig:mulprobln}):
+\begin{equation}
+y=\text{mulprobln(x,p)}=\log \left[\left(\sum_{i=1}^{n_p} x_i \right)! \prod_{i=1}^{n_p} \frac{p_i^{x_i}}{x_i!} \right]\,.
+\end{equation}
+
+\begin{figure}
+\caption{\label{fig:mulprobln}Scilab listing to compute the natural log of the multinomial probability $y$ of outcome $x$ given category probabilities $p$.  $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities, $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ of outcomes, and the result $y$ is a $1 \times n_{\text{samps}}$ row vector of the natural log of multinomial probabilites for these outcomes.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function y=mulprobln(x,p)
+  [nprobs,nsamps]=size(x);
+  pln=log(p);
+  y=zeros(1,nsamps);
+  for i=1:nsamps
+    xi=x(:,i);
+    ni=sum(xi);
+    y(i)=gammaln(ni+1)+sum(xi.*pln-gammaln(xi+1));
+  end
+endfunction
+\end{lstlisting}
+\end{figure}
+
+Numerical estimates of luck requires samples from the given probability distribution.  Figure~\ref{fig:mulsamps} uses a built-in function in scilab to generate such a sample set.
+\begin{figure}
+\caption{\label{fig:mulsamps}Scilab listing to get a sample of outcomes from a multinomial distribution.  $n_{\text{samps}}$ is the number of desired samples, $n_{\text{trials}}$ is the number of trials in each sample, and $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities.  The result $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of sample outcomes, where $\sum_{j=1}^{n_{\text{probs}}} x(j,i)=n_{\text{trials}}$.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function x=mulsamp(nsamps,ntrials,p)
+  x=grand(nsamps,"mul",ntrials,p(1:(length(p)-1)));
+endfunction
+\end{lstlisting}
+\end{figure}
+
+For smaller spaces, luck for a multinomial distribution can be computed explicitly.  Figure~\ref{fig:mulluck} computes this as an inefficient testing reference.
+\begin{figure}
+\caption{\label{fig:mulluck}Recursively compute luck of multinomial exactly using exaustive sum.  $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of outcomes, and $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities.  The result is a $1 \times n_{\text{samps}}$ of luck values.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function el=mulluckrec(nb,mb,lpx,k,p,y,eps)
+  [n,m]=size(lpx);
+  el=zeros(n,m);
+  for yk=0:nb-mb
+     y(k)=yk;
+     if k < length(p)-1 then
+       el=el+mulluckrec(nb,mb+yk,lpx,k+1,p,y,eps);
+     else
+       y(length(p))=nb-mb-yk;
+       lpy=mulprobln(y,p);
+       c=0.5*bool2s(lpy > lpx-eps)+0.5*bool2s(lpy > lpx+eps);
+       el = el + c .* exp(lpy);
+     end
+  end
+endfunction
+
+function lucks=mulluck(x,p,eps)
+  if ~exists("eps","local") then
+    eps=sqrt(%eps);
+  end
+  [nprobs,nsamps]=size(x);
+  ntrials=sum(x,'r');
+  min_ntrials=min(ntrials);
+  max_ntrials=max(ntrials);
+  assert_checkequal(min_ntrials,max_ntrials);
+  lucks=mulluckrec(min_ntrials,0,mulprobln(x,p),1,p,zeros(nprobs,1),eps)
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:numlucksetup}Given the log of the probabilites of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving estimates for $(L(x),|\Omega(x)|,|\omega(x)|)$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function setup=numlucksetup(problns,eps)
+  if ~exists("eps","local") then
+    eps=sqrt(%eps);
+  end
+
+  n=length(problns);
+  problns=gsort(problns);
+
+  i=1;
+  count=0;
+  while i<=n
+    j=i;
+    while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
+      j=j+1;
+    end
+    i=j+1;
+    count=count+1;
+  end
+
+  setup=zeros(3,count);
+
+  i=1;
+  count=0;
+  while i<=n
+    j=i;
+    while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
+      j=j+1;
+    end
+
+    count=count+1;
+    setup(1,count)=0.5*(problns(i)+problns(j));
+    setup(2,count)=(i-1)/n;
+    setup(3,count)=(j-i+1)/n;
+    i=j+1;
+  end
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:numluck}Estimate luck given log of probabilities and setup.  {\tt problns} is a row vector of log-probabilities, {\tt setup} is the setup from a (possibly different) sample, and {\tt eps} is the same optional parameter as in {\tt numlucksetup}.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function lucks=numluck(problns,setup,eps)
+  if ~exists("eps","local") then
+    eps=sqrt(%eps);
+  end
+
+  [n,m]=size(problns);
+  [three,nsetup]=size(setup);
+
+  abs_Omega=zeros(n,m);
+  abs_omega=zeros(n,m);
+
+  for i=1:n
+    for j=1:m
+      lo=1;
+      hi=nsetup;
+      while %T
+        mid=floor((hi+lo)/2)
+        if setup(1,mid) > problns(i,j)+eps then
+   	  if mid == lo then
+            break
+          end
+          lo=mid;
+        else
+          if mid == hi then
+            break
+          end
+          hi=mid;
+        end
+      end
+
+      if abs(problns(i,j)-setup(1,hi))<eps then
+        abs_Omega(i,j)=setup(2,hi);
+        abs_omega(i,j)=setup(3,hi);
+      elseif abs(problns(i,j)-setup(1,lo))<eps then
+        abs_Omega(i,j)=setup(2,lo);
+        abs_omega(i,j)=setup(3,lo);
+      else
+        abs_Omega(i,j)=setup(2,lo);
+        abs_omega(i,j)=0.5*exp(problns(i,j));
+      end
+    end
+  end
+  lucks=abs_Omega+0.5*abs_omega;
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:numluckprog}Use the above functions for estimating luck numerically ({\tt nlucks}) and estimating the error in luck (numerical standard deviation).  The last lines optionally compute the exact values of luck ({\tt lucks}) and standard deviations to compare with.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+// get sample set
+nsamps=10000;
+ntrials=100;
+p=[0.1;0.2;0.3;0.4];
+x=mulsamp(nsamps,ntrials,p);
+problns=mulprobln(x,p);
+
+// setup for luck estimates
+setup=numlucksetup(problns);
+
+// estimate luck numerically
+x0=[13; 15; 27; 45];
+problns0=mulprobln(x0,p);
+nluck=numluck(problns0,setup);
+nsd=sqrt(nluck .* (1-nluck) ./ nsamps);
+
+// optional exact luck
+luck=mulluck(x0,p);
+sd=sqrt(luck .* (1-luck) ./ nsamps);
+
+// z is approximately normally disributed
+z=(nluck-luck) ./ sd;
+\end{lstlisting}
+\end{figure}
+\end{example}

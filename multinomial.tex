@@ -1,15 +1,47 @@
 \section{Multinomial Distribution}
 Selecting independent samples (with repetition) from a discrete set of outcomes follows the multinomial distribution.
 
-Specifically, select $N$ independent samples (with repetition) from a discrete set of possible outcomes $\left\{x_i in \Z_{0+}\right\}_{i=1}^{\infty}$ with probabilities $p_i$,  $\sum_{i=1}^{\infty} p_i = 1$.  Not considering order, this will result in $x_i \in Z_{0+}$ counts of outcome $w_i$, $\sum_{i=1}^\infty x_i = N$.  Note only finitely many $x_i$ can be non-zero.
+Specifically, select $N$ independent samples (with repetition) from a discrete set of possible outcomes $\left\{x_i \in \Z_{0+}\right\}_{i=1}^{n}$ with probabilities $p_i$,  $\sum_{i=1}^{n} p_i = 1$.  Not considering order, this will result in $x_i \in Z_{0+}$ counts of outcome $w_i$, $\sum_{i=1}^{N_P} x_i = N$.
 The probability of such a sample is given by the multinomial distribution:
 \begin{equation}
 \label{eq:multinomial}
-P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{\infty} \frac{p_i^{x_i}}{x_i!} \,. 
+P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{n} \frac{p_i^{x_i}}{x_i!} \,. 
 \end{equation}
-Since only finite number of $x_i$ are not zero, only a finite number of the factors in the product are not one.
 
 The counts $x_i$ are not independent (they must sum to $N$), but if the probabilities are small, then the multinomial distribution can be treated as a product of independent Poisson distributions:
 \begin{equation}
-P_{\text{poisson}}(x;p) = \prod_{i=1}^{\infty} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
+P_{\text{poisson}}(x;p) = \prod_{i=1}^{N_P} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
 \end{equation}
+
+\subsection{Approximating the Multinomial as a Normal Distribution}
+The multinomial distribution can be approximated by a normal distribution,
+\begin{align}
+\mu_i&=N p_i \,, \\
+\Sigma_{ij} &= \left\{ \begin{array}{cl} N p_i (1-p_i)& \text{if $i=j$}\,, \\
+                                      -N p_i p_j & \text{if $i \neq j$}\,.
+  \end{array} \right.
+\end{align}
+
+But the covarience matrix $\Sigma$ is singular.  Because of this, instead of the general normal distribution, the multinomial distribution is approximated by the continuous distribution,
+\marginnote{http://www.cnd.mcgill.ca/~ivan/Chelosky-multinomial-decomp-2345957.pdf}
+\begin{equation}
+P(x)=\frac{\exp\left(-\frac{1}{2} \sum_{i=1}^{n} \frac{(x_i-Np_i)^2}{Np_i} \right)}{\sqrt{(2\pi)^{(n-1)} n \prod_{i=1}^{n} p_i}}   \,.
+\end{equation}
+subject to the constraint,
+\begin{equation}
+\sum_{i=1}^{n} x_i = N \,.
+\end{equation}
+
+Changing coordinates to
+\begin{equation}
+z_i = \frac{x_i-Np_i}{\sqrt{Np_i}}
+\end{equation}
+leads to an integration on the $\R^{n-1}$ hypersurface $n \cdot z = 0$, where
+\begin{equation}
+n_i=\sqrt{p_i}
+\end{equation}
+This has the same form as the multinomial gaussian, except it is one lower dimension, yeilding,
+\begin{equation}
+L(x)=\frac{\gamma((n-1)/2,|z|^2/2)}{\Gamma((n-1)/2)} \,.
+\end{equation}
+
