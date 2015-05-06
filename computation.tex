@@ -15,9 +15,11 @@ and
 E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x))\,.
 \end{equation}
 
-\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples?  This example is small enough to compute the exact luck of $0.6287498$,  indicating this is a fairly typical result.
+\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
 
-The probability in this case is the multinomial probability (see figure~\ref{fig:mulprobln}):
+% This example is small enough to compute the exact luck of $0.6287498$,  indicating this is a fairly typical result.
+
+The log-probability in this case is the multinomial probability (see figure~\ref{fig:mulprobln}):
 \begin{equation}
 y=\text{mulprobln(x,p)}=\log \left[\left(\sum_{i=1}^{n_p} x_i \right)! \prod_{i=1}^{n_p} \frac{p_i^{x_i}}{x_i!} \right]\,.
 \end{equation}
