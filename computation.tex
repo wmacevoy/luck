@@ -12,7 +12,7 @@ E(\ell(x))=L(x) \,,
 \end{equation}
 and
 \begin{equation}
-E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x))\,.
+E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x)) \leq \frac{1}{4n}\,.
 \end{equation}
 
 \begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionnaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
@@ -89,7 +89,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:numlucksetup}Given the log of the probabilities of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving estimates for $(L(x),|\Omega(x)|,|\omega(x)|)$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
+\caption{\label{fig:numlucksetup}Given the log of the probabilities of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving $\log p(x)$ and estimates for $|\Omega(x)|$ and $|\omega(x)|$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function setup=numlucksetup(problns,eps)
@@ -183,7 +183,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:numluckprog}Use the above functions for estimating luck numerically ({\tt nlucks}) and estimating the error in luck (numerical standard deviation).  The last lines optionally compute the exact values of luck ({\tt lucks}) and standard deviations to compare with.}
+\caption{\label{fig:numluckprog}Use the above functions for estimating luck numerically ({\tt nlucks}) and estimating the error in luck (numerical standard deviation).  The last lines optionally compute the exact values of luck ({\tt lucks}) and standard deviations to compare with.  One run produced $}
 \lstset{language=Scilab}
 \begin{lstlisting}
 // get sample set

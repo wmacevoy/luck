@@ -183,4 +183,18 @@ the luck of an outcome can be written as
 L(x)=\erf\left|\frac{x-\mu}{\sqrt{2\Sigma}} \right| \,.
 \end{equation}
 
+In the next chapter, where we address the more general multivariate normal case, we obtain the approximation,
+\begin{equation}
+\label{eq:approx-normal-1d-luck}
+L(x) \approx \frac{1}{2} \left[ 1+\erf\left(\left|\frac{x-\mu}{\sqrt{\Sigma}} \right|-\sqrt{\frac{1}{2}}\right)\right] \,.
+\end{equation}
+Figure~\ref{fig:normal1} compares the exact and approximate result in the 1-d case.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth]{img/normal1.png}
+\end{center}
+\caption{Exact (blue, equation~\ref{eq:normal-1d-luck}) vs approximate (red, equation~\ref{eq:approx-normal-1d-luck}) luck for 1-d normal distribution.}
+\label{fig:normal1}
+\end{figure}
 \end{example}

@@ -1,6 +1,6 @@
 \chapter*{Normal Distribution}
 Suppose we are in a probability space well approximated by the multivariate normal (Gaussian) distribution of a random variable $x \in \R^n$ with mean $\mu$ and non-singular covariance $\Sigma$:
-\marginnote{The $n=1$ example in the introduction is just where where $\mu$ and $\Sigma$ are scalars and $\sigma=\sqrt{\Sigma^{-1}}$.}
+\marginnote{The $n=1$ example in the introduction is just where where $\mu$ and $\Sigma$ are scalars.}
 \begin{align}
 P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)}}{\sqrt{(2\pi)^n \det{\Sigma}}}  \,,\\
 \intertext{where}
@@ -29,10 +29,12 @@ L(x) &=|\Omega(x)|\\
      &=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \,dy\,.
 \end{align}
 
+\marginnote{$\Sigma$ is symmetric and positive definite, and so is its inverse.  The square-root can be computed as a Cholesky decomposition.  In Scilab, \lstinline[language=Scilab]{z=chol(inv(Sigma))*(x-mu)}}
 By changing variables to $z=\sqrt{\Sigma^{-1}} (x-\mu)$,
 \begin{equation}
 L(x) = \int_{|z|<R}  P_{\text{normal}}(z;0,I) \, dz \,,
 \end{equation}
+\marginnote{\lstinline[language=Scilab]{R=norm(z)}}
 where $R = |\sqrt{\Sigma^{-1}} (x-\mu)|$.
 
 This can be evaluated in spherical coordinates:
@@ -41,11 +43,14 @@ This can be evaluated in spherical coordinates:
 L(x)    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{R} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \\
     &=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)}
 \end{align}
-The last form uses the lower incomplete gamma function, defined to be
-\begin{equation}
-\gamma(s,x) = \int_0^{x} t^{s-1} e^{-t} \, dt
-\end{equation}
+\marginnote{\lstinline[language=Scilab]{L=cdfgam("PQ",R^2/2,n/2,1)}}
+The last form uses the lower incomplete gamma function and gamma function, defined to be
+\begin{align}
+\gamma(s,x) &= \int_0^{x} t^{s-1} e^{-t} \, dt \\
+\Gamma(s) &= \gamma(s,\infty) \,.
+\end{align}
 For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), which is specifically invalid for $n=1$, hence the difference between the general case and the $n=1$ case (\ref{eq:normal-1d-luck}).}:
+\marginnote{\lstinline[language=Scilab]{Lapprox=0.5*(1+erf(R-sqrt(n-1/2)))}}
 \begin{equation}
 L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n-1/2})\right] \,.
 \end{equation}
@@ -80,7 +85,7 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
 \end{table}
 
 \begin{figure}
-  \caption{Histograms of luck values in same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
+  \caption{Histograms of 10,000 luck values in the same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
   \centering
     \includegraphics[width=0.75\textwidth]{img/normal}
 \end{figure}
