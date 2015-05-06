@@ -1,7 +1,11 @@
+
+
 f(n,r) := 1-gamma_incomplete(n/2,r^2/2)/gamma(n/2);
 g(n,r) := (1/2)*(1+erf(r-sqrt(n-1/2)));
-wxplot2d([f(1,r),g(1,r)],[r,0.01,20])$
-wxplot2d([f(10,r),g(10,r)],[r,0.01,20])$
-wxplot2d([f(100,r),g(100,r)],[r,0.01,20])$
+h(n,r) := (erf(r-sqrt(n-1))+erf(sqrt(n-1)))/(1+erf(sqrt(n-1)));
+wxplot2d([f(1,r),g(1,r),h(1,r)],[r,0.01,20])$
+wxplot2d([f(10,r),g(10,r),h(10,r)],[r,0.01,20])$
+wxplot2d([f(100,r),g(100,r),h(100,r)],[r,0.01,20])$
 
 wxplot2d([g(1000,r)],[r,0.01,1000])$
+
