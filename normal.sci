@@ -1,5 +1,5 @@
-d=24; // dimension
-n=100000; // number of samples 
+d=100; // dimension
+n=10000; // number of samples 
 
 // random mean & covariance
 mu1=rand(d,1);
@@ -52,8 +52,8 @@ for i=1:2
     for j=1:2
         subplot(2,2,2*(i-1)+j);
         histplot(c,matrix(luck(i,j,:),n,1),style=1);
-        histplot(c,matrix(luck2(i,j,:),n,1),style=2);
-         xtitle("L^"+xy(j)+"(" + xy(i) + ")");
+//        histplot(c,matrix(luck2(i,j,:),n,1),style=2);
+        xtitle("L^"+xy(j)+"(" + xy(i) + ")");
 
     end
 end
