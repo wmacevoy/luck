@@ -15,7 +15,7 @@ and
 E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x))\,.
 \end{equation}
 
-\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
+\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionnaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
 
 % This example is small enough to compute the exact luck of $0.6287498$,  indicating this is a fairly typical result.
 
@@ -25,7 +25,7 @@ y=\text{mulprobln(x,p)}=\log \left[\left(\sum_{i=1}^{n_p} x_i \right)! \prod_{i=
 \end{equation}
 
 \begin{figure}
-\caption{\label{fig:mulprobln}Scilab listing to compute the natural log of the multinomial probability $y$ of outcome $x$ given category probabilities $p$.  $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities, $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ of outcomes, and the result $y$ is a $1 \times n_{\text{samps}}$ row vector of the natural log of multinomial probabilites for these outcomes.}
+\caption{\label{fig:mulprobln}Scilab listing to compute the natural log of the multinomial probability $y$ of outcome $x$ given category probabilities $p$.  $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities, $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ of outcomes, and the result $y$ is a $1 \times n_{\text{samps}}$ row vector of the natural log of multinomial probabilities for these outcomes.}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function y=mulprobln(x,p)
@@ -54,9 +54,10 @@ endfunction
 
 For smaller spaces, luck for a multinomial distribution can be computed explicitly.  Figure~\ref{fig:mulluck} computes this as an inefficient testing reference.
 \begin{figure}
-\caption{\label{fig:mulluck}Recursively compute luck of multinomial exactly using exaustive sum.  $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of outcomes, and $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities.  The result is a $1 \times n_{\text{samps}}$ of luck values.}
+\caption{\label{fig:mulluck}Recursively compute luck of multinomial exactly using exhaustive sum.  $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of outcomes, and $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities.  The result is a $1 \times n_{\text{samps}}$ of luck values.}
 \lstset{language=Scilab}
 \begin{lstlisting}
+// Used by mulluck below to recursively compute luck
 function el=mulluckrec(nb,mb,lpx,k,p,y,eps)
   [n,m]=size(lpx);
   el=zeros(n,m);
@@ -88,7 +89,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:numlucksetup}Given the log of the probabilites of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving estimates for $(L(x),|\Omega(x)|,|\omega(x)|)$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
+\caption{\label{fig:numlucksetup}Given the log of the probabilities of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving estimates for $(L(x),|\Omega(x)|,|\omega(x)|)$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function setup=numlucksetup(problns,eps)
