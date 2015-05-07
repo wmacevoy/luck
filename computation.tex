@@ -108,7 +108,7 @@ function setup=numlucksetup(problns,eps)
     count=0;
     while i<=n
       j=i;
-      while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
+      while (j <= n-1 & problns(i)-problns(j+1) < eps)  
         j=j+1;
       end
       count=count+1;
