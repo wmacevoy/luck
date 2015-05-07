@@ -89,7 +89,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:numlucksetup}Given the log of the probabilities of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $3 \times N$ matrix giving $\log p(x)$ and estimates for $|\Omega(x)|$ and $|\omega(x)|$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
+\caption{\label{fig:numlucksetup}Given the log of the probabilities of a set of sample data, return a table used for quickly estimating luck.  {\tt problns} is a $1 \times n_{\text{nsamps}}$ row vector of logs of probabilities, and {\tt eps} is an optional parameter giving the absolute error (in log space) for considering two probabilities to be equal.  Returns {\tt setup}, a $2 \times N$ matrix giving $-\log p(x)$ and estimates for $L(x)$ for each unique probability in the sample.  This function is useful generally (not just for multinomial distributions).}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function setup=numlucksetup(problns,eps)
@@ -100,84 +100,35 @@ function setup=numlucksetup(problns,eps)
   n=length(problns);
   problns=gsort(problns);
 
-  i=1;
-  count=0;
-  while i<=n
-    j=i;
-    while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
-      j=j+1;
+  for pass=1:2
+    if pass == 2 then
+      setup=zeros(2,count)
     end
-    i=j+1;
-    count=count+1;
-  end
-
-  setup=zeros(3,count);
-
-  i=1;
-  count=0;
-  while i<=n
-    j=i;
-    while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
-      j=j+1;
+    i=1;
+    count=0;
+    while i<=n
+      j=i;
+      while (j <= n-1 & abs(problns(j+1)-problns(i)) < eps)  
+        j=j+1;
+      end
+      count=count+1;
+      if pass == 2 then
+        setup(1,count)= -0.5*(problns(i)+problns(j));
+        setup(2,count)=(i-1)/n+0.5*(j-i+1)/n;
+      end
+      i=j+1;
     end
-
-    count=count+1;
-    setup(1,count)=0.5*(problns(i)+problns(j));
-    setup(2,count)=(i-1)/n;
-    setup(3,count)=(j-i+1)/n;
-    i=j+1;
   end
 endfunction
 \end{lstlisting}
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:numluck}Estimate luck given log of probabilities and setup.  {\tt problns} is a row vector of log-probabilities, {\tt setup} is the setup from a (possibly different) sample, and {\tt eps} is the same optional parameter as in {\tt numlucksetup}.}
+\caption{\label{fig:numluck}Estimate luck given log of probabilities and setup.  {\tt problns} is a row vector of log-probabilities, {\tt setup} is the setup from a (possibly different) sample.}
 \lstset{language=Scilab}
 \begin{lstlisting}
-function lucks=numluck(problns,setup,eps)
-  if ~exists("eps","local") then
-    eps=sqrt(%eps);
-  end
-
-  [n,m]=size(problns);
-  [three,nsetup]=size(setup);
-
-  abs_Omega=zeros(n,m);
-  abs_omega=zeros(n,m);
-
-  for i=1:n
-    for j=1:m
-      lo=1;
-      hi=nsetup;
-      while %T
-        mid=floor((hi+lo)/2)
-        if setup(1,mid) > problns(i,j)+eps then
-   	  if mid == lo then
-            break
-          end
-          lo=mid;
-        else
-          if mid == hi then
-            break
-          end
-          hi=mid;
-        end
-      end
-
-      if abs(problns(i,j)-setup(1,hi))<eps then
-        abs_Omega(i,j)=setup(2,hi);
-        abs_omega(i,j)=setup(3,hi);
-      elseif abs(problns(i,j)-setup(1,lo))<eps then
-        abs_Omega(i,j)=setup(2,lo);
-        abs_omega(i,j)=setup(3,lo);
-      else
-        abs_Omega(i,j)=setup(2,lo);
-        abs_omega(i,j)=0.5*exp(problns(i,j));
-      end
-    end
-  end
-  lucks=abs_Omega+0.5*abs_omega;
+function luck=numluck(problns,setup)
+  luck=max(0,min(1,interpln(setup,-problns)));
 endfunction
 \end{lstlisting}
 \end{figure}
@@ -212,9 +163,9 @@ z=(nluck-luck) ./ sd;
 \end{figure}
 
 \begin{figure}
-  \caption{Histogram of z error values for 10,000 numerical approximations of luck.  The maximum value of {\tt sd} was {\tt max(sd)=0.0048314}.}
+  \caption{Histogram of z error values for 10,000 numerical approximations of luck.  The maximum value of {\tt sd} was {\tt max(sd)=0.005}.}
   \centering
-    \includegraphics[width=0.75\textwidth]{img/compz.png}
+    \includegraphics[width=1.00\textwidth]{img/compz.png}
 \end{figure}
 
 \end{example}
