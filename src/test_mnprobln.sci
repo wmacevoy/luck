@@ -1,3 +1,5 @@
+exec("mnprobln.sci",2);
+
 function ok=test_mnprobln()
   mu=[1;-1];
   Sigma=[5 6;6 9];

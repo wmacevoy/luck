@@ -25,17 +25,18 @@ y=\text{mulprobln(x,p)}=\log \left[\left(\sum_{i=1}^{n_p} x_i \right)! \prod_{i=
 \end{equation}
 
 \begin{figure}
-\caption{\label{fig:mulprobln}Scilab listing to compute the natural log of the multinomial probability $y$ of outcome $x$ given category probabilities $p$.  $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities, $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ of outcomes, and the result $y$ is a $1 \times n_{\text{samps}}$ row vector of the natural log of multinomial probabilities for these outcomes.}
+\caption{\label{fig:mulprobln}Scilab function to compute the natural log of the probability of multinomial outcomes.  $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities, $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of outcomes, and the result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
 \lstset{language=Scilab}
 \begin{lstlisting}
-function y=mulprobln(x,p)
+function lnp=mulprobln(x,p)
   [nprobs,nsamps]=size(x);
   pln=log(p);
   y=zeros(1,nsamps);
   for i=1:nsamps
     xi=x(:,i);
     ni=sum(xi);
-    y(i)=gammaln(ni+1)+sum(xi.*pln-gammaln(xi+1));
+    lnp(i)=gammaln(ni+1)+...
+      sum(xi.*pln-gammaln(xi+1));
   end
 endfunction
 \end{lstlisting}
@@ -57,33 +58,38 @@ For smaller spaces, luck for a multinomial distribution can be computed explicit
 \caption{\label{fig:mulluck}Recursively compute luck of multinomial exactly using exhaustive sum.  $x$ is a $n_{\text{probs}} \times n_{\text{samps}}$ matrix of outcomes, and $p$ is a $n_{\text{probs}} \times 1$ column vector of category probabilities.  The result is a $1 \times n_{\text{samps}}$ of luck values.}
 \lstset{language=Scilab}
 \begin{lstlisting}
-// Used by mulluck below to recursively compute luck
-function el=mulluckrec(nb,mb,lpx,k,p,y,eps)
+// Used by mulluck below to 
+// recursively compute luck
+function el=mulluckrec(nb,mb,...
+              lpx,k,p,y,eps)
   [n,m]=size(lpx);
   el=zeros(n,m);
   for yk=0:nb-mb
      y(k)=yk;
      if k < length(p)-1 then
-       el=el+mulluckrec(nb,mb+yk,lpx,k+1,p,y,eps);
+       el=el+mulluckrec(nb,mb+yk,...
+         lpx,k+1,p,y,eps);
      else
        y(length(p))=nb-mb-yk;
        lpy=mulprobln(y,p);
-       c=0.5*bool2s(lpy > lpx-eps)+0.5*bool2s(lpy > lpx+eps);
+       c=0.5*bool2s(lpy > lpx-eps)+...
+           0.5*bool2s(lpy > lpx+eps);
        el = el + c .* exp(lpy);
      end
   end
 endfunction
 
-function lucks=mulluck(x,p,eps)
+function L=mulluck(x,p,eps)
   if ~exists("eps","local") then
     eps=sqrt(%eps);
   end
   [nprobs,nsamps]=size(x);
   ntrials=sum(x,'r');
-  min_ntrials=min(ntrials);
-  max_ntrials=max(ntrials);
-  assert_checkequal(min_ntrials,max_ntrials);
-  lucks=mulluckrec(min_ntrials,0,mulprobln(x,p),1,p,zeros(nprobs,1),eps)
+  n0=min(ntrials);
+  n1=max(ntrials);
+  assert_checkequal(n0,n1);
+  L=mulluckrec(n0,0,mulprobln(x,p),...
+      1,p,zeros(nprobs,1),eps);
 endfunction
 \end{lstlisting}
 \end{figure}
@@ -127,8 +133,8 @@ endfunction
 \caption{\label{fig:numluck}Estimate luck given log of probabilities and setup.  {\tt problns} is a row vector of log-probabilities, {\tt setup} is the setup from a (possibly different) sample.}
 \lstset{language=Scilab}
 \begin{lstlisting}
-function luck=numluck(problns,setup)
-  luck=max(0,min(1,interpln(setup,-problns)));
+function L=numluck(problns,setup)
+  L=max(0,min(1,interpln(setup,-problns)));
 endfunction
 \end{lstlisting}
 \end{figure}

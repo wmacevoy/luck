@@ -52,6 +52,7 @@ The last form uses the lower incomplete gamma function and gamma function, defin
 For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), which is specifically invalid for $n=1$, hence the difference between the general case and the $n=1$ case (\ref{eq:normal-1d-luck}).}:
 \marginnote{\lstinline[language=Scilab]{Lapprox=0.5*(1+erf(R-sqrt(n-1/2)))}}
 \begin{equation}
+\label{eq:normal-luck-approx}
 L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n-1/2})\right] \,.
 \end{equation}
 \begin{figure}
@@ -88,4 +89,51 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
   \caption{Histograms of 10,000 luck values in the same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
   \centering
     \includegraphics[width=0.75\textwidth]{img/normal}
+\end{figure}
+
+The listings in figures \ref{fig:mnprobln}-\ref{fig:mnapproxluck} give Scilab functions for basic luck calculations for multivariate normal distributions.
+
+\begin{figure}
+\caption{\label{fig:mnprobln}Scilab listing to compute the natural log of the probability of multivariate normal outcomes.  $x$ is a $n_{\text{dim}} \times n_{\text{samps}}$ of outcomes, $\mu$ is a $n_{\text{dim}} \times 1$ column vector of the means, and $\Sigma$ is a $n_{\text{dim}} \times n_{\text{dim}}$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function lnp=mnprobln(x,mu,Sigma)
+  [dim,nsamps]=size(x);
+  sigma=chol(Sigma)';
+  z=sigma\(x-mu*ones(1,nsamps));
+  R2=sum(z.^2,'r');
+  lnp=-R2/2-(dim/2*log(2*%pi)+...
+       sum(log(diag(sigma))));
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $n_{\text{dim}} \times n_{\text{samps}}$ of outcomes, $\mu$ is a $n_{\text{dim}} \times 1$ column vector of the means, and $\Sigma$ is a $n_{\text{dim}} \times n_{\text{dim}}$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function L=mnluck(x,mu,Sigma)
+  [dim,nsamps]=size(x);
+  one=ones(1,nsamps);
+  sigma=chol(Sigma)';
+  z=sigma\(x-mu*one);
+  R=sqrt(sum(z.^2,'r'));
+  L=cdfgam("PQ",R.^2/2,...
+      dim/2*one,one);
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:mnapproxluck}Like {\tt mnluck} in figure~\ref{fig:mnluck}, but approximates luck via (\ref{eq:normal-luck-approx}).}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function L=mnapproxluck(x,mu,Sigma)
+  [dim,nsamps]=size(x);
+  sigma=chol(Sigma)';
+  z=sigma\(x-mu*ones(1,nsamps));
+  R=sqrt(sum(z.^2,'r'));
+  L=0.5*(1+erf(R-sqrt(dim-0.5)));
+endfunction
+\end{lstlisting}
 \end{figure}
