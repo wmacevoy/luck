@@ -162,7 +162,7 @@ This means all the luck properties are exact (the error terms are zero), and the
 
 What remains is to calculate luck,
 \begin{equation}
-L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy
+L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy \,.
 \end{equation}
 Changing variables to the normalized $z$-score: $z=\sqrt{\Sigma^{-1}}(x-\mu)$, this can be rewritten as
 \begin{equation}
@@ -170,7 +170,7 @@ L(x)=\int_{-R}^{R} P_{\text{normal}}(y,0,1) \, dy \,,
 \end{equation}
 where
 \begin{equation}
-R=|\sqrt{\Sigma^{-1}}(x-\mu)|
+R=|\sqrt{\Sigma^{-1}}(x-\mu)| \,.
 \end{equation}
 
 Using $\erf(x)$, defined as\marginnote{$\erf(x)$ is a normalized integral of the $P_{\text{normal}}(x;\mu=0,\Sigma=1/2)$ so that $\erf(0)=0$ and $\erf(\pm \infty)=\pm 1$.}

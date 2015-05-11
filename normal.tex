@@ -29,7 +29,7 @@ L(x) &=|\Omega(x)|\\
      &=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \,dy\,.
 \end{align}
 
-\marginnote{$\Sigma$ is symmetric and positive definite, and so is its inverse.  The square-root can be computed as a Cholesky decomposition.  In Scilab, \lstinline[language=Scilab]{z=chol(inv(Sigma))*(x-mu)}}
+\marginnote{$\Sigma$ is symmetric and positive definite, and so is its inverse.  The square-root can be computed as a Cholesky decomposition.  In Scilab, \lstinline[language=Scilab]{z=chol(Sigma)'\(x-mu)}}
 By changing variables to $z=\sqrt{\Sigma^{-1}} (x-\mu)$,
 \begin{equation}
 L(x) = \int_{|z|<R}  P_{\text{normal}}(z;0,I) \, dz \,,
@@ -40,8 +40,8 @@ where $R = |\sqrt{\Sigma^{-1}} (x-\mu)|$.
 This can be evaluated in spherical coordinates:
 \begin{align}
 \label{eq:normal-luck-as-integral}
-L(x)    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{R} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \\
-    &=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)}
+L(x)    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{R} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \,, \\
+    &=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)} \,.
 \end{align}
 \marginnote{\lstinline[language=Scilab]{L=cdfgam("PQ",R^2/2,n/2,1)}}
 The last form uses the lower incomplete gamma function and gamma function, defined to be
@@ -84,6 +84,18 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
 0.2145529261 & 1.0000000000 & 1.0000000000 & 0.2689897874
 \end{tabular}
 \end{table}
+
+The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $(\mu^{(x)}, \Sigma^{(x)})$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
+\begin{align}
+L(x,y) &\approx \frac{1}{2}\left[1+\erf(R_{xy}(x,y)-\bar{R}_{xy}) \right] \,,
+\intertext{where}
+R_{xy}(x,y) &= \sqrt{R_x(x)^2+R_y(y)^2} \,, \\
+\bar{R}_{xy} &= \sqrt{\bar{R}_x^2 + \bar{R}_y^2 + \frac{1}{2}} \,, \\
+R_x(x) &= \sqrt{\left(\Sigma^{(x)}\right)^{-1}} \left(x-\mu^{(x)}\right) \,, \\
+R_y(x) &= \sqrt{\left(\Sigma^{(y)}\right)^{-1}} \left(y-\mu^{(y)}\right) \,, \\
+\bar{R}_x &= \sqrt{n_x - \frac{1}{2}} \,, \\
+\bar{R}_y &= \sqrt{n_y - \frac{1}{2}} \,.
+\end{align}
 
 \begin{figure}
   \caption{Histograms of 10,000 luck values in the same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
