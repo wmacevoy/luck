@@ -85,16 +85,13 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
 \end{tabular}
 \end{table}
 
-The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $(\mu^{(x)}, \Sigma^{(x)})$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
+\subsection{Combining Normal Luck}
+The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $\mu^{(x)}$ , $\Sigma^{(x)}$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
 \begin{align}
-L(x,y) &\approx \frac{1}{2}\left[1+\erf(R_{xy}(x,y)-\bar{R}_{xy}) \right] \,,
+L(x,y) &\approx \frac{1}{2}\left[1+\erf(\sqrt{R_x(x)^2+R_y(y)^2}-\sqrt{n_x+n_y-\frac{1}{2}}) \right] \,,
 \intertext{where}
-R_{xy}(x,y) &= \sqrt{R_x(x)^2+R_y(y)^2} \,, \\
-\bar{R}_{xy} &= \sqrt{\bar{R}_x^2 + \bar{R}_y^2 + \frac{1}{2}} \,, \\
-R_x(x) &= \sqrt{\left(\Sigma^{(x)}\right)^{-1}} \left(x-\mu^{(x)}\right) \,, \\
-R_y(x) &= \sqrt{\left(\Sigma^{(y)}\right)^{-1}} \left(y-\mu^{(y)}\right) \,, \\
-\bar{R}_x &= \sqrt{n_x - \frac{1}{2}} \,, \\
-\bar{R}_y &= \sqrt{n_y - \frac{1}{2}} \,.
+R_x(x) &= \erf^{-1}(2L_x -1)-\sqrt{n_x-\frac{1}{2}} = \sqrt{\left(\Sigma^{(x)}\right)^{-1}} \left(x-\mu^{(x)}\right) \,, \\
+R_y(y) &= \erf^{-1}(2L_y -1)-\sqrt{n_y-\frac{1}{2}} = \sqrt{\left(\Sigma^{(y)}\right)^{-1}} \left(y-\mu^{(y)}\right) \,.
 \end{align}
 
 \begin{figure}
@@ -129,9 +126,8 @@ function L=mnluck(x,mu,Sigma)
   one=ones(1,nsamps);
   sigma=chol(Sigma)';
   z=sigma\(x-mu*one);
-  R=sqrt(sum(z.^2,'r'));
-  L=cdfgam("PQ",R.^2/2,...
-      dim/2*one,one);
+  R2=sum(z.^2,'r');
+  L=cdfgam("PQ",R2/2,dim/2*one,one);
 endfunction
 \end{lstlisting}
 \end{figure}

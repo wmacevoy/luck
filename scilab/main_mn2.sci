@@ -3,8 +3,8 @@ exec("mnluck.sci",2);
 exec("mnsamp.sci",2);
 exec("mnr.sci",2);
 
-dim=3; // dimension
-nsamps=25; // number of samples 
+dim=25; // dimension
+nsamps=1; // number of samples 
 
 mu=hypermat([dim,2]);
 Sigma=hypermat([dim,dim,2]);
@@ -18,7 +18,6 @@ for i=1:2
 end
 
 z=zeros(2,2);
-L=zeros(2,2);
 
 for i=1:2
   for j=1:2
@@ -26,4 +25,7 @@ for i=1:2
     z(i,j)=norm(R)-sqrt(nsamps*dim-0.5);
   end
 end
+
 L=0.5*(1+erf(z));
+
+

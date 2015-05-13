@@ -1,7 +1,7 @@
-function L=mnluck(x,mu,Sigma)
+exec("mnr.sci",2);
+
+function [L,U]=mnluck(x,mu,Sigma)
   [dim,nsamps]=size(x);
-  sigma=chol(Sigma)';
-  z=sigma\(x-mu*ones(1,nsamps));
-  R=sqrt(sum(z.^2,'r'));
-  L=cdfgam("PQ",R.^2/2,dim/2*ones(1,nsamps),ones(1,nsamps));
+  R=mnr(x,mu,Sigma);
+  [L,U]=cdfgam("PQ",R.^2/2,dim/2*ones(1,nsamps),ones(1,nsamps));
 endfunction
