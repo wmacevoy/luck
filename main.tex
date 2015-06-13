@@ -40,7 +40,10 @@
 \usepackage{graphicx} % Needed to insert images into the document
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
+\theoremstyle{example}
 \newtheorem{example}{Example}
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
 \graphicspath{{graphics/}} % Sets the default location of pictures
 
 \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio} % Improves figure scaling
@@ -219,6 +222,7 @@ Under the following terms:
 \include{normal}
 %\include{multinomial}
 \include{computation}
+\include{proofs}
 \backmatter
 
 \bibliography{bibliography} % Use the bibliography.bib file for the bibliography

@@ -1,0 +1,74 @@
+\chapter*{Proofs}
+
+
+\section{From the introduction}
+
+\begin{theorem}{Range of Luck.} 
+For any probability space,
+\begin{equation}
+0 \leq L(x) \leq 1 \,.
+\end{equation}
+
+Proof.  From the definition, $L(x)=|\Omega(x)|+\frac{1}{2} |\omega(x)|$, which is clearly non-negative, and $\Omega(x)$ and $\omega(x)$ are disjoint subsets of the probability space.  Here the $| \cdot |$ notation is the measure of these sets in the probability space, and their union is at most the whole space, so $L(x) \leq |\Omega(x) \cup \omega(x)| \leq 1$.
+\end{theorem}
+
+\begin{theorem}{Lucky values.}
+If $L(x)$ is close to 1, then $p(x)$ is relatively small and most outcomes have a higher probability (you are lucky).
+
+Proof.  Since $L(x)$ is close to 1, write $L(x)=1-\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
+
+First, since $\Omega(x)$ and $\omega(x)$ are disjoint subsets of the space of outcomes $X$, $|\Omega(x)|+|\omega(x)| \leq 1$, or 
+\begin{equation*}
+|\Omega(x)| \leq 1-|\omega(x)| \,.
+\end{equation*}
+
+Second, $L(x)=|\Omega(x)|+\frac{1}{2}|\omega(x)|$, which by the first inequality can be bounded as $1-\varepsilon(x)\leq  1-|\omega(x)|+\frac{1}{2}|\omega(x)|$, which can be rearranged as
+\begin{equation*}
+|\omega(x)| \leq 2 \varepsilon(x) \,.
+\end{equation*}
+
+Third, $|\Omega(x)|+\frac{1}{2}|\omega(x)| = 1-\varepsilon(x)$, or $|\Omega(x)|=1-\varepsilon(x)-\frac{1}{2}|\omega(x)|$, which by the second inequality,
+\begin{equation}
+|\Omega(x)| \geq 1-2 \varepsilon(x) \,.
+\end{equation}
+Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a higher probability of occuring.
+\end{theorem}
+
+\begin{theorem}{Unlucky values.}
+If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
+
+Proof.  Since $L(x)$ is close to 1, write $L(x)=\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
+
+First, $L(x)=|\Omega(x)|+\frac{1}{2}|\omega(x)|$, so
+\begin{equation*}
+\omega(x) \leq 2\varepsilon(x) \,.
+\end{equation*}
+
+Second, $|\Omega(x)|+|\omega(x)|=|\Omega(x)|+\frac{1}{2}|\omega(x)|+\frac{1}{2}|\omega(x)| \leq 2\varepsilon(x)$, so
+\begin{equation*}
+|\Omega(x)|+|\omega(x)| \leq 2\varepsilon(x) \,.
+\end{equation*}
+
+Third, $|X-\Omega(x) \cup \omega(x)| \geq 1-|\Omega(x) \cup \omega(x)| \geq 1-2\varepsilon(x)$, or 
+\begin{equation*}
+|X-\Omega(x) \cup \omega(x)| \geq 1-2\varepsilon(x) \,.
+\end{equation*}
+Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a lower probability of occuring.
+\end{theorem}
+
+\begin{theorem}{On average, luck is always 50:50.}
+\begin{equation*}
+E(L)=\frac{1}{2} \,.
+\end{equation*}
+
+Proof.  This is an application of the next theorem where $f(L)=L$.
+\end{theorem}
+
+\begin{theorem}{Smooth uniformity - finite space $X$.}
+$E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
+
+Since the definition of luck only depends on the probabilities of outcomes, it is natural to consider a set of equivalence classes $[x]$ from $[X]$ defined by equal probabilities: $[x]=\{y \mid p(y)=p(x) \}$.  We also use the midpoint integration estimate:
+\begin{equation*}
+\int_a^b f(x) \, dx = (b-a)f(\frac{a+b}{2})+\frac{(b-a)^3}{24} f''(\xi), \text{where $a < \xi < b$.}
+\end{equation*}
+\end{theorem}
