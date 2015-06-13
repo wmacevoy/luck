@@ -37,7 +37,7 @@ Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a hi
 \begin{theorem}{Unlucky values.}
 If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
 
-Proof.  Since $L(x)$ is close to 1, write $L(x)=\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
+Proof.  Since $L(x)$ is close to 0, write $L(x)=\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
 
 First, $L(x)=|\Omega(x)|+\frac{1}{2}|\omega(x)|$, so
 \begin{equation*}
@@ -57,6 +57,7 @@ Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a lo
 \end{theorem}
 
 \begin{theorem}{On average, luck is always 50:50.}
+
 \begin{equation*}
 E(L)=\frac{1}{2} \,.
 \end{equation*}
@@ -65,10 +66,48 @@ Proof.  This is an application of the next theorem where $f(L)=L$.
 \end{theorem}
 
 \begin{theorem}{Smooth uniformity - finite space $X$.}
-$E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
 
-Since the definition of luck only depends on the probabilities of outcomes, it is natural to consider a set of equivalence classes $[x]$ from $[X]$ defined by equal probabilities: $[x]=\{y \mid p(y)=p(x) \}$.  We also use the midpoint integration estimate:
+$E(f(L))=\int_0^1 f(L) dL-\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
+
+Since the definition of luck only depends on the probabilities of outcomes, it is natural to consider the set of equivalence classes $[x]$ from $[X]$ defined by equal probabilities: $[x]=\{y \mid p(y)=p(x) \}$.  
+
+We also use the midpoint integration estimate:
 \begin{equation*}
-\int_a^b f(x) \, dx = (b-a)f(\frac{a+b}{2})+\frac{(b-a)^3}{24} f''(\xi), \text{where $a < \xi < b$.}
+\int_{a}^{b} f(L) \, dL = (b-a)f(\frac{a+b}{2})+\frac{(b-a)^3}{24} f''(\xi), \text{where $a < \xi < b$.}
 \end{equation*}
+
+\begin{align}
+\int_0^1 f(L) \, dL 
+  &= \sum_{[x]} \int_{L([x])-\frac{1}{2}|\omega([x])|}^{L([x])+\frac{1}{2}|\omega([x])|} f(L) \, dL \,, \\
+  &= \sum_{[x]} \left\{ |\omega([x])| f(L([x])) + \frac{|\omega([x])|^3}{24} f''(\xi_{[x]}) \right\} \,, \\
+  &= \sum_{x} p(x) f(L(x)) + \varepsilon \,, \\
+  &= E(f(L)) -\varepsilon \,, \\
+\varepsilon 
+\label{eq:midpointerror}
+   &= \sum_{[x]} \frac{|\omega([x])|^3}{24} f''(\xi_{[x]}) \,, \\
+ |\varepsilon| 
+   &\leq \frac{1}{24} \max_{x} |\omega(x)|^2 \cdot \max_{0\leq L \leq 1} |f''(L)| \,.
+\end{align}
 \end{theorem}
+
+\begin{theorem}{Moments - finite space $X$.}
+
+For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/24$.
+
+Proof.  This is an example of $f(L)=L^p$ with $p \geq 1$ in the theorem above, and noting that $f''(L)$ is non-negative, so $\varepsilon$ in (\ref{eq:midpointerror}) must be non-negative.
+\end{theorem}
+
+\begin{theorem}{Interval uniformity - finite space $X$.}
+
+For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a - \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
+
+Proof.  Let $f(L)$ be the characteristic function for the closed interval $[a,b]$.
+\begin{align}
+b-a &=\int_0^1 f(L) \, dL  \\
+  &= \sum_{[x]} \int_{L([x])-\frac{1}{2}|\omega([x])|}^{L([x])+\frac{1}{2}|\omega([x])|} f(L) \, dL \,, \\
+  &= E(f(L)) + \varepsilon \,, \\
+\varepsilon &= \sum_{[x]} \int_{L([x])-\frac{1}{2}|\omega([x])|}^{L([x])+\frac{1}{2}|\omega([x])|} (f(L)-f(L([x]))) \, dL \,.
+\end{align}
+Now in the sum that defines $\varepsilon$, there are at most 2 discontinuities in an otherwise constant 0, 1 or -1 integrand.  If none occur in an interval, that term is exactly zero.  If one occurs, the integrand is zero for at least $\frac{1}{2}$ of the interval, so that error is at most $\frac{1}{2}|\omega([x])|$, and can be only once more in one other interval (with the same kind of error).  And if 2 occur, they occur nowhere else and the error is bounded by $|\omega([x])|$.  In each case we have our theorem.
+\end{theorem}
+
