@@ -49,9 +49,9 @@ Second, $|\Omega(x)|+|\omega(x)|=|\Omega(x)|+\frac{1}{2}|\omega(x)|+\frac{1}{2}|
 |\Omega(x)|+|\omega(x)| \leq 2\varepsilon(x) \,.
 \end{equation*}
 
-Third, $|X-\Omega(x) \cup \omega(x)| \geq 1-|\Omega(x) \cup \omega(x)| \geq 1-2\varepsilon(x)$, or 
+Third, $|X-[\Omega(x) \cup \omega(x)]| \geq 1-|\Omega(x) \cup \omega(x)| \geq 1-2\varepsilon(x)$, or 
 \begin{equation*}
-|X-\Omega(x) \cup \omega(x)| \geq 1-2\varepsilon(x) \,.
+|X-[\Omega(x) \cup \omega(x)]| \geq 1-2\varepsilon(x) \,.
 \end{equation*}
 Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a lower probability of occurring.
 \end{theorem}
@@ -142,7 +142,7 @@ The definition of $\ell$ does not depend on the ordering of the sample $S$, so t
 The probability of obtaining a sample counts $c$ is given by the multinomial distribution
 \begin{equation}
 P(c)=\left(\begin{array}{c} n \\ c \end{array}\right) p^c 
-  = \frac{n!}{c_1! \cdot \cdots \cdot c_n!} p_1^{c_1} \cdots p_n^{c_n} \,, \text{where $n=\sum c=|S|$.}
+  = \frac{n!}{c_1! \cdot \cdots \cdot c_{|X|}!} p_1^{c_1} \cdots p_{|X|}^{c_{|X|}} \,, \text{where $n=\sum c=|S|$.}
 \end{equation}
 Here are some well-known moments of the multinomial distribution (the sum is over all samples with $\sum c = n$):
 \begin{align}
