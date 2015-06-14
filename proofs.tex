@@ -80,7 +80,7 @@ We also use the midpoint integration estimate:
 \int_0^1 f(L) \, dL 
   &= \sum_{[x]} \int_{L([x])-\frac{1}{2}|\omega([x])|}^{L([x])+\frac{1}{2}|\omega([x])|} f(L) \, dL \,, \\
   &= \sum_{[x]} \left\{ |\omega([x])| f(L([x])) + \frac{|\omega([x])|^3}{24} f''(\xi_{[x]}) \right\} \,, \\
-  &= \sum_{x} p(x) f(L(x)) + \varepsilon \,, \\
+  &= \sum_{x} p(x) f(L(x)) - \varepsilon \,, \\
   &= E(f(L)) -\varepsilon \,, \\
 \varepsilon 
 \label{eq:midpointerror}
@@ -110,4 +110,44 @@ b-a &=\int_0^1 f(L) \, dL  \\
 \end{align}
 Now in the sum that defines $\varepsilon$, there are at most 2 discontinuities in an otherwise constant 0, 1 or -1 integrand.  If none occur in an interval, that term is exactly zero.  If one occurs, the integrand is zero for at least $\frac{1}{2}$ of the interval, so that error is at most $\frac{1}{2}|\omega([x])|$, and can be only once more in one other interval (with the same kind of error).  And if 2 occur, they occur nowhere else and the error is bounded by $|\omega([x])|$.  In each case we have our theorem.
 \end{theorem}
+
+\section{From Computation}
+In this section, we again consider only a finite probability space $X$ with $|X|$ elements $x_k$, $k=1,\ldots,|X|$ and probabilities $p_k=p(x_k)$.
+
+Let $S=(s_1, \ldots, s_n)$ be $|S|$ independent samples taken from $X$.  We define an estimator for $L(x)$ as:
+\begin{align*}
+ \ell(x) = & \frac{1}{|S|} \left\{\text{\# of outcomes in S more probable than $x$}\right\}  \\
+ & + \frac{1}{2|S|} \left\{\text{\# of outcomes in S equally probable to $x$}\right\} 
+\end{align*}
+We asserted that
+\begin{align}
+\label{eq:elmeanx}
+E(\ell(x))&=L(x) \,. \\
+\label{eq:elvariancex}
+E([\ell(x)-L(x)]^2) &= \frac{1}{|S|} \left[L(x) \cdot (1-L(x)) -\frac{1}{4}|\omega(x)|\right] \,.
+\end{align}
+
+For the remainder of this section, we consder $x \in X$ to be a fixed choice, and so drop the $\cdot (x)$ functional notation, which would otherwise pepper every equation.  This way (\ref{eq:elmeanx}-\ref{eq:elvariancex}) becomes
+\begin{align}
+\label{eq:elmean}
+E(\ell)&=L \,. \\
+\label{eq:elvariance}
+E([\ell-L]^2) &= \frac{1}{|S|} \left[L \cdot (1-L) -\frac{1}{4}|\omega|\right] \,
+\end{align}
+
+The definition of $\ell$ does not depend on the ordering of the sample $S$, so the vector of counts $(c_1,\ldots,c_{|X|})$ is equivalent information about the sample for our purposes.  We define $c$ as the vector of counts of elements in $S$, so that $x_k$ occurs $c_k$ times in the sample $S$.
+
+The probability of obtaining a sample counts $c$ is given by the multinomial distribution
+\begin{equation}
+P(c)=\left(\begin{array}{c} n \\ c \end{array}\right) p^c 
+  = \frac{n!}{c_1! \cdot \cdots \cdot c_n!} p_1^{c_1} \cdots p_n^{c_n} \,, \text{where $n=\sum c=|S|$.}
+\end{equation}
+Here are some well-known moments of the multinomial distribution (the sum is over all samples with $\sum c = n$):
+\begin{align}
+\sum_c P(c) &= 1 \,, \\
+\sum_c P(c) c &= n p \,, \\
+\sum_c P(c) c c^T &= n \diag(p) + (n^2-n) p p^T \,.
+\end{align}
+Here $c$ and $p$ are taken as column vectors, and $\diag(p)$ is the diagonal $n \times n$ matrix with the probabilites $p$ along the diagonal.
+
 
