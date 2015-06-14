@@ -69,8 +69,8 @@ L(x)=|\Omega(x)| + \frac{1}{2} |\omega(x)| \,.
 
 We are interested in cases which have many possible outcomes with low but somewhat different probabilities (like the tennis ball on the beach).  If the space is well divided (so $\max |\omega|=\max_{x}|\omega(x)|$ is small), then there are other interesting properties of luck:\marginnote{In particular $|\omega(x)|=0$ for the normal, exponential, beta, and gamma distributions.  As a worst-case counterexample, the flattest distribution is the uniform distribution, for which $|\omega(x)|=1$.}
 \begin{itemize}
-\item $E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 12$.
-\item For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/12$.
+\item $E(f(L))=\int_0^1 f(L) dL+\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
+\item For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/24$.
 \item For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a + \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
 \end{itemize}
 The proofs of these come from the midpoint integration rule and thinking about the general case for figure~\ref{fig:arrange} below.
@@ -115,9 +115,9 @@ E(L)=\sum_{x=0}^8 p(x) \cdot L(x) = \frac{1}{2} \,.
 \end{equation}
 
 The second moment should be close to $\frac{1}{3}$:
-\marginnote{For any distribution, $E(L^2)=\frac{1}{3}-\varepsilon$, with $0 \leq \varepsilon \leq \max |\omega|^2/6$.
+\marginnote{For any distribution, $E(L^2)=\frac{1}{3}-\varepsilon$, with $0 \leq \varepsilon \leq \max |\omega|^2/12$.
 
-For the coin distribution, the bound is $0 \leq \varepsilon \leq 0.032$, and the actual error $\varepsilon=0.0096$.}
+For the coin distribution, the bound is $0 \leq \varepsilon \leq 0.016$, and the actual error $\varepsilon=0.0096$.}
 \begin{equation}
 E(L^2)=\sum_{x=0}^8 p(x) \cdot L(x)^2 = \frac{1}{3} - 0.0096
 \end{equation}
@@ -162,7 +162,7 @@ This means all the luck properties are exact (the error terms are zero), and the
 
 What remains is to calculate luck,
 \begin{equation}
-L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy
+L(x)=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy \,.
 \end{equation}
 Changing variables to the normalized $z$-score: $z=\sqrt{\Sigma^{-1}}(x-\mu)$, this can be rewritten as
 \begin{equation}
@@ -170,7 +170,7 @@ L(x)=\int_{-R}^{R} P_{\text{normal}}(y,0,1) \, dy \,,
 \end{equation}
 where
 \begin{equation}
-R=|\sqrt{\Sigma^{-1}}(x-\mu)|
+R=|\sqrt{\Sigma^{-1}}(x-\mu)| \,.
 \end{equation}
 
 Using $\erf(x)$, defined as\marginnote{$\erf(x)$ is a normalized integral of the $P_{\text{normal}}(x;\mu=0,\Sigma=1/2)$ so that $\erf(0)=0$ and $\erf(\pm \infty)=\pm 1$.}
