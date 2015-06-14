@@ -245,6 +245,8 @@ function [x,luck,z]=mulmain(nsamps,ntrials,p, verbose)
   x=mulsamp(nsamps,ntrials,p);
   problns=mulprobln(x,p);
   setup=numlucksetup(problns);
+  
+  x=[13;]
   nlucks=numluck(problns,setup);
   nsd=sqrt(nlucks .* (1-nlucks) ./ nsamps);
 
@@ -253,8 +255,7 @@ function [x,luck,z]=mulmain(nsamps,ntrials,p, verbose)
   z=(nlucks-lucks) ./ sd;
 
   if verbose then
-    printf("nluck=%0.15f, nsd=%0.15f, luck=%0.15f, sd=%0.15f, z=%15f\n",
-           nluck,nsd,luck,sd,z);
+    printf("nluck=%0.15f, nsd=%0.15f, luck=%0.15f, sd=%0.15f, z=%15f\n",nlucks,nsd,lucks,sd,z);
   end
 endfunction
 
