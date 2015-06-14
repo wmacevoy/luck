@@ -112,6 +112,7 @@ Now in the sum that defines $\varepsilon$, there are at most 2 discontinuities i
 \end{theorem}
 
 \section{From Computation}
+
 In this section, we again consider only a finite probability space $X$ with $|X|$ elements $x_k$, $k=1,\ldots,|X|$ and probabilities $p_k=p(x_k)$.
 
 Let $S=(s_1, \ldots, s_n)$ be $|S|$ independent samples taken from $X$.  We define an estimator for $L(x)$ as:
@@ -134,6 +135,7 @@ E(\ell)&=L \,. \\
 \label{eq:elvariance}
 E([\ell-L]^2) &= \frac{1}{|S|} \left[L \cdot (1-L) -\frac{1}{4}|\omega|\right] \,
 \end{align}
+The point of this section is to work out the details of these facts.
 
 The definition of $\ell$ does not depend on the ordering of the sample $S$, so the vector of counts $(c_1,\ldots,c_{|X|})$ is equivalent information about the sample for our purposes.  We define $c$ as the vector of counts of elements in $S$, so that $x_k$ occurs $c_k$ times in the sample $S$.
 
@@ -148,6 +150,76 @@ Here are some well-known moments of the multinomial distribution (the sum is ove
 \sum_c P(c) c &= n p \,, \\
 \sum_c P(c) c c^T &= n \diag(p) + (n^2-n) p p^T \,.
 \end{align}
-Here $c$ and $p$ are taken as column vectors, and $\diag(p)$ is the diagonal $n \times n$ matrix with the probabilites $p$ along the diagonal.
+Here $c$ and $p$ are $|X| \times 1$ column vectors, and $\diag(p)$ is the diagonal $|X| \times |X|$ matrix with the probabilites $p$ along the diagonal.
+
+It is useful to introduce $A$ and $a$, which are analogous to $\Omega$ and $\omega$ (recall that $x$ is fixed in this discussion):
+
+\begin{align}
+A &= \left\{ k \mid p(x_k) > p(x) \right\} \,, \\
+  &= \left\{ k \mid x_k \in \Omega \right\} \,, \\
+|A| &= \frac{1}{n} \sum_{k \in A} c_k \,.
+\end{align}
+
+Note that $A$ is the index set of $\Omega$, and so independent of $c$, but $|A|$ depends on the sample counts.  By contrast, both $\Omega$ and $|\Omega|$ are constant (properties of the entire probability space) for a fixed choice of $x$.
+
+Similarly,
+\begin{align}
+a &= \left\{ k \mid p(x_k) = p(x) \right\} \,, \\
+  &= \left\{ k \mid x_k \in \omega \right\} \,, \\
+|a| &= \frac{1}{n} \sum_{k \in a} c_k \,.
+\end{align}
+
+Using the well-known multinomial moment results, we can compute some useful exected values of $|A|$ and $|a|$:
+
+First $E(|A|)=|\Omega|$
+\marginnote{Similarly $E(|a|)=|\omega|$.}:
+\begin{align}
+E(|A|)&=\sum_c P(c) \frac{1}{n} \sum_{k\in A} c_k \\
+      &= \frac{1}{n} \sum_{k\in A} \sum_c P(c) c_k \\
+      &= \frac{1}{n} \sum_{k\in A} \sum_c P(c) c_k \\
+      &= \frac{1}{n} \sum_{k\in A} n p_k \\
+      &= |\Omega| \,.
+\end{align}
 
 
+Next $E(|A|^2)=\frac{1}{n} |\Omega| \cdot (1-|\Omega|) + |\Omega|^2$
+\marginnote{Similarly, $E(|a|^2)=\frac{1}{n} |\omega| \cdot (1-|\omega|) + |\omega|^2$.}:
+\begin{align}
+E(|A|^2) &= \frac{1}{n^2} \sum_{k,k' \in A} \sum_c P(c) c_k c_{k'} \,, \\
+         &= \frac{1}{n^2} \sum_{k,k' \in A} \left[ n \diag(p) + (n^2+n) p p^T \right]_{k,k'} \,, \\
+         &= \frac{1}{n} |\Omega| + \frac{n-1}{n} |\Omega|^2 \,, \\
+         &= \frac{1}{n} |\Omega| \cdot (1-|\Omega|) + |\Omega|^2 \,.
+\end{align}
+
+We also will need the cross term $E(|A||a|)$:
+\begin{align}
+E(|A||a|) &= \frac{1}{n^2} \sum_{k \in A,k' \in a} \sum_c P(c) c_k c_{k'} \,, \\
+         &= \frac{1}{n^2} \sum_{k \in A, k' \in a} \left[ n \diag(p) + (n^2+n) p p^T \right]_{k,k'} \,, \\
+         &=  \frac{n-1}{n} |\Omega||\omega| \,.
+\end{align}
+Note that the diagonal term $\diag(p)$ contributes nothing in this case because $A$ and $a$ are disjoint sets.
+
+With these preliminaries,
+\begin{equation}
+\ell = |A| + \frac{1}{2} |a| \,,
+\end{equation}
+
+And so
+\begin{equation*}
+E(\ell)=|\Omega| + \frac{1}{2} |\omega| = L \,.
+\end{equation*}
+which is the first result.
+
+For the variance,
+\begin{align}
+E([\ell-L]^2) &= E(\left[(|A|-|\Omega|) + \frac{1}{2}(|a|-|\omega|)\right]^2)  \,, \\
+              &= E([|A|-|\Omega|]^2) + E([|A|-|\Omega|][|a|-|\omega|]) + \frac{1}{4} E([|a|-|\omega|]^2) \,, \\
+              &= E(|A|^2)-|\Omega|^2 + E(|A||a|)-|\Omega||\omega| + \frac{1}{4} \left\{ E(|a|^2) - |\omega|^2 \right\} \,, \\
+\label{eq:compvar1}
+              &= \frac{1}{n} \left\{ |\Omega|(1-|\Omega|) -|\Omega||\omega| + \frac{1}{4}|\omega|(1-|\omega|) \right\} \,.
+\end{align}
+A little algebra will show (\ref{eq:compvar1}) is equal to
+\begin{equation}
+E([\ell-L]^2) = \frac{1}{n} \left\{ L \cdot (1-L) - \frac{1}{4} |\omega| \right \} \leq \frac{L \cdot (1-L)}{n} \,.
+\end{equation}
+which is the other thing we wanted to prove.
