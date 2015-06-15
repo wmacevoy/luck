@@ -1,5 +1,4 @@
-\chapter*{Proofs}
-
+\chapter{Proofs}
 
 \section{From the introduction}
 
@@ -176,11 +175,9 @@ First $E(|A|)=|\Omega|$
 \begin{align}
 E(|A|)&=\sum_c P(c) \frac{1}{n} \sum_{k\in A} c_k \\
       &= \frac{1}{n} \sum_{k\in A} \sum_c P(c) c_k \\
-      &= \frac{1}{n} \sum_{k\in A} \sum_c P(c) c_k \\
       &= \frac{1}{n} \sum_{k\in A} n p_k \\
       &= |\Omega| \,.
 \end{align}
-
 
 Next $E(|A|^2)=\frac{1}{n} |\Omega| \cdot (1-|\Omega|) + |\Omega|^2$
 \marginnote{Similarly, $E(|a|^2)=\frac{1}{n} |\omega| \cdot (1-|\omega|) + |\omega|^2$.}:
@@ -223,3 +220,12 @@ A little algebra will show (\ref{eq:compvar1}) is equal to
 E([\ell-L]^2) = \frac{1}{n} \left\{ L \cdot (1-L) - \frac{1}{4} |\omega| \right \} \leq \frac{L \cdot (1-L)}{n} \,.
 \end{equation}
 which is the other thing we wanted to prove.
+
+\section{Infinite and continuous spaces.}
+Theorems 4-6 have been proven for any finite probability space $X$.  
+\begin{align}
+T_4(X)&: E(L(x))=\frac{1}{2} \,, \\
+T_5(X)&: \left|E(f(L))-\int_0^1 f(L) \, dL \right| \leq \frac{\max_L |f''(L)| \cdot \sup_x |\omega(x)|^2}{24} \,, \\
+T_6(X)&: 0 \leq \frac{1}{p+1}-E(L^p) \leq \frac{p\cdot(p-1)\cdot \sup_x |\omega(x)|^2}{24} \,.
+\end{align}
+But expectation $E(\cdot)$ and measure $|\cdot|$ are continuous in the space of probability measures, and the inequalities are closed, so by a cauchy sequence of measures, these statements are true in general.
