@@ -1,0 +1,33 @@
+/chapter{Application}
+
+/section{$p$-values vs luck and some philosophy.}
+
+In a typical application of statistics, the region of the lowest probability is often used as an area of rejection.  In the language of ``luck'' suggested in these notes, this is a lucky result.  This is the nature of the notation and correctly summarizes the experiment: observing an outcome $L(x)=0.95$ is the same as observing a $p$-value of $0.05$ in a two-tailed test.  Thus low $p$ are equivalent to high luck values.  Indeed, an outcome could just be lucky and end up in the rejection area (with probability $p=1-L$) as the notation and name suggests.
+
+What about rejecting due to unlucky values?  There is no traditional analog here.  Unlucky values are near the peak of the distribution and so should occur often, and therefore should not be rejected, right?  Wrong.  Observing a value of luck lower than $0.05$ is just as likely (or unlikely) as observing a luck value above $0.95$.  The rejection area for unlucky values is significant particularly in larger dimensions (say 10 or more) where the possiblity of hitting near the peak of a distribution is just embarrasingly unlucky.
+
+What does rejecting unlucky results catch?  Liars for the most part.  This is a consequence of (\ref{eq:normal-luck-approx}).  It is hard for humans to fake a statistical process, and the tendency is for them to choose outcomes that are more central than the process (again, especially in higher dimensions).
+
+Rejecting the lucky values is accepting the pessimist's viewpoint: nothing is that lucky.  Rejecting the unlucky values is accepting the optimist's veiwpoint: nothing is that unlucky.  The rest is Aristotle's Golden Mean.  Statisticians have successully applied the pessimistic viewpoint since the birth of statistics.  With luck, statisticians can now take an optimitic stance as well.
+
+So the whole area of hypothesis testing can be couched in terms of the language of luck, which is then more familiar to the average reader and meaninful to a person familar with the statistical concept.  What is easier to understand: 
+\begin{blockquote}
+The procedure improved the mean with a $p=0.05$ level of confidence.
+\end{blockquote}
+Or
+\begin{blockquote}
+Either the subjects had above $90\%$ luck, or the procedure on average helped them.
+\end{blockquote}
+
+On the other side,
+\begin{blockquote}
+Either the voters had below $1\%$ luck, or the results were rigged.
+\end{blockquote}
+
+At the most conservative
+\begin{blockquote}
+The results were surprisingly lucky (unlucky) $L=0.98$ $(0.03)$, which suggests our model misses key aspects of the system under study.
+\end{blockquote}
+
+\section{Luck and aggregate results.}
+Suppose you are a school district and want to discover classrooms/teachers/schools with good results.  By calculating the luck associated with 
