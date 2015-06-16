@@ -1,4 +1,4 @@
-\chapter*{Normal Distribution}
+\chapter{Normal Distribution}
 Suppose we are in a probability space well approximated by the multivariate normal (Gaussian) distribution of a random variable $x \in \R^n$ with mean $\mu$ and non-singular covariance $\Sigma$:
 \marginnote{The $n=1$ example in the introduction is just where where $\mu$ and $\Sigma$ are scalars.}
 \begin{align}
@@ -29,7 +29,7 @@ L(x) &=|\Omega(x)|\\
      &=\int_{\Omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \,dy\,.
 \end{align}
 
-\marginnote{$\Sigma$ is symmetric and positive definite, and so is its inverse.  The square-root can be computed as a Cholesky decomposition.  In Scilab, \lstinline[language=Scilab]{z=chol(Sigma)'\(x-mu)}}
+\marginnote{$\Sigma$ is symmetric and positive definite, and so is its inverse.  The square-root can be computed as a Cholesky decomposition.  In Scilab, \lstinline[language=Scilab]{z=chol(Sigma)'\\(x-mu)}}
 By changing variables to $z=\sqrt{\Sigma^{-1}} (x-\mu)$,
 \begin{equation}
 L(x) = \int_{|z|<R}  P_{\text{normal}}(z;0,I) \, dz \,,
