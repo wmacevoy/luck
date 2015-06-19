@@ -1,5 +1,22 @@
 \chapter{Proofs}
 
+\section{Luck in general.}
+Fundamentally, defining luck depends on a partial ordering of the elements of the probability space in question.  In a finite or countable space, this can be done just from the probability.  In larger spaces more topological structure is required:
+\begin{equation}
+y < x \text{\ iff\ } \lim_{r \downarrow 0} \frac{p(B_r(x))}{p(B_r(y))} < 1 \,.
+\end{equation}
+Here, $p(S)$ denotes the probability of an outcome in $S \subseteq X$, and $B_\varepsilon(x) \subseteq X$ is the open ball of radius $r$ in the topology of $X$.
+
+Using this ordering, luck can be generalized as follows:
+\begin{align}
+\Omega(x) &= \left\{ y \mid y < x \right\} \,, \\
+|\Omega(x)| &= p(\Omega(x))  \,, \\
+\omega(x) &= \left\{ y \mid y \nless x \andop x \nless y \right\} \,, \\
+|\omega(x)| &= p(\omega(x)) \,, \\
+\intertext{and}
+L(x) &= |\Omega(x)| + \frac{1}{2} |\omega(x)|\,.
+\end{align}
+
 \section{From the introduction}
 
 \begin{theorem}{Range of Luck.} 
