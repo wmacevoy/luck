@@ -85,6 +85,12 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
 \end{tabular}
 \end{table}
 
+\begin{figure}
+  \caption{Histograms of 10,000 luck values in the same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
+  \centering
+    \includegraphics[width=0.75\textwidth]{img/normal}
+\end{figure}
+
 \subsection{Combining Normal Luck}
 The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $\mu^{(x)}$ , $\Sigma^{(x)}$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
 \begin{align}
@@ -94,11 +100,43 @@ R_x(x) &= \erf^{-1}(2L_x -1)-\sqrt{n_x-\frac{1}{2}} = \sqrt{\left(\Sigma^{(x)}\r
 R_y(y) &= \erf^{-1}(2L_y -1)-\sqrt{n_y-\frac{1}{2}} = \sqrt{\left(\Sigma^{(y)}\right)^{-1}} \left(y-\mu^{(y)}\right) \,.
 \end{align}
 
-\begin{figure}
-  \caption{Histograms of 10,000 luck values in the same distributions as table~\ref{tab:normal}.  Upshot: $y$ values in the $x$ distribution are viewed as extremely lucky and vice-versa, while they are have uniform luck in their own respective distributions.}
-  \centering
-    \includegraphics[width=0.75\textwidth]{img/normal}
-\end{figure}
+The approximations above, which in the limit are exact, lead to the following natural definition:
+\begin{definition}{Luck-adjusted $z$-score.}  For any distribution (not just a normal distribution) with finite mean $\mu=E(x)$ and finite positive definite covarience $\Sigma=E((x-\mu)(x-\mu)^T)$, where $x$ and $\mu$ are $n$-dimensional column vectors, it is natural to associate an observation $x$ with the {\em luck-adjusted $z$-score}:
+\begin{equation}
+z_L = \left|\sqrt{\Sigma^{-1}} (x-\mu)\right|-\sqrt{n-\frac{1}{2}} \,.
+\end{equation}
+\end{definition}
+
+The luck-adjusted $z$-score from two independent experiments can be combined into one overall score with:
+\begin{equation}
+\begin{split}
+z_L^{A \times B}=&\sqrt{\left(z_L^A+\sqrt{n_A-\frac{1}{2}}\right)^2+\left(z_L^B+\sqrt{n_B-\frac{1}{2}}\right)^2}\\
+&-\sqrt{n_A+n_B-\frac{1}{2}} \,.
+\end{split}
+\end{equation}
+
+Similarly, $k$ repeated independent experiments can be combined with
+\begin{equation}
+\begin{split}
+z_L^{A^k}=&\sqrt{\sum_{i=1}^{k}{\left(z_L^{A_i}-\sqrt{n_A-\frac{1}{2}}\right)^2}} \\
+         &-\sqrt{k\cdot n_A - \frac{1}{2}} \,.
+\end{split}
+\end{equation}
+
+If the combined dimension $n$ is large enough that the overal distribution is well approximated by the normal distribution, then the luck associated with the overall set of observations is well approximated by the {\em normal luck},
+\begin{equation}
+L_N = \frac{1}{2}\left[1+\erf(z_L)\right] \,.
+\end{equation}
+
+If the distribution is in fact normal, the luck can be computed exactly via,
+\begin{equation}
+L=\frac{\gamma(\frac{n}{2},\frac{1}{2}(z_L+\sqrt{n-\frac{1}{2}})^2)}{\Gamma(n/2)} \,.
+\end{equation}
+There is less than a $0.01$ difference between $L_N$ and $L$ for $n \geq 22$.
+
+Combining luck-adjusted $z$-scores is very useful for understanding the implications of multiple experiments.  If the model is good, the luck-adjusted $z$-score will to stay small (within $\pm 6$) as you combine the outcomes of more experiments.  If it tends to get large or small, there is something wrong in the model.  If $z_L$ tends to negative infinity, this seems to be an indication of a non-stochastic process (it is being gamed), and if $z_L$ tends to positive infinity, the estimates for $\mu$ and/or $\Sigma$ are wrong.  The publication of $z_L$ and $n$ for experimental results would be very useful for meta analysis, and $L_N$ or $L$ would be a value much easier to interpret for a lay reader.
+
+\subsection{Scilab Reference Code}
 
 The listings in figures \ref{fig:mnprobln}-\ref{fig:mnapproxluck} give Scilab functions for basic luck calculations for multivariate normal distributions.
 
@@ -145,3 +183,4 @@ function L=mnapproxluck(x,mu,Sigma)
 endfunction
 \end{lstlisting}
 \end{figure}
+
