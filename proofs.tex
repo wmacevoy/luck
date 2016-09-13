@@ -1,13 +1,14 @@
 \chapter{Proofs}
 
-\section{Luck in general.}
+\section{Luck more generally.}
 Fundamentally, defining luck depends on a partial ordering of the elements of the probability space in question.  In a finite or countable space, this can be done just from the probability.  In larger spaces more topological structure is required:
 \begin{equation}
+\label{eq:less}
 y < x \text{\ iff\ } \lim_{r \downarrow 0} \frac{p(B_r(x))}{p(B_r(y))} < 1 \,.
 \end{equation}
 Here, $p(S)$ denotes the probability of an outcome in $S \subseteq X$, and $B_\varepsilon(x) \subseteq X$ is the open ball of radius $r$ in the topology of $X$.
 
-Using this ordering, luck can be generalized as follows:
+It is straightforward to prove the transitivity of (\ref{eq:less}).  Using this ordering, luck can be generalized as follows:
 \begin{align}
 \Omega(x) &= \left\{ y \mid y < x \right\} \,, \\
 |\Omega(x)| &= p(\Omega(x))  \,, \\
@@ -20,6 +21,7 @@ L(x) &= |\Omega(x)| + \frac{1}{2} |\omega(x)|\,.
 \section{From the introduction}
 
 \begin{theorem}{Range of Luck.} 
+\label{thm:range}
 For any probability space,
 \begin{equation}
 0 \leq L(x) \leq 1 \,.
@@ -29,6 +31,7 @@ Proof.  From the definition, $L(x)=|\Omega(x)|+\frac{1}{2} |\omega(x)|$, which i
 \end{theorem}
 
 \begin{theorem}{Lucky values.}
+\label{thm:lucky}
 If $L(x)$ is close to 1, then $p(x)$ is relatively small and most outcomes have a higher probability (you are lucky).
 
 Proof.  Since $L(x)$ is close to 1, write $L(x)=1-\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
@@ -51,6 +54,7 @@ Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a hi
 \end{theorem}
 
 \begin{theorem}{Unlucky values.}
+\label{thm:unlucky}
 If $L(x)$ is close to 0, then $p(x)$ is comparatively large, and most outcomes would have a lower probability (you are unlucky).
 
 Proof.  Since $L(x)$ is close to 0, write $L(x)=\varepsilon(x)$, where $\varepsilon(x)$ is a small non-negative number.
@@ -73,6 +77,7 @@ Thus at least a $1-2 \varepsilon(x)$ fraction of the probability space have a lo
 \end{theorem}
 
 \begin{theorem}{On average, luck is always 50:50.}
+\label{thm:fifty}
 
 \begin{equation*}
 E(L)=\frac{1}{2} \,.
@@ -82,6 +87,7 @@ Proof.  This is an application of the next theorem where $f(L)=L$.
 \end{theorem}
 
 \begin{theorem}{Smooth uniformity - finite space $X$.}
+\label{thm:smooth-uniformity}
 
 $E(f(L))=\int_0^1 f(L) dL-\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
 
@@ -106,15 +112,30 @@ We also use the midpoint integration estimate:
 \end{align}
 \end{theorem}
 
-\begin{theorem}{Moments - finite space $X$.}
+\begin{theorem}{Best of luck - finite space $X$.}
+\label{thm:best-uniformity}
+The fact that the definition of luck samples the intervals in theorem \ref{thm:smooth-uniformity} at the centers.  This is by design and is the only choice that leads to a second-order error error ($f''$) with the following constraints:
+\begin{itemize}
+\item Luck is constant for constant probabilities: if $p(x)=p(y)$ then $L(x)=L(y)$.
+\item Luck is increasing for decreasing probabilities: if $p(x)<p(y)$ then $L(x)>L(y)$.
+\end{itemize}
+\begin{align}
+E(f(L)) &= \sum_x p(x) f(L(x)) \\
+\intertext{using equality of luck for equal probabilities}
+        &= \sum_{[x]} |\omega([x])| f(L([x]))
+\end{align}
+Optimizing this sum as a quadrature of $\int_0^1 f(L) \, dL$ is a classic question answered by the gauss points (centers of the intervals).  The fact that $L(x)$ is increasing orders the gauss points to our definition of luck.
+\end{theorem}
 
-For $p \geq 1$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/24$.
+\begin{theorem}{Moments - finite space $X$.}
+\label{thm:moments}
+For $p \geq 2$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/24$.
 
 Proof.  This is an example of $f(L)=L^p$ with $p \geq 1$ in the theorem above, and noting that $f''(L)$ is non-negative, so $\varepsilon$ in (\ref{eq:midpointerror}) must be non-negative.
 \end{theorem}
 
 \begin{theorem}{Interval uniformity - finite space $X$.}
-
+\label{thm:interval-uniformity}
 For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a - \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
 
 Proof.  Let $f(L)$ be the characteristic function for the closed interval $[a,b]$.
@@ -126,6 +147,22 @@ b-a &=\int_0^1 f(L) \, dL  \\
 \end{align}
 Now in the sum that defines $\varepsilon$, there are at most 2 discontinuities in an otherwise constant 0, 1 or -1 integrand.  If none occur in an interval, that term is exactly zero.  If one occurs, the integrand is zero for at least $\frac{1}{2}$ of the interval, so that error is at most $\frac{1}{2}|\omega([x])|$, and can be only once more in one other interval (with the same kind of error).  And if 2 occur, they occur nowhere else and the error is bounded by $|\omega([x])|$.  In each case we have our theorem.
 \end{theorem}
+
+\section{From Normal}
+The approximation (\ref{eq:normal-luck-approx}), i.e.,
+\begin{equation*}
+L \approx L_1 = \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n-1/2})\right] \,,
+\end{equation*}
+mostly comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}).  This in fact results in the approximation,
+\begin{equation*}
+L \approx L_2 =\frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n})\right] \,.
+\end{equation*}
+The shift from $\sqrt{n}$ to $\sqrt{n-1/2}$ was a result of numerical experimentation, summarized in figure~\ref{fig:estluck}.  It shows $\max |L-L_1|$ is has a $4 \times$ smaller than $\max |L-L_2|$ for $10 \leq n \leq 100,000$.
+\begin{figure}
+\includegraphics[width=0.75\linewidth]{img/estluck.png}
+\caption[$\sqrt{n}$ vs $\sqrt{n-1/2}$]{Comparison of approximate luck \ref{eq:normal-luck-approx} using a mean shift of $\sqrt{n-1/2}$ vs $\sqrt{n}$.  The $\sqrt{n-1/2}$-shift has about $1/4$ the error of the $\sqrt{n}$ shift.}
+\label{fig:estluck}
+\end{figure}
 
 \section{From Computation}
 

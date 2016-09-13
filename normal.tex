@@ -49,7 +49,7 @@ The last form uses the lower incomplete gamma function and gamma function, defin
 \gamma(s,x) &= \int_0^{x} t^{s-1} e^{-t} \, dt \\
 \Gamma(s) &= \gamma(s,\infty) \,.
 \end{align}
-For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), which is specifically invalid for $n=1$, hence the difference between the general case and the $n=1$ case (\ref{eq:normal-1d-luck}).}:
+For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), and numerical experimentation on the $1/2$ factor.  The expansion is specifically invalid for $n=1$, hence the difference between the general case and the $n=1$ case (\ref{eq:normal-1d-luck}).}:
 \marginnote{\lstinline[language=Scilab]{Lapprox=0.5*(1+erf(R-sqrt(n-1/2)))}}
 \begin{equation}
 \label{eq:normal-luck-approx}
