@@ -1,9 +1,7 @@
-// ns=[10,100,1000,10000,100000];
-log10n = linspace(1,5,1000);
+log10n = linspace(0,5,1000);
 ns = floor(10 .^ log10n);
 as = zeros(1,length(ns));
 bs = zeros(1,length(ns));
-
 
 for i = [1:length(ns)]
     n=ns(i);
@@ -27,7 +25,9 @@ for i = [1:length(ns)]
 end
 fig=scf(0);
 clf();
-plot2d(log10n,[as ./ bs]);
+e = as ./ bs;
+q = 0.25 .* ones(1,length(as));
+p = 1.00 .* ones(1,length(as));
+plot(log10n',[e;q;p]');
 xtitle("abs err ratio vs log_10 n")
 xs2png(gcf(),'/home/user/projects/luck/img/estluck.png');
-

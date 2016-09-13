@@ -157,10 +157,10 @@ mostly comes from a Taylor expansion of the log of the integrand in (\ref{eq:nor
 \begin{equation*}
 L \approx L_2 =\frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n})\right] \,.
 \end{equation*}
-The shift from $\sqrt{n}$ to $\sqrt{n-1/2}$ was a result of numerical experimentation, summarized in figure~\ref{fig:estluck}.  It shows $\max |L-L_1|$ is has a $4 \times$ smaller than $\max |L-L_2|$ for $10 \leq n \leq 100,000$.
+The shift from $\sqrt{n}$ to $\sqrt{n-1/2}$ was a result of numerical experimentation, summarized in figure~\ref{fig:estluck}.  It shows $\max |L-L_1|$ is has a $4 \times$ smaller than $\max |L-L_2|$ for $4 \leq n \leq 100,000$.
 \begin{figure}
 \includegraphics[width=0.75\linewidth]{img/estluck.png}
-\caption[$\sqrt{n}$ vs $\sqrt{n-1/2}$]{Comparison of approximate luck \ref{eq:normal-luck-approx} using a mean shift of $\sqrt{n-1/2}$ vs $\sqrt{n}$.  The $\sqrt{n-1/2}$-shift has about $1/4$ the error of the $\sqrt{n}$ shift.}
+\caption[$\sqrt{n}$ vs $\sqrt{n-1/2}$]{This is a plot of $E(n)=\max_{0 \leq R \leq \infty}|L-L_1|/\max_{0 \leq R \leq \infty} |L-L_2|$ vs $\log_{10} n$. The $\sqrt{n-1/2}$-shift is always better than $\sqrt{n}$, and $4 \times$ better for $n \geq 4$ ($\log_{10} 4 \approx 0.6$).  The constant line is $1/4$ for reference.}
 \label{fig:estluck}
 \end{figure}
 
