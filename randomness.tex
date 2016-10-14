@@ -1,15 +1,14 @@
 \chapter{Application - Testing Randomness}
-A popular randomness testing suite is the Dieharder suit, which can be used to validate various random number generators, including custom generators, against a set of established tests of randomness.  Under standard usage, the outcome of each test is a $p$-value, which if is outside a cutoff $|p-1/2|>1/2-\varepsilon/2$, is considered weak ($\varepsilon=0.005$) or fails ($\varepsilon=0.000001$).
+A popular randomness testing suite is the Dieharder suite, which can be used to validate various random number generators, including custom generators, against a set of established tests of randomness.  Under standard usage, the outcome of each test is a $p$-value, which if is outside a cutoff $|p-1/2|>1/2-\varepsilon/2$, is considered weak ($\varepsilon=0.005$) or fails ($\varepsilon=0.000001$).
 
 The issue is that, assuming the test and source of randomness are correct, the $p$-value is a uniformly distributed value.  This means that $\varepsilon$ of the tests will be labeled weak or failed.  With many tests and random number generators, there should be failures.  This possibility of false negatives makes the results difficult to interpret.  On the other hand, a consistently weak random number generator may produce a poor result consistently, just not weak enough to cross the predetermined weak/fail test, so false positives are also a problem.
 
 We took two luck-based approaches to this.  The first was to create our own test which we could assess using a luck approach, and the second was to take a luck perspective on the built-in dieharder results.
 
 \section{Max64 Statistics}
+The first was to design our own test (Max64) with a known exactly computable statistical distribution.  The outcomes of each test is combined using the luck-adjusted $z$-score (\ref{eq:luck-adjusted-z-score}) of individual tests to obtain an overall normal luck score via the repeated use of (\ref{eq:zl-combine}).  This is continued until the number of tests exceeds some limit, or $z_L$ reaches a value that constitutes a statistical proof of failure, i.e., $|z_L|>10$ which should occur less than once in $10^{44}$ trials.
 
-The first was to design our own test (Max64) with a known exactly computable statistical distribution.  The outcomes of each test is combined using the luck-adjusted $z$-score (\ref{eq:luck-adjusted-z-score}) of individual tests to obtain an overall normal luck score via (\ref{eq:zl-combine}).  This is continued until the number of tests exceeds some limit, or $z_L$ reaches a value that constitutes a statistical proof of failure, .i.e., $|z_L|>10$ which should occur less than once in $10^{44}$ trials.
-
-The chosen statistical test is very simple: the distribution of maximum values on a filtered permutation of the bit stream.  This was done because the statistical moments can be computed to high precision (this is crucial, since incorrect moments would result in model failure because of the test, not the source of randomness).  The resulting project is hosted as github.com/wmacevoy/testrng, and is remarkably efficient at determining poor randomness compared to the standard diehard suite.
+The chosen statistical test is very simple: the distribution of maximum values on a filtered permutation of the bit stream.  This was done because the statistical moments can be computed to high precision (this is crucial, since incorrect moments would result in model failure because of the test, not the source of randomness).  The resulting project is hosted as github.com/wmacevoy/testrng, and is remarkably efficient at determining poor randomness compared to the standard Dieharder suite.
 
 \section{Probability of Maximums}
 If taking $S$ independent samples $(x_1,\ldots,x_S)$ uniformly of the numbers $\{1\ldots N\}$, the probability that 
@@ -45,14 +44,14 @@ E(G) = \frac{1}{N^{S+1}} H(N-1,-S) \,.
 A similar calculation for the second moments results in
 \begin{align}
 \Var{G}&=E((G-E(G))^2) \\
-       &=E(G) \cdot (2 - E(G)) -\frac{1}{N^{S+2}} \left[ 2 H(N-1,-(S+1)) +H(N-1,-S) \right] \,.
+       &=E(G) \cdot (2-E(G) - \frac{1}{N}) -\frac{ 2 H(N-1,-(S+1))}{N^{S+2}}  \,.
 \end{align}
 
-In the dieharder test, we are using large values of $N=2^{64}$, so it not feasible to use the explicit sum \ref{eq:generalized-harmonic-number}.  Using the approximation,
+In the Max64 test, we are using large values of $N > 2^{40}$, so it is not feasible to use the explicit sum \ref{eq:generalized-harmonic-number}.  Using the approximation,
 \begin{equation}
 \sum_{k=1}^{n} k^s \approx \frac{1}{s+1} (n+1/2)^{s+1} + \text{const}
 \end{equation}
-we obtain the approximations
+we obtain
 \begin{equation}
 E(G) \approx g \,.
 \end{equation}
@@ -62,14 +61,14 @@ Var(G) \approx (2-g-1/N)g -2h \,.
 \end{equation}
 where
 \begin{align}
-g &= 1/(S+1)*exp(-(S+1)*z) \,, \\
-h &= 1/(S+2)*exp(-(S+2)*z) \,, \\
+g &= \frac{e^{-(S+1)*z}}{S+1} \,, \\
+h &= \frac{e^{-(S+2)*z}}{S+2} \,, \\
 z &= \frac{1}{2N} \left(1+\frac{1}{4N}\right) \,.
 \end{align}
-Numerical simulations suggest this is $O(1/N^2)$.  With accurate moment results to compute the mean and standard deviation, we performed a set of tests using $S=19$ samples and $N=2^{63}$.
+Numerical simulations suggest this is a relative $O(1/N^2)$ approximation.  With accurate moment results to compute the mean and standard deviation, we performed a set of tests using $S=19$ samples and $N=2^{63}$.
 
 \begin{table}
-\caption{\label{tab:maxluck}Accumulated normal luck using the Max64 tests for failed reference dieharder PRNGs and AES\_OFB as strong counterexample.}
+\caption{\label{tab:maxluck}Accumulated normal luck using the Max64 tests for failed reference Dieharder PRNGs and AES\_OFB as strong counterexample.}
 \begin{tabular}{|c|r|c|r|}
 \multicolumn{1}{c}{Generator} &
 \multicolumn{1}{c}{Trials} &
@@ -102,14 +101,14 @@ AES\_OFB & $1,000,000$ & normal & $0.2854$ \\
 \hline
 \end{tabular}
 \end{table}
-Table~\ref{tab:maxluck} Constitutes a numerical statistical proof of failure for some reference PRNGS in the dieharder suite (except AES\_OFB which is provided as a counter example).  The impossible accumulated luck is proof either the model or the source of randomness is wrong.  The last row contrasts this with the AES\_OFB reference generator.  Here, even after 1,000,000 trials, the accumulated luck is unsurprising, which is strong evidence the model is correct.
+Table~\ref{tab:maxluck} Constitutes a numerical statistical proof of failure for some reference PRNGS in the Dieharder suite (except AES\_OFB which is provided as a counter example).  The impossible accumulated luck is proof either the model or the source of randomness is wrong.  The last row contrasts this with the AES\_OFB reference generator.  Here, even after 1,000,000 trials, the accumulated luck is unsurprising, which is strong evidence the model is correct.
 
-The testrng tool proves the first 22 generators are not random in about 20 seconds on my laptop, while getting indeterminate results using the dieharder standard suite takes about 1 week of CPU time on a faster server.
+The testrng tool proves the first 22 generators are not random in about 20 seconds, while getting indeterminate results using the Dieharder suite took about 1 week of CPU time on a faster server.
 
 \section{Luck interpretation of dieharder results}
-Because I am less familiar with the dieharder statistics, this is a more qualitative result.  The typical output of a dieharder test is a $p$-value, which should be uniformly distributed if the test is correct and the source of randomness is sufficiently random.  Because there are many tests and many generators, weak/fail results are expected to happen.  This is frustrating because it makes the results more difficult to interpret.  By repeating a test, a consistently weak or failed test is a more reliable outcome.  But that gives little concrete advice to determine how many failures constitute a real failure, nor does it allow for many-almost failures to have any meaning.
+The second approach is a more qualitative result.  The typical output of a dieharder test is a $p$-value, which should be uniformly distributed if the test is correct and the generator is indistinguishible from random by the given test.  Because there are many tests and many generators, weak/fail results are expected to happen.  This is frustrating because it makes the results more difficult to interpret.  By repeating a test, a consistently weak or failed test is a more reliable outcome.  But that gives little concrete advice to determine how many failures constitute a real failure, nor does it allow for many-almost failures to have any meaning.
 
-To create a more summary proof-of-failure statistic, we ran 10 instances of each known-good test against each algorithmic PRNG, and assumed the $p$-value of each outcome was the outcome of a 1-dimensional normal distribution.  This  allowed for the computation of a $z$-score\marginnote{Extreme $p=1$ and $p=0$ outcomes were assigned a $z$-score of $\pm 4$, since and error of $10^{-6}$ is possible from the formatting of the results.  Also, the rgb\_minimum tests were ignored since they failed with $p=0$ on every generator}  In this way, for each random number generator, each $p$-value for all tests provided a normal luck $z_L=z-\sqrt{1/2}$ and $df=1$. These were accumulated over all 590 tests for the following summary statistics.
+To create a more summary proof-of-failure statistic, we ran 10 instances of each known-good test against each algorithmic PRNG, and assumed the $p$-value of each outcome was the outcome of a 1-dimensional normal distribution.  This  allowed for the computation of a $z$-score.\marginnote{Extreme $p=1$ and $p=0$ outcomes were assigned a $z$-score of $\pm 4$, since and error of $10^{-6}$ is possible from the formatting of the results.  Also, the rgb\_minimum tests were ignored since they failed with $p=0$ on every generator}  In this way, for each random number generator, each $p$-value for all tests provided a normal luck $z_L=z-\sqrt{1/2}$ and $d_f=1$. These were accumulated over all 590 tests for the following summary statistics.
 
 \begin{table}
 \caption{\label{tab:dieluck}Normal luck estimates using internal dieharder tests summarizing $590$ tests assuming the $p$-value of each test came from a 1-dimensional normal distribution and compared against the Max64 test with the same $|z_L|>10$ cutoff criteria.}
@@ -201,8 +200,9 @@ R\_knuth\_taocp2 & 5.1 & 25 & 0 & & lucky \\
 \hline
 \end{tabular}
 \end{table}
+Some notable entries are gfsr4, which failed 1 test but did not achieve a provably surprizing normal luck result.  By contrast R\_knuth\_taocp2 failed no tests and had relatively few weak results, but had a much more surprizing $z_L$.  Max64 proves the latter is too lucky to be random.  The ranlxs* vs the random32-* entries show neither Dieharder nor Max64 are uniformly better at disproving the randomness of a generator.
 
-The luck summary of the dieharder tests could be significantly improved.  First, the actual statistic could be used to obtain a correct $z_L$ score to combine.  Second, the $z_L$ score could be reported instead of inferring it from the $p$-value so that extreme results could be incorporated into the luck estimates with greater accuracy.  Finally, once a fixed number of tests are computing, the tests should be repeated so long as the contribution to the overall normal luck is monotonic.  For correctly random luck this introduces a small number of additional runs, but consistently lucky/unlucky trending tests will culminate into a proof of failure.
+If one dedicated a 100 weeks of cpu time to this, it would be interesting to compare a larger data set.  There are many highly unlikely results in the luck summary which are not statistical proofs, however because of the cavalier approach to the extraction of the initial normal luck, the results always have to be made in comparision to a strong generator.  On the other hand, if the Dieharder suite provided $z_L$ and $d_f$ values for each test, it would be a trival matter to provide a summative provable result.
 
-From a power point of view, the Max64 test does not consistently supersede the full dieharder suite, and rows with 10 or more failures would almost certainly translate into a failure criteria by tripling the number of repetitions of the dieharder tests.  However, it took about 1 week of CPU time to generate the dieharder reference tests, and about 20 seconds to generate the Max64 results on similar hardware.
+There are other ways these results could be significantly improved.  First, the actual statistic could be used to obtain a correct $z_L$ score to combine.  Second, the $z_L$ score could be reported instead of inferring it from the $p$-value so that extreme results could be incorporated into the luck estimates with greater accuracy.  Finally, once a fixed number of tests are computed in the suite, the tests should be repeated so long as the contribution to the overall normal luck is monotonic.  For correctly random luck, this introduces a small number of additional runs, but consistently lucky/unlucky trending tests will culminate into a proof of failure.  These results would be much easier to interpret overall.
 
