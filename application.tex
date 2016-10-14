@@ -1,6 +1,11 @@
 /chapter{Application}
 
+/section{Luck and natural probability spaces.}
+Many real-world systems have a large number of outcomes with small probabilities.  Good examples of this are password probability spaces or why someone chooses a particular spouse.  The probabilistic definition of luck allows for a single number summary of a statistical outcome that is consistent with the natural language meaning of luck.  This helps to understand an outcome.
+
 /section{$p$-values vs luck and some philosophy.}
+
+Luck gives the best generic $p$-value as $1-L(x)$.  In cases of finite $|\omega(x)|$, the additional $\frac{1}{2}|\omega(x)|$ term gives the best possible correction for uniformizing the probability space given just information about the distribution.
 
 In a typical application of statistics, the region of the lowest probability is often used as an area of rejection.  In the language of ``luck'' suggested in these notes, this is a lucky result.  This is the nature of the notation and correctly summarizes the experiment: observing an outcome $L(x)=0.95$ is the same as observing a $p$-value of $0.05$ in a two-tailed test.  Thus low $p$ are equivalent to high luck values.  Indeed, an outcome could just be lucky and end up in the rejection area (with probability $p=1-L$) as the notation and name suggests.
 
@@ -16,18 +21,19 @@ The procedure improved the mean with a $p=0.05$ level of confidence.
 \end{blockquote}
 Or
 \begin{blockquote}
-Either the subjects had above $90\%$ luck, or the procedure on average helped them.
+Either procedure on average helped the subjects, or they had 95\% or better luck.
 \end{blockquote}
 
 On the other side,
 \begin{blockquote}
 Either the voters had below $1\%$ luck, or the results were rigged.
 \end{blockquote}
+There is no $p$-vale equivalent to this statement.
 
-At the most conservative
+Here is a most conservative point of view:
 \begin{blockquote}
 The results were surprisingly lucky (unlucky) $L=0.98$ $(0.03)$, which suggests our model misses key aspects of the system under study.
 \end{blockquote}
 
-\section{Luck and aggregate results.}
-Suppose you are a school district and want to discover classrooms/teachers/schools with good results.  By calculating the luck associated with 
+\section{Small sample statistics.}
+The $z$ score behavior of $|\sqrt{\Sigma^{-1}} \left(x-\mu)|-\sqrt{d-1/2}$

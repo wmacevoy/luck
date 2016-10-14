@@ -58,10 +58,12 @@
 
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
-
-
+\newcommand{\andop}{\text{\ and\ }}
+\newcommand{\orop}{\text{\ or\ }}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\Prob}{Prob}
+\DeclareMathOperator{\Var}{Var}
 
 
 \newcommand{\monthyear}{\ifcase\month\or January\or February\or March\or April\or May\or June\or July\or August\or September\or October\or November\or December\fi\space\number\year} % A command to print the current month and year
@@ -221,8 +223,9 @@ Under the following terms:
 \cleardoublepage
 \include{introduction}
 \include{normal}
-%\include{multinomial}
+\include{multinomial}
 \include{computation}
+\include{randomness}
 \include{proofs}
 \backmatter
 
