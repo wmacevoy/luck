@@ -1,0 +1,22 @@
+\chapter{Summary Statitics}
+
+\begin{table}
+\caption{\label{tab:summary}Luck for typical distributions.
+\begin{tabular}{|c|r|c|r|r|}
+\multicolumn{1}{c}{Name} &
+\multicolumn{1}{c}{PDF} &
+\multicolumn{1}{c}{$\mu$}
+\multicolumn{1}{c}{$\sigma$}
+\multicolumn{1}{c}{L(x)} &
+\hline
+uniform & $\{p(x)=\frac{1}{n}\}_{x=0}^{n-1}$ & $\frac{n-1}{2}$ & $\frac{n^2+1}{12}$  & $\frac{1}{2}$ \\
+bernoulli & $\{p(1)=P, p(0)=Q=1-P\}$ & $P$ & $\sqrt{PQ}$ & $L(x)=\left\{\begin{matrix}{cl}
+1-\frac{1}{2} p(x) &\text{, if $p(x)<p(1-x)$ \\
+\frac{1}{2} p(x) &\text{, if $p(x)>p(1-x)$ \\
+\frac{1}{2} &\text{, if $p(x)=p(1-x)$
+\end{matrix}
+\right.
+$
+\hline
+\end{tabular}
+\end{table}
