@@ -1,4 +1,5 @@
-function [p,q]=chi2cdf(x,k)
+function [P,Q]=chi2cdf(x,k)
   [dim,nsamps]=size(x);
-  [p,q]=cdfgam("PQ",x./2,k/2*ones(1,nsamps),ones(1,nsamps));
+  one=ones(1,nsamps);
+  [P,Q]=cdfgam("PQ",x./2,k/2*one,one);
 endfunction

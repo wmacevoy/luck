@@ -1,6 +1,6 @@
 clear();
 
-exec("chi2luck.sci",2);
+exec("chi2luck.sci",-1);
 
 k=4;
 x=[0:0.01:10];
