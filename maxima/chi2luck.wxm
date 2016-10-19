@@ -1,0 +1,114 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.0 ] */
+
+/* [wxMaxima: comment start ]
+This is the chi2 distrubution
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+chi2(x,k) := x^(k/2-1)*exp(-x/2)/(2^(k/2)*gamma(k/2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Chi2(x,k)=int_x^\infty chi2(y,k) dy
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Chi2(x,k) := gamma_incomplete_regularized(k/2,x/2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+pstar(k) is the value of p (tail of CDF) at peak of distribution (x=k-2) for k>2
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pstar(k) := Chi2(k-2,k);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is an estimate for when Chi2(x,k)=p which should be accurate when p approx pstar
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x0(k,p) := max(0,(k-2)+2*sqrt(k-2)*inverse_erf((pstar(k)-p)/(sqrt(%pi)*(k-2)*chi2(k-2,k))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is an estimate which should be accurate for large k
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x1(k,p) := (inverse_erf(1−2*p)+sqrt(k−1/2))^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Pick the better of the two estimates
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xz(k,p) := if bfloat(abs(log(Chi2(bfloat(x0(k,p)),k))-log(p))) < bfloat(abs(log(Chi2(bfloat(x1(k,p)),k))-log(p))) then bfloat(x0(k,p)) else bfloat(x1(k,p));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is a newton iteration to find a point where Chi2(x,k)=p
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+T(x,k,p) := x + (log(Chi2(x,k))-log(p))/(chi2(x,k)/Chi2(x,k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This recursively uses the contraction above to find the root
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Z(k,p,n) := if (n>0) then bfloat(T(Z(k,p,n-1),k,p)) else xz(k,p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xp(k,p):=Z(k,p,10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xp(10,0.23);  Chi2(xp(10,0.23),10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xm0(k,p):=if (p < pstar(k)) then (chi2(xp(k,p),k)*(2^(k/2)*gamma(k/2)))^(1/(k/2-1)) else x1(k,2*pstar(k)-p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S(x,k,p,z) := x + (2*x/(x-k+2))*(log(chi2(x,k))-log(z));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+W(k,p,n,z) := if (n>0) then bfloat(S(W(k,p,n-1,z),k,p,z)) else bfloat(xm0(k,p));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xm(k,p):=W(k,p,10,chi2(xp(k,p),k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Chi2Luck(k,p) := if (k <= 2) then 1-p else if (p < pstar(k)) then Chi2(xm(k,p),k)-p else if (p > pstar(k)) then p-Chi2(xm(k,p),k) else 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Chi2Luck(10,0.3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Chi2Luck(10,0.8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([Chi2Luck(10,p)], [p,0.0,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([Chi2Luck(4,p)], [p,0.0,1])$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
