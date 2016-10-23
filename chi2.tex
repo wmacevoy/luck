@@ -59,6 +59,28 @@ A plot of luck $L$ vs $p$-value for $\rchi^2_4$ is given in Figure~\ref{fig:chi2
 \label{fig:chi2}
 \end{figure}
 
+\section{Approximating $L[\rchi^2_k]$.}
+A surprisingly good approximation for $L[\rchi^2_k]$ comes from the following observations:
+\begin{itemize}
+\item Luck is zero at the maximum $x=k-2$.
+  \item The tail of the distribution is $O(\erf(\sqrt{x}))$.
+\end{itemize}
+This suggests
+\begin{equation}
+  L[\rchi^2_k](x)\approx \erf(\left|\sqrt{x}-\sqrt{k-2}\right|) \,.
+\end{equation}
+A plot of this estimate vs the numerial solution for large $k$ is given in Figure~\ref{fig:chi2est}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth]{img/chi2est10.png}
+\includegraphics[width=0.75\linewidth]{img/chi2est100.png}
+\includegraphics[width=0.75\linewidth]{img/chi2est1000.png}
+\end{center}
+\caption{$L$ vs $Lestimate$ for $k=10$, $100$, and $1,000$.}
+\label{fig:chi2est}
+\end{figure}
+
 \section{Scilab reference code}
 In order to avoid division by zero, we need a utility function which maps
 values away from zero defined by
