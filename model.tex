@@ -1,0 +1,13 @@
+\chapter{Application - Verify Stochastic Process Model}
+
+We define a stochastic function $y=f(x)$ as having some distribution of outputs $y$.  Once such specific model we developed was a password model based on a trainable set of tuples.  In this case $x$ is a set of dictionaries representing expected correlations and $y$ was a candidate password.
+
+We observed that the individual probabilities $p(y)$ were small, typically $O(10^{-14})$.  This led to to problem of how to validate that the model was correctly producing passwords with the indended frequencies when we clearly couldn't get a numerical frequency distribution.
+
+We decided to validate the model by using estimated luck.  If the model is correct, the luck of the generated passwords should be uniformly distributed.  We used a set of generated passwords (outputs $y$) to estimate their respective luck scores via , so we could use a set of generated passwords to estimate their respectfor a the luck scores are converted into a luck-normalized $z$-score via
+
+\begin{equation}
+z_L = \erf^{-1}(2L-1)+\sqrt{1/2} \,.
+\end{equation}
+
+For multiple 

@@ -194,3 +194,33 @@ endfunction
 \end{lstlisting}
 \end{figure}
 
+\section{Summary}
+\begin{itemize}
+\item For any distribution with finite mean $\mu$ and co-variance $\Sigma$, a useful parameter is the luck-adjusted $z$-score:
+  \begin{equation*}
+    z_L=\left[ (x-\mu)^{T} \Sigma^{-1} (x-\mu) \right]^{\frac{1}{2}} -\sqrt{d_f-\frac{1}{2}} \,.
+  \end{equation*}
+
+\item For normal distributions,
+  \begin{equation*}
+  L[{\cal N}(\cdot;\mu,\Sigma)](x)=\frac{\gamma(\frac{d_f}{2},\frac{\left(z_L+\sqrt{d_f-\frac{1}{2}}\right)^2}{2})}{\Gamma\left(\frac{d_f}{2}\right)} \,.
+  \end{equation*}
+
+\item For approximately normal distributions,
+  \begin{equation*}  
+    L(x) \approx \frac{1}{2} \left[1+\erf(z_L)\right] \,.
+  \end{equation*}
+
+\item For $n$ independent experiments $\{A_k\}_{k=1}^{n}$, $z_L$ can be combined with
+  \begin{equation*}
+\begin{split}
+z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}-\sqrt{d_f^{A_k}-\frac{1}{2}}\right)^2}} \\
+         &-\sqrt{\left(\sum_{k=1}^{n} d_f^{A_k}\right) - \frac{1}{2}} \,,
+\end{split}
+\end{equation*}
+and
+\begin{equation*}
+d_f^{A^n}=\sum_{k=1}^{n} d_f^{A_k} \,.
+\end{equation*}
+\item Seeing $|z_L|>Z$ should happen in less than $\frac{2Z}{\sqrt{\pi}} e^{-Z^2}$ fraction of cases.  This can be be a statistical proof (likelihood $O(10^{-45})$) at $Z=10$ with as little as one observation.
+\end{itemize}
