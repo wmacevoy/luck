@@ -38,6 +38,31 @@
 \usepackage{lipsum} % Inserts dummy text
 \usepackage{booktabs} % Better horizontal rules in tables
 \usepackage{graphicx} % Needed to insert images into the document
+
+% http://tex.stackexchange.com/questions/116498/listings-environment-inside-marginnote
+\newbox\marginlst
+\newlength\marginlstoffset
+% framerule + framesep + rulesep:
+\setlength\marginlstoffset{\dimexpr2mm+3pt+2pt\relax}
+
+\lstnewenvironment{marginlisting}
+                  {%
+                    \lstset{
+                      basicstyle = \small\ttfamily,
+                      frame = leftline ,
+                      framerule = 2mm ,
+                      rulecolor = \color{black!20},
+                      breaklines = true ,
+                      linewidth = \dimexpr\marginparwidth-\marginlstoffset\relax
+                    }%
+                    \setbox\marginlst\hbox\bgroup
+                  }
+                  {%
+                    \egroup
+                    % or \marginnote:
+                    \marginpar{\hspace*{\marginlstoffset}\unhbox\marginlst}%
+                  }
+                  
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \theoremstyle{example}

@@ -1,8 +1,8 @@
 \chapter{Normal Distribution}
-Suppose we are in a probability space well approximated by the multivariate normal (Gaussian) distribution of a random variable $x \in \R^n$ with mean $\mu$ and non-singular covariance $\Sigma$:
-\marginnote{The $n=1$ example in the introduction is just where where $\mu$ and $\Sigma$ are scalars.}
+Suppose we are in a probability space well approximated by the multivariate normal (Gaussian) distribution of a random variable $x \in \R^{d_f}$ with mean $\mu$ and non-singular covariance $\Sigma$:
+\marginnote{The $d_f=1$ example in the introduction is just where where $\mu$ and $\Sigma$ are scalars.}
 \begin{align}
-P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)}}{\sqrt{(2\pi)^n \det{\Sigma}}}  \,,\\
+P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)}}{\sqrt{(2\pi)^{d_f} \det{\Sigma}}}  \,,\\
 \intertext{where}
 \mu_i &= E(x_i)\,,\\
 \intertext{and}
@@ -13,12 +13,12 @@ How lucky is some outcome $x$? From the definition:
 \begin{align}
 L(x)&=|\Omega(x)|+\frac{1}{2}|\omega(x)| \,,\\
 \intertext{where}
-\Omega(x) =& \left\{ y \in \R^n \middle| P_{\text{normal}}(y) > P_{\text{normal}}(x) \right\} \\
-          =& \left\{ y \in \R^n \middle| |\sqrt{\Sigma^{-1}}(y-\mu)| < |\sqrt{\Sigma^{-1}}(x-\mu)| \right\}
+\Omega(x) =& \left\{ y \in \R^{d_f} \middle| P_{\text{normal}}(y) > P_{\text{normal}}(x) \right\} \\
+          =& \left\{ y \in \R^{d_f} \middle| |\sqrt{\Sigma^{-1}}(y-\mu)| < |\sqrt{\Sigma^{-1}}(x-\mu)| \right\}
 \intertext{and}
-\omega(x) =& \left\{ y \in \R^n \middle| |\sqrt{\Sigma^{-1}}(y-\mu)| = |\sqrt{\Sigma^{-1}}(x-\mu)| \right\} \,.
+\omega(x) =& \left\{ y \in \R^{d_f} \middle| |\sqrt{\Sigma^{-1}}(y-\mu)| = |\sqrt{\Sigma^{-1}}(x-\mu)| \right\} \,.
 \end{align}
-Because $\omega(x)$ has no volume in $\R^n$,
+Because $\omega(x)$ has no volume in $\R^{d_f}$,
 \begin{equation}
 |\omega(x)|=\int_{\omega(x)} P_{\text{normal}}(y;\mu,\Sigma) \, dy = 0 \,.
 \end{equation}
@@ -35,40 +35,43 @@ By changing variables to $z=\sqrt{\Sigma^{-1}} (x-\mu)$,
 L(x) = \int_{|z|<R}  P_{\text{normal}}(z;0,I) \, dz \,,
 \end{equation}
 \marginnote{\lstinline[language=Scilab]{R=norm(z)}}
-where $R = |\sqrt{\Sigma^{-1}} (x-\mu)|$.
-
-This can be evaluated in spherical coordinates:
+where $R = |\sqrt{\Sigma^{-1}} (x-\mu)|$, this can be evaluated in spherical coordinates:
 \begin{align}
 \label{eq:normal-luck-as-integral}
-L(x)    &=\frac{1}{\sqrt{(2\pi)^{n}}} \int_{0}^{R} \frac{n \pi^{n/2}}{\Gamma(\frac{n}{2}+1)} r^{n-1} e^{-\frac{1}{2} r^2} \, dr \,, \\
-    &=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)} \,.
+L(x)    &=\frac{1}{\sqrt{(2\pi)^{d_f}}} \int_{0}^{R} \frac{d_f \pi^{d_f/2}}{\Gamma(\frac{d_f}{2}+1)} r^{d_f-1} e^{-\frac{1}{2} r^2} \, dr \,, \\
+&=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)} \,.
+\label{eq:luck-normal}
 \end{align}
-\marginnote{\lstinline[language=Scilab]{L=cdfgam("PQ",R^2/2,n/2,1)}}
+\marginnote{\lstinline[language=Scilab]{L=cdfgam("PQ",R^2/2,df/2,1)}}
 The last form uses the lower incomplete gamma function and gamma function, defined to be
 \begin{align}
 \gamma(s,x) &= \int_0^{x} t^{s-1} e^{-t} \, dt \\
 \Gamma(s) &= \gamma(s,\infty) \,.
 \end{align}
-For any value of $n$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), and numerical experimentation on the $1/2$ factor.  The expansion is specifically invalid for $n=1$, hence the difference between the general case and the $n=1$ case (\ref{eq:normal-1d-luck}).}:
-\marginnote{\lstinline[language=Scilab]{Lapprox=0.5*(1+erf(R-sqrt(n-1/2)))}}
+For any value of $d_f$, but particularly for large values, we find the following approximation to be very good\marginnote{This comes from a Taylor expansion of the log of the integrand in (\ref{eq:normal-luck-as-integral}), and numerical experimentation on the $1/2$ factor.  The expansion is specifically invalid for $d_f=1$, hence the difference between the general case and the $d_f=1$ case (\ref{eq:normal-1d-luck}).}:
+\marginnote{\lstinline[language=Scilab]{Lapprox=0.5*(1+erf(R-sqrt(df-1/2)))}}
 \begin{equation}
 \label{eq:normal-luck-approx}
-L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{n-1/2})\right] \,.
+L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{d_f-1/2})\right] \,.
 \end{equation}
 \begin{figure}
-  \caption{Exact (blue) vs approximate (red) luck for normal distribution for $n=1$, $10$, and $100$.}
+  \caption{Exact (blue) vs approximate (red) luck for normal distribution for $d_f=1$, $10$, and $100$.}
   \centering
     \includegraphics[width=0.75\textwidth]{img/luck1}
     \includegraphics[width=0.75\textwidth]{img/luck10}
     \includegraphics[width=0.75\textwidth]{img/luck100}
 \end{figure}
 
-This result has a number of important consequences.  The first is insight into the nature of large statistics.  Our expectation before this calculation was that luck would start with $L=0$ at $R=0$ and quickly increase with $R$ before becoming exponentially small as $R$ became large.  This is not at all the case
-\begin{blockquote}
-In large dimensions, Luck is exponentially small for $R$ outside a small interval around $\sqrt{n-1/2}$.  Observations are {\em not} crowded near $x \approx \mu$, but almost certainly ($99.99\%$) within $\pm 3$ of the spherical shell $|\Sigma^{-1/2}(x-\mu)|=\sqrt{n-1/2}$.
-\end{blockquote}
+This result has a number of important consequences.  The first is insight into the nature of statistics with many degrees of freedom.  Our expectation before this calculation was that luck would start with $L=0$ at $R=0$ and quickly increase with $R$ before becoming exponentially close to $1$ as $R$ became large.  This is not at all the case:
+\begin{quote}
+  In large dimensions, normal observations are {\em not} crowded near $x \approx \mu$, but almost certainly ($99.99\%$) within $\pm 3$ of the elliptical shell
+  \begin{equation*}
+    |\Sigma^{-1/2}(x-\mu)|=\sqrt{d_f-1/2} \,.
+  \end{equation*}
+\end{quote}
+Philosophically, this means nobody should be surprised about not precisely reaching their goals.  If you have enough dimensions to your life to be interesting, you would be very unlucky to be close to the mark on each of them.
 
-Not only is this result pretty, it is very useful.  Suppose we have distribution parameters $\mu$ and $\Sigma$, and would like to know if they fit actual observations.  A traditional approach requires a large sample to estimate $\mu$ and $\Sigma$, but we don't need this, nor do we need to assume that the distribution is normal.  We just need to ask if the observations are surprising (lucky or unlucky).  In large dimensions, numerical experiments suggest one sample is in most cases sufficient to establish practical certainty (probability of error less than $10^{-15}$).
+We can also use (\ref{eq:normal-luck-approx}) to disprove an observation came from a distribution.  Suppose we have distribution parameters $\mu$ and $\Sigma$, and would like to know if they fit actual observations.  A traditional approach requires a large sample to estimate $\mu$ and $\Sigma$, but we really just need to ask if the observations are surprising (lucky or unlucky).  In large dimensions, numerical experiments suggest one sample is in most cases sufficient to establish practical certainty (probability of error less than $10^{-15}$).
 \begin{table}
 \caption{\label{tab:normal}Luck from two randomly generated distributions $\mu^{(x)}$ and $\mu^{(y)}$ uniformly chosen in $[0,1]^{100}$, and $\Sigma^{(x)}, \Sigma^{(y)}$ are transposed squares of random $100 \times 100$ matrices.  In each row, $x$ is  a sample from the $\mu^{(x)},\Sigma^{(x)}$, normal distribution, and $y$ is from the $\mu^{(y)},\Sigma^{(y)}$ distribution.  The actual values of $x$ and $y$ are not given, since they are very large (100 numbers each) and uninteresting.}
 \begin{tabular}{|S[table-format=2.10]|S[table-format=2.10]|S[table-format=2.10]|S[table-format=2.10]|}
@@ -99,7 +102,7 @@ Not only is this result pretty, it is very useful.  Suppose we have distribution
 \subsection{Combining Normal Luck}
 The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $\mu^{(x)}$ , $\Sigma^{(x)}$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
 \begin{align}
-L(x,y) &\approx \frac{1}{2}\left[1+\erf(\sqrt{R_x(x)^2+R_y(y)^2}-\sqrt{n_x+n_y-\frac{1}{2}}) \right] \,,
+L(x,y) &\approx \frac{1}{2}\left[1+\erf(\sqrt{R_x(x)^2+R_y(y)^2}-\sqrt{d_{fx}+d_{fy}-\frac{1}{2}}) \right] \,,
 \intertext{where}
 R_x(x) &= \erf^{-1}(2L_x -1)-\sqrt{n_x-\frac{1}{2}} = \sqrt{\left(\Sigma^{(x)}\right)^{-1}} \left(x-\mu^{(x)}\right) \,, \\
 R_y(y) &= \erf^{-1}(2L_y -1)-\sqrt{n_y-\frac{1}{2}} = \sqrt{\left(\Sigma^{(y)}\right)^{-1}} \left(y-\mu^{(y)}\right) \,.
@@ -107,6 +110,11 @@ R_y(y) &= \erf^{-1}(2L_y -1)-\sqrt{n_y-\frac{1}{2}} = \sqrt{\left(\Sigma^{(y)}\r
 
 The approximations above, which in the limit are exact, lead to the following natural definition:
 \begin{definition}{Luck-adjusted $z$-score.}  For any distribution (not just a normal distribution) with finite mean $\mu=E(x)$ and finite positive definite covarience $\Sigma=E((x-\mu)(x-\mu)^T)$, where $x$ and $\mu$ are $d_f$-dimensional column vectors, it is natural to associate an observation $x$ with the {\em luck-adjusted $z$-score}:
+\begin{marginlisting}
+  df=length(mu);
+  z=chol(Sigma)'\(x-mu);
+  zl=norm(z)-sqrt(df-1/2);
+\end{marginlisting}
 \begin{equation}
 z_L = \left|\sqrt{\Sigma^{-1}} (x-\mu)\right|-\sqrt{d_f-\frac{1}{2}} \,.
 \label{eq:luck-adjusted-z-score}
@@ -118,7 +126,7 @@ The luck-adjusted $z$-score from two independent experiments $A$ and $B$ can be 
 \label{eq:zl-combine}
 \begin{split}
 z_L^{A \times B}=&\sqrt{\left(z_L^A+\sqrt{d_f^A-\frac{1}{2}}\right)^2+\left(z_L^B+\sqrt{d_f^B-\frac{1}{2}}\right)^2}\\
-&-\sqrt{n_A+n_B-\frac{1}{2}} \,,
+&-\sqrt{d_f^A+d_f^B-\frac{1}{2}} \,,
 \end{split}
 \end{equation}
 and
@@ -126,16 +134,17 @@ and
 d_f^{A \times B}=d_f^A + d_f^B \,.
 \end{equation}
 
-Similarly, $k$ repeated independent experiments $A$ can be combined with
+Similarly, $n$ repeated independent experiments $A$ can be combined with
 \begin{equation}
+  \label{eq:zl-combine-n}
 \begin{split}
-z_L^{A^k}=&\sqrt{\sum_{i=1}^{k}{\left(z_L^{A_i}-\sqrt{d_f^A-\frac{1}{2}}\right)^2}} \\
-         &-\sqrt{k\cdot d_f^A - \frac{1}{2}} \,,
+z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}-\sqrt{d_f^A-\frac{1}{2}}\right)^2}} \\
+         &-\sqrt{n\cdot d_f^A - \frac{1}{2}} \,,
 \end{split}
 \end{equation}
 and
 \begin{equation}
-d_f^{A^k}=k d_f^A \,.
+d_f^{A^n}=n d_f^A \,.
 \end{equation}
 
 If the combined dimension $d_f$ is large enough that the overal distribution is well approximated by the normal distribution, then the luck associated with the overall set of observations is well approximated by the {\em normal luck},
@@ -145,7 +154,7 @@ L_N = \frac{1}{2}\left[1+\erf(z_L)\right] \,.
 
 If the distribution is in fact normal, the luck can be computed exactly via,
 \begin{equation}
-L=\frac{\gamma(\frac{n}{2},\frac{1}{2}(z_L+\sqrt{n-\frac{1}{2}})^2)}{\Gamma(n/2)} \,.
+L=\frac{\gamma(\frac{d_f}{2},\frac{1}{2}(z_L+\sqrt{d_f-\frac{1}{2}})^2)}{\Gamma(d_f/2)} \,.
 \end{equation}
 There is less than a $0.01$ difference between $L_N$ and $L$ for $d_f \geq 22$.
 
@@ -156,31 +165,31 @@ Combining luck-adjusted $z$-scores is very useful for understanding the implicat
 The listings in figures \ref{fig:mnprobln}-\ref{fig:mnapproxluck} give Scilab functions for basic luck calculations for multivariate normal distributions.
 
 \begin{figure}
-\caption{\label{fig:mnprobln}Scilab listing to compute the natural log of the probability of multivariate normal outcomes.  $x$ is a $n_{\text{dim}} \times n_{\text{samps}}$ of outcomes, $\mu$ is a $n_{\text{dim}} \times 1$ column vector of the means, and $\Sigma$ is a $n_{\text{dim}} \times n_{\text{dim}}$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
+\caption{\label{fig:mnprobln}Scilab listing to compute the natural log of the probability of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ matrix of outcomes, $\mu$ is a $d_f \times 1$ column vector of the mean, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function lnp=mnprobln(x,mu,Sigma)
-  [dim,nsamps]=size(x);
+  [df,nsamps]=size(x);
   sigma=chol(Sigma)';
   z=sigma\(x-mu*ones(1,nsamps));
   R2=sum(z.^2,'r');
-  lnp=-R2/2-(dim/2*log(2*%pi)+...
+  lnp=-R2/2-(df/2*log(2*%pi)+...
        sum(log(diag(sigma))));
 endfunction
 \end{lstlisting}
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $n_{\text{dim}} \times n_{\text{samps}}$ of outcomes, $\mu$ is a $n_{\text{dim}} \times 1$ column vector of the means, and $\Sigma$ is a $n_{\text{dim}} \times n_{\text{dim}}$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome.}
+\caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ of outcomes, $\mu$ is a $d_f \times 1$ column vector of the means, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome.}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function L=mnluck(x,mu,Sigma)
-  [dim,nsamps]=size(x);
+  [df,nsamps]=size(x);
   one=ones(1,nsamps);
   sigma=chol(Sigma)';
   z=sigma\(x-mu*one);
   R2=sum(z.^2,'r');
-  L=cdfgam("PQ",R2/2,dim/2*one,one);
+  L=cdfgam("PQ",R2/2,df/2*one,one);
 endfunction
 \end{lstlisting}
 \end{figure}
@@ -190,33 +199,35 @@ endfunction
 \lstset{language=Scilab}
 \begin{lstlisting}
 function L=mnapproxluck(x,mu,Sigma)
-  [dim,nsamps]=size(x);
+  [df,nsamps]=size(x);
+  one=ones(1,nsamps);
   sigma=chol(Sigma)';
-  z=sigma\(x-mu*ones(1,nsamps));
+  z=sigma\(x-mu*one);
   R=sqrt(sum(z.^2,'r'));
-  L=0.5*(1+erf(R-sqrt(dim-0.5)));
+  zl=R-sqrt(df-1/2);
+  L=0.5*(1+erf(zl));
 endfunction
 \end{lstlisting}
 \end{figure}
 
 \section{Summary}
 \begin{itemize}
-\item For any distribution with finite mean $\mu$ and co-variance $\Sigma$, a useful parameter is the luck-adjusted $z$-score:
+\item For any distribution with finite mean $\mu$ and co-variance $\Sigma$, a useful parameter is the luck-adjusted $z$-score (\ref{eq:luck-adjusted-z-score}):
   \begin{equation*}
-    z_L=\left[ (x-\mu)^{T} \Sigma^{-1} (x-\mu) \right]^{\frac{1}{2}} -\sqrt{d_f-\frac{1}{2}} \,.
+    z_L=\left| \Sigma^{-1/2} (x-\mu) \right| -\sqrt{d_f-\frac{1}{2}} \,.
   \end{equation*}
 
-\item For normal distributions,
+\item For normal distributions (\ref{eq:luck-normal}),
   \begin{equation*}
   L[{\cal N}(\cdot;\mu,\Sigma)](x)=\frac{\gamma(\frac{d_f}{2},\frac{\left(z_L+\sqrt{d_f-\frac{1}{2}}\right)^2}{2})}{\Gamma\left(\frac{d_f}{2}\right)} \,.
   \end{equation*}
 
-\item For approximately normal distributions,
+\item For approximately normal distributions (\ref{eq:normal-luck-approx}),
   \begin{equation*}  
     L(x) \approx \frac{1}{2} \left[1+\erf(z_L)\right] \,.
   \end{equation*}
 
-\item For $n$ independent experiments $\{A_k\}_{k=1}^{n}$, $z_L$ can be combined with
+\item Generalizing (\ref{eq:zl-combine}) and (\ref{eq:zl-combine-n}), for $n$ independent experiments $\{A_k\}_{k=1}^{n}$:
   \begin{equation*}
 \begin{split}
 z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}-\sqrt{d_f^{A_k}-\frac{1}{2}}\right)^2}} \\
