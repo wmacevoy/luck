@@ -237,4 +237,28 @@ L[{\cal N}_{1d}(\cdot;\mu,\sigma^2)](x)=\erf \left|\frac{x-\mu}{\sqrt{2\Sigma}} 
     \end{equation*}
 \end{itemize}
 
-  
+\section{Exercises}
+\begin{enumerate}
+\item \label{q:intro-coin} Take the maximum of two fair coin flips (0 or 1), so $\Prob(\max = 0)=1/4$ and $\Prob(\max = 1)=3/4$.  What is the luck of each outcome?
+\item \label{q:intro-coins} Take 3 independent trials like problem \ref{q:intro-coin}.  Note there are $2^3$ outcomes but only 3 distinct probabilites.  Show that
+  \begin{gather*}
+    L((0,0,0))=\frac{27}{128} \approx 0.2109 \\
+    L((1,0,0))=L((0,1,0))=L((0,0,1))=\frac{81}{128} \approx 0.6328 \\
+    L((0,1,1))=L((1,0,1))=L((1,1,0))=\frac{117}{128} \approx 0.9141 \\
+    L((1,1,1))=\frac{127}{128} \approx 0.9922
+  \end{gather*}
+\item \label{q:intro-coin-test} Use a strong random number generator (like {\tt random.org}) to make 3 independent trials for the maximum of 2 fair coin tosses.  What is the luck of the outcome?
+\item \label{q:intro-exp} Now write down what feels like a random sequence of six zeros and ones --- don't think too hard about it!  Use these in pairs like problem \ref{q:intro-coin-test}.  What was the luck of this outcome?
+\item Calculate the luck $L(x)$ for the exponential distribution $p(x)=\lambda \exp(-\lambda x)$ for $x\geq 0$ and $\lambda > 0$.
+
+\item In {\em Rosencrantz and Guildenstern Are Dead}, Guildenstern tosses 85 heads in a row at the beginning of the play.  Taken as a sequence of fair coin tosses, why is Guildenstern luck 1/2?
+
+\item Ignoring the last coin toss, group the 84 heads as 42 experiment pairs like (\ref{q:intro-coin}).  Show from this perspective Guildenstern is unlucky:
+  \begin{equation*}
+    L=\frac{109418989131512359209}{38685626227668133590597632} \approx 2.828 \times 10^{-6} \,.
+  \end{equation*}
+\item Now consider the minimum-of-pairs problem for the 42 head-pairs.  Show that for this problem Guildenstern insanely lucky:
+  \begin{equation*}  
+  L=1-2^{-85} \approx 1-2.585\times 10^{-26}
+  \end{equation*}
+\end{enumerate}

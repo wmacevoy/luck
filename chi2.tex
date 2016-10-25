@@ -34,7 +34,7 @@ There is no algebraic solution for $x^*$, but $\rchi^2_k$ is a smooth curve and 
 
 A suitable initial guess is to reflect the $x$ around the maximum point, which is asymptotically correct for points near the maximum, but then bound the root from below using the leading order approximation for small $x$,
 \begin{align}
-x^*_{\text{reflect}} &= 2(k-2)-x \,. \\
+x^*_{\text{reflect}} &= \max(0,2\sqrt{k-2}-\sqrt{x})^2 \,. \\
 x^*_{\text{lower\_bound}} &= \left[ \rchi^2_k(x) 2^{k/2} \Gamma(k/2) \right]^{\frac{1}{k/2-1}} \\
 \intertext{and}
 x^*_0 &= \max(x^*_{\text{reflect}},x^*_{\text{lower\_bound}}) \,.
@@ -68,6 +68,7 @@ A surprisingly good approximation for $L[\rchi^2_k]$ comes from the following ob
 This suggests
 \begin{equation}
   L[\rchi^2_k](x)\approx \erf \left|\sqrt{x}-\sqrt{k-2}\right| \,.
+  \label{eq:chi2-luck-est}
 \end{equation}
 A plot of this estimate vs the numerial solution for large $k$ is given in Figure~\ref{fig:chi2est}.
 
@@ -132,19 +133,22 @@ endfunction
 \lstset{language=Scilab}
 \begin{lstlisting}
 function y=chi2conj(x,k)
+  [df,nsamps]=size(x);
   lnp=chi2probln(x,k);
-  y=exp((1/(k/2-1))*(lnp+(k/2)*log(2)+gammaln(k/2)));
-  y=max(y,2*(k-2)-x);
+  y0=exp((1/(k/2-1))*(lnp+(k/2)*log(2)+gammaln(k/2)));
+  y0=max(y0,max(0,2*sqrt(k-2)-sqrt(x)) .^ 2);
+  y=y0;
   iterate=%T;
   i=0;
   cutoff=sqrt(%eps);
   while (iterate)
     z=y;
-    dln=2*z ./ nonzero(z-k+2,%eps);
-    y = z +  dln .* (chi2probln(z,k)-lnp);
+    df=chi2probln(z,k)-lnp;
+    dln=2*z ./ nonzero(z-k+2,cutoff);
+    y = z +  dln .* df;
     i=i+1;
-    iterate = (i<1000) & (max(abs(y-z))>cutoff);
-  end;
+    iterate = (i<1000) & or(abs(df)>cutoff);
+  end
 endfunction
 \end{lstlisting}
 \end{figure}
@@ -163,4 +167,31 @@ endfunction
 \end{lstlisting}
 \end{figure}
 
+\section{Summary}
+\begin{itemize}
+\item $\rchi^2_k$ is a common non-symmetric distribution (\ref{eq:chi2-pdf}):
+  \begin{equation*}
+\rchi^2_k(x) = \frac{x^{k/2-1} e^{-\frac{x}{2}}}{2^{k/2} \Gamma(k/2)} \,.    
+  \end{equation*}
+\item For $k=1$ or $k=2$ degrees of freedom it is monotonic.  But for $k>2$ it has a single maximum at $x=k-2$.
+\item We define $x^*$ as the conjugate point to $x$:
+  \begin{equation*}
+    x^* = \begin{cases}
+      \text{Solution $x^* \neq x$ to $\rchi^2_k(x^*)=\rchi^2_k(x)$}
+      & \text{if $k>2$ and $x \neq k-2$.} \\
+      k-2 & \text{if $k>2$ and $x = k-2$.} \\
+      0 & \text{if $k \in \{1,2\}$ and $x > 0$.} \\
+      +\infty & \text{if $k \in \{1,2\}$ and $x = 0$.}
+    \end{cases}
+  \end{equation*}
+  This can be found using standard numerical techinques.
+\item With the conjugate point,
+  \begin{equation*}
+    L[\rchi^2_k](x)=\left| CDF[\rchi^2_k](x^*) -CDF[\rchi^2_k](x) \right|
+  \end{equation*}
+\item For large $k$ (\ref{eq:chi2-luck-est}),
+  \begin{equation*}
+  L[\rchi^2_k](x)\approx \erf \left|\sqrt{x}-\sqrt{k-2}\right| \,.    
+  \end{equation*}
+\end{itemize}
 
