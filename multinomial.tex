@@ -22,7 +22,7 @@ The multinomial distribution can be approximated by a normal distribution,
   \end{array} \right.
 \end{align}
 
-But the covarience matrix $\Sigma$ is singular.  Because of this, instead of the general normal distribution, the multinomial distribution is approximated by the continuous distribution,
+But the covariance matrix $\Sigma$ is singular.  Because of this, instead of the general normal distribution, the multinomial distribution is approximated by the continuous distribution,
 \marginnote{http://www.cnd.mcgill.ca/~ivan/Chelosky-multinomial-decomp-2345957.pdf}
 \begin{equation}
 P(x)=\frac{\exp\left(-\frac{1}{2} \sum_{i=1}^{n} \frac{(x_i-Np_i)^2}{Np_i} \right)}{\sqrt{(2\pi)^{(n-1)} n \prod_{i=1}^{n} p_i}}   \,.
@@ -40,7 +40,7 @@ leads to an integration on the $\R^{n-1}$ hypersurface $n \cdot z = 0$, where
 \begin{equation}
 n_i=\sqrt{p_i}
 \end{equation}
-This has the same form as the multinomial gaussian, except it is one lower dimension, yeilding,
+This has the same form as the general Gaussian distribution, except it is one lower dimension, yielding,
 \begin{equation}
 L(x)=\frac{\gamma((n-1)/2,|z|^2/2)}{\Gamma((n-1)/2)} \,.
 \end{equation}

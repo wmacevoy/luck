@@ -109,7 +109,7 @@ R_y(y) &= \erf^{-1}(2L_y -1)-\sqrt{n_y-\frac{1}{2}} = \sqrt{\left(\Sigma^{(y)}\r
 \end{align}
 
 The approximations above, which in the limit are exact, lead to the following natural definition:
-\begin{definition}{Luck-adjusted $z$-score.}  For any distribution (not just a normal distribution) with finite mean $\mu=E(x)$ and finite positive definite covarience $\Sigma=E((x-\mu)(x-\mu)^T)$, where $x$ and $\mu$ are $d_f$-dimensional column vectors, it is natural to associate an observation $x$ with the {\em luck-adjusted $z$-score}:
+\begin{definition}{Luck-adjusted $z$-score.}  For any distribution (not just a normal distribution) with finite mean $\mu=E(x)$ and finite positive definite covariance $\Sigma=E((x-\mu)(x-\mu)^T)$, where $x$ and $\mu$ are $d_f$-dimensional column vectors, it is natural to associate an observation $x$ with the {\em luck-adjusted $z$-score}:
 \begin{marginlisting}
   df=length(mu);
   z=chol(Sigma)'\(x-mu);
