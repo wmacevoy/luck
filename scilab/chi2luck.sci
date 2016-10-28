@@ -6,6 +6,6 @@ function [L,U]=chi2luck(x,k)
   y=chi2conj(x,k);
   [a,b]=chi2cdf(x,k);
   [A,B]=chi2cdf(y,k);
-  L=abs(B-b);
+  L=abs(A-a);
   U=(A+b).*bool2s(x>=y)+(a+B).*bool2s(x<y);
 endfunction

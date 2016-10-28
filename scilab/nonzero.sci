@@ -1,5 +1,5 @@
 function y=nonzero(x,eps) 
   y=x .* bool2s((x < -eps) | (eps < x)) + ...
     -eps*bool2s((-eps <= x) & (x < 0))+ ...
-     eps*bool2s((0 <= x) & (x <= eps))
+     eps*bool2s((0 <= x) & (x <= eps));
 endfunction
