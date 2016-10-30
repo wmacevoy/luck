@@ -240,3 +240,12 @@ d_f^{A^n}=\sum_{k=1}^{n} d_f^{A_k} \,.
 \end{equation*}
 \item Seeing $|z_L|>Z$ should happen in less than $\frac{2Z}{\sqrt{\pi}} e^{-Z^2}$ fraction of cases.  This can be be a statistical proof (likelihood $O(10^{-45})$) at $Z=10$ with as little as one observation.
 \end{itemize}
+
+\section{Exercises}
+\begin{enumerate}
+\item \label{q:normal-coin} Take the maximum of two fair coin flips (0 or 1), so $\Prob(\max = 0)=1/4$ and $\Prob(\max = 1)=3/4$.  What is the mean $\mu$ and standard deviation $\sigma$ of this distribution?
+\item \label{q:normal-coins} Take 10 independent trials like problem \ref{q:normal-coin}.  Compute the luck normalized $z$-score of each trial.
+\item \label{q:normal-luck} Use \ref{eq:zl-combine-n} to combine the $z_L$-scores of problem \ref{q:normal-coins}.  What is the overall normalized luck of the trials?
+\item \label{q:normal-exp} Now write down what feels like a random sequence of twenty zeros and ones --- don't think too hard about it!  Use these in pairs like problems \ref{q:normal-coin}-\ref{q:normal-coins}.  What was the normal luck of these trials?
+\item \label{q:normal-large} Use a stats package to generate 10,000 values $x$ from a 1d normal distribution $A$ with mean of 1 and standard deviation of 1, and 10,000 values $y$ from a distribution $B$ with mean 1.1 and standard deviation 1.1.  Combine the luck to get the overall luck of the 10,000 observations and show $y$ is lucky in $A$ and $x$ is unlucky in $B$.
+\end{enumerate}
