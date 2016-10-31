@@ -4,19 +4,23 @@ Selecting independent samples (with repetition) from a discrete set of outcomes 
 Specifically, select $N$ independent samples (with repetition) from a discrete set of possible outcomes $\left\{x_i \in \Z_{0+}\right\}_{i=1}^{n}$ with probabilities $p_i$,  $\sum_{i=1}^{n} p_i = 1$.  Not considering order, this will result in $x_i \in Z_{0+}$ counts of outcome $w_i$, $\sum_{i=1}^{N_P} x_i = N$.
 The probability of such a sample is given by the multinomial distribution:
 \begin{equation}
+\index{multinomial ! probability}
 \label{eq:multinomial}
 P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{n} \frac{p_i^{x_i}}{x_i!} \,. 
 \end{equation}
 
 The counts $x_i$ are not independent (they must sum to $N$), but if the probabilities are small, then the multinomial distribution can be treated as a product of independent Poisson distributions:
 \begin{equation}
+\index{poisson ! probability}
 P_{\text{poisson}}(x;p) = \prod_{i=1}^{N_P} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
 \end{equation}
 
 \subsection{Approximating the Multinomial as a Normal Distribution}
 The multinomial distribution can be approximated by a normal distribution,
 \begin{align}
+\index{multinomial ! mean $\mu$}
 \mu_i&=N p_i \,, \\
+\index{multinomial ! covariance $\Sigma$}
 \Sigma_{ij} &= \left\{ \begin{array}{cl} N p_i (1-p_i)& \text{if $i=j$}\,, \\
                                       -N p_i p_j & \text{if $i \neq j$}\,.
   \end{array} \right.
@@ -42,6 +46,7 @@ n_i=\sqrt{p_i}
 \end{equation}
 This has the same form as the general Gaussian distribution, except it is one lower dimension, yielding,
 \begin{equation}
+\index{multinomial ! luck (approximate)}
 L(x)=\frac{\gamma((n-1)/2,|z|^2/2)}{\Gamma((n-1)/2)} \,.
 \end{equation}
 

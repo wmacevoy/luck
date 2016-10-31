@@ -1,16 +1,23 @@
 \chapter{\label{chap:chi2}$\rchi^2$ Distribution}
 The $\rchi^2_k$ distribution is a non-symmetric distribution with support in the interval $(0,\infty)$, defined for $k=1,2,\ldots$ degrees of freedom as
 \begin{equation}
+\index{Chi2 $\rchi^2$ ! definition (PDF)}
 \rchi^2_k(x) = \frac{x^{k/2-1} e^{-\frac{x}{2}}}{2^{k/2} \Gamma(k/2)} \,.
 \label{eq:chi2-pdf}
 \end{equation}
+\index{Chi2 $\rchi^2$ ! mean $\mu$}
+\index{Chi2 $\rchi^2$ ! variance $\sigma^2}
+The mean $\mu$ is $k$ and the variance $\sigma^2$ is $2k$.
+
 The cumulative distribution of $\rchi^2$ is surprisingly similar to luck for the $k$ degree-of-freedom normal distribution (\ref{eq:normal-luck-as-integral}),
 \begin{equation}
+\index{Chi2 $\rchi^2$ ! definition (CDF)}
 \CDF[\rchi^2_k](x) = \int_0^x \rchi^2_k(y) \, dy = \frac{\gamma(k/2,x/2)}{\Gamma(k/2)} \,.
 \label{eq:chi2-cdf}
 \end{equation}
 For this distribution, the $p$-value is usually the tail integral.  That is,
 \begin{equation}
+\index{Chi2 $\rchi^2$ ! $p$-value}
 p\text{-value}=1-\CDF[\rchi^2_k](x) \,.
 \end{equation}
 For $k=1$ and $k=2$ this distribution is monotonically decreasing, and so the luck is just the cumulative distribution function:
@@ -18,7 +25,7 @@ For $k=1$ and $k=2$ this distribution is monotonically decreasing, and so the lu
 L[\rchi^2_k](x) = \CDF[\rchi^2_k](x) \text{, when $k=1$ or $k=2$.}
 \end{equation}
 
-However, for $k > 2$, the distribution has a single maximum at $x=k-2$ and is otherwise monotonic.  So the luck of an outcome is the integral of the PDF \ref{eq:chi2-pdf} between the observation $x$ and what we call the conjugate point $x^*$ where the distribution values are equal.  This is illustrated in Figure~\ref{fig:chi2-conj} for $k=4$ and $x=5$.
+However, for $k > 2$, the distribution is continuous with a single maximum at $x=k-2$ and is otherwise monotonic.  So the luck of an outcome is the integral of the PDF \ref{eq:chi2-pdf} between the observation $x$ and what we call the conjugate point $x^*$ where the distribution values are equal.  This is illustrated in Figure~\ref{fig:chi2-conj} for $k=4$ and $x=5$.
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.75\linewidth]{graphics/chi2-conj.pdf}
@@ -27,6 +34,27 @@ However, for $k > 2$, the distribution has a single maximum at $x=k-2$ and is ot
 \label{fig:chi2-conj}
 \end{figure}
 
+\begin{definition}{$x^*$ for $\rchi^2_k$.}
+It is useful to generalize this a little to account for the $k=1$ and $k=2$ cases:
+\begin{equation}
+\index{$x$-conjugate $x^*$ ! Chi2 $\rchi^2$}
+x^* = \begin{cases}
+\text{Point $y \neq x$ where $\rchi^2_k(y)=\rchi^2_k(x)$,}
+&
+\text{if $k>2$ and $x \neq k-2$,} \\
+k-2\,, & \text{if $k>2$ and $x=k-2$,} \\
+0\,, & \text{if $k \in \{1,2\}$.}
+\end{cases}
+\end{equation}
+\end{definition}
+
+\begin{definition}{Luck $L$ for $\rchi^2_k$}
+With the conjugate point $x^*$ defined this way, it is easy to express $\rchi^2$-luck:
+\begin{equation}
+\index{luck $L$ ! Chi2 $\rchi^2$ }
+L(x)=\left|\CDF[\rchi^2_k](x) - \CDF[\rchi^2_k](x^*)\right| \,.
+\end{equation}
+\end{definition}
 There is no algebraic solution for $x^*$, but $\rchi^2_k$ is a smooth curve and so a Newton iteration works well on the logarithmic problem:
 \begin{equation}
 \log \rchi^2_k(x^*)-\log \rchi^2_k(x) = 0\,.
@@ -45,10 +73,7 @@ For $x \neq k-2$, the root can quickly be found using the Newton iteration:
 x^*_{n+1}  = x^*_{n} + \frac{2 x^*_{n}}{x^*_{n}-(k-2)} \left[\log \rchi^2_k(x^*_{n})-\log \rchi^2(x) \right] \,.
 \end{equation}
 
-With $x^* = \lim_{n\rightarrow \infty} x_n^*$, luck for $k>2$ can be defined by,
-\begin{equation}
-L[\rchi^2_k](x)=\left|\CDF[\rchi^2_k](x) - \CDF[\rchi^2_k](x^*)\right| \,.
-\end{equation}
+Finally $x^* = \lim_{n\rightarrow \infty} x_n^*$ when $k>2$ and $x \neq k-2$.
 
 A plot of luck $L$ vs $p$-value for $\rchi^2_4$ is given in Figure~\ref{fig:chi2}.
 \begin{figure}
@@ -67,10 +92,11 @@ A surprisingly good approximation for $L[\rchi^2_k]$ comes from the following ob
 \end{itemize}
 This suggests
 \begin{equation}
+\index{luck $L$ ! Chi2 $\rchi^2$ (approximate)}
   L[\rchi^2_k](x)\approx \erf \left|\sqrt{x}-\sqrt{k-2}\right| \,.
   \label{eq:chi2-luck-est}
 \end{equation}
-A plot of this estimate vs the numerial solution for large $k$ is given in Figure~\ref{fig:chi2est}.
+A plot of this estimate vs the numerical solution for large $k$ is given in Figure~\ref{fig:chi2est}.
 
 \begin{figure}
 \begin{center}
@@ -173,15 +199,14 @@ endfunction
   \begin{equation*}
 \rchi^2_k(x) = \frac{x^{k/2-1} e^{-\frac{x}{2}}}{2^{k/2} \Gamma(k/2)} \,.    
   \end{equation*}
-\item For $k=1$ or $k=2$ degrees of freedom it is monotonic.  But for $k>2$ it has a single maximum at $x=k-2$.
+\item For $k=1$ or $k=2$ degrees of freedom $\rchi^2_k(x)$ is monotonic.  But for $k>2$ it has a single maximum at $x=k-2$.
 \item We define $x^*$ as the conjugate point to $x$:
   \begin{equation*}
     x^* = \begin{cases}
       \text{Solution $x^* \neq x$ to $\rchi^2_k(x^*)=\rchi^2_k(x)$}
-      & \text{if $k>2$ and $x \neq k-2$.} \\
-      k-2 & \text{if $k>2$ and $x = k-2$.} \\
-      0 & \text{if $k \in \{1,2\}$ and $x > 0$.} \\
-      +\infty & \text{if $k \in \{1,2\}$ and $x = 0$.}
+      & \text{if $k>2$ and $x \neq k-2$,} \\
+      k-2 & \text{if $k>2$ and $x = k-2$,} \\
+      0 & \text{if $k \in \{1,2\}$.}
     \end{cases}
   \end{equation*}
   This can be found using standard numerical techniques.

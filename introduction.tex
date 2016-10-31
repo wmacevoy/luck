@@ -13,6 +13,7 @@ To distinguish from the more general notion of luck, note that that there is no 
 
 These observations lead to the following definition of luck:
 \begin{quote}
+\index{luck $L$ ! informal}
 The luck $L(x)$ of an outcome $x$ is the probability of getting any outcome $y$ that is more probable than $x$, plus one-half the probability of getting any outcome $y$ that is equally probable to $x$.
 \end{quote}
 
@@ -20,15 +21,18 @@ From the perspective of discussing luck, it is convenient to have few sets: $\Om
 
 \begin{definition}{Omega.}  $\Omega(x)$ is set of outcomes more likely than $x$:
 \begin{equation}
+\index{Omega $\Omega$ ! definition}
 \Omega(x) = \left\{ y \mid p(y)>p(x) \right\} \,.
 \end{equation}
 We define $|\Omega(x)|$ as the probability an outcome is in $\Omega(x)$,
 $|\Omega(x)| = P(y\in\Omega(x))$.  In the discrete case, this is
 \begin{equation}
+\index{Omega $\Omega$ ! size $\abs{\Omega}$ (discrete)}
 |\Omega(x)| = \sum_{y \in \Omega(x)} p(y),
 \end{equation}
 and, in the continuous case,
 \begin{equation}
+\index{Omega $\Omega$ ! size $\abs{\Omega}$ (continuous)}
 |\Omega(x)| = \int_{\Omega(x)} \rho(y)\,dy \,.
 \end{equation}
 \end{definition}
@@ -36,6 +40,7 @@ and, in the continuous case,
 \begin{definition}{omega.}\marginnote{For the tyical case of many outcomes with different probabilities, $|\omega(x)|$ is small.  For example, $|\omega(x)|=0$ for any multivariate normal distribution.}
 $\omega(x)$ is the set of outcomes equally likley to $x$:
 \begin{equation}
+\index{omega $\omega$ ! definition}
 \omega(x) = \left\{ y \mid p(y)=p(x) \right\} \,.
 \end{equation}
 Similar to $\Omega(x)$, we define $|\omega(x)|$ as the probability an outcome is in $\omega(x)$,
@@ -43,10 +48,12 @@ $|\omega(x)| = P(y\in\omega(x))$.
 
 In the discrete case, this is
 \begin{equation}
+\index{omega $\omega$ ! size $\abs{\omega}$ (discrete)}
 |\omega(x)| = \sum_{y \in \omega(x)} p(y),
 \end{equation}
 and, in the continuous case,
 \begin{equation}
+\index{omega $\omega$ ! size $\abs{\omega}$ (continuous)}
 |\omega(x)| = \int_{\omega(x)} \rho(y)\,dy \,.
 \end{equation}
 \end{definition}
@@ -54,11 +61,13 @@ and, in the continuous case,
 With these definitions in place, we define luck mathematically as follows:
 \begin{definition}{Luck.}  The luck of an outcome is the probability getting any more likely outcome, plus half the probability of getting any equally likely outcome:
 \begin{equation}
+\index{luck $L$ ! definition}
 L(x)=|\Omega(x)| + \frac{1}{2} |\omega(x)| \,.
 \end{equation}
 \end{definition}
 
 \subsection{Properties of Luck.}
+\index{luck $L$ ! properties}
 \begin{itemize}
 \item Range of luck. $0 \leq L(x) \leq 1$.  This ranges from no luck to perfect luck.
 \item Lucky outcomes. If $L(x)$ is close to 1, then $p(x)$ is comparatively small, and most outcomes would have a higher probability (you are lucky).  
@@ -70,13 +79,15 @@ We are interested in cases which have many possible outcomes with low but somewh
 
 For the kind of distributions with small $\max |\omega|$, luck is a very uniformizing transformation (there can be no better, actually).  If it were exactly uniform, the following would be correct with $\varepsilon=0$.  There is no other functional of the probability space alone with smaller error bounds:
 \begin{itemize}
+\index{luck $L$ ! uniformity}
 \item For any $f: [0,1] \rightarrow \mathbb{R}$ with bounded second derivative, $E(f(L))=\int_0^1 f(L) dL-\varepsilon$, where $|\varepsilon| \leq \max|f''| \cdot \max |\omega|^2 / 24$.
 \item For $p \geq 2$, $E(L^p)=1/(p+1)-\varepsilon$, $0 \leq \varepsilon \leq p \cdot (p-1) \max |\omega|^2/24$.
 \item For $0 \leq a \leq b \leq 1$, $E(L \in [a,b])=b-a - \varepsilon$, $|\varepsilon| \leq \max |\omega|$.
 \end{itemize}
 The proofs of these come from the midpoint integration rule and thinking about the general case for figure~\ref{fig:arrange} below.
 
-\begin{example}{Coins.}
+\begin{example}{Eight Fair Coins.}
+\index{examples ! eight fair coins}
 Suppose we toss 8 fair coins.  The probability of getting exactly $x$ heads out of 8 tosses is given by the binomial distribution
 \begin{equation}
 p(x)=\frac{8!}{x!(8-x)!}\left(\frac{1}{2}\right)^8 \,.
@@ -137,7 +148,9 @@ E(L \in [\frac{1}{4},\frac{3}{4}]) &= \sum_{x=0}^8 p(x) \cdot
 \end{split}
 \end{equation}
 \end{example}
-\begin{example}{Normal.}  This is a special case of the multivariate normal we cover in the next section, but working out the details for the one-dimensional case can be illuminating.  We define the one-dimensional normal distribution with mean $\mu$ and variance $\Sigma$ as
+\begin{example}{Normal ($d_f=1$).}
+\index{examples ! normal ($d_f=1$)}
+This is a special case of the multivariate normal we cover in the next section, but working out the details for the one-dimensional case can be illuminating.  We define the one-dimensional normal distribution with mean $\mu$ and variance $\Sigma$ as
 \begin{align}
 P_{\text{normal}}(x;\mu,\Sigma) &= \frac{e^{-\frac{(x-\mu)^2}{2\Sigma}}}{\sqrt{2\pi\Sigma}} \,,\\
 \intertext{where}
@@ -200,7 +213,9 @@ Figure~\ref{fig:normal1} compares the exact and approximate result in the 1-d ca
 \end{figure}
 \end{example}
 
-\section{Asymmetric distributions and $p$-values vs. luck.}
+\begin{example}{$\rchi^2$ $p$-value vs. $L$}
+\index{examples ! $\rchi^2$ $p$-value vs. $L$}
+
 For symmetric or monotonic one dimensional continuous distributions, the connection between luck and $p$-values can be pretty simple.  However, the relation between $p$ and $L$ can be complex.  Figure~\ref{fig:chi2} shows the $p$-values vs luck for $\rchi^2_k(x)$ for $k=4$ distribution.
 
 \begin{figure}
@@ -214,6 +229,7 @@ In the chapter on $\rchi^2$, we show a good approximation for large $k$ is
 \begin{equation}
   L[\rchi^2_k](x)\approx \erf \left|\sqrt{x}-\sqrt{k-2}\right| \,.
 \end{equation}
+\end{example}
 
 \section{Summary}
 \begin{itemize}
@@ -240,7 +256,7 @@ L[{\cal N}_{1d}(\cdot;\mu,\sigma^2)](x)=\erf \left|\frac{x-\mu}{\sqrt{2} \sigma}
 \section{Exercises}
 \begin{enumerate}
 \item \label{q:intro-coin} Take the maximum of two fair coin flips (0 or 1), so $\Prob(\max = 0)=1/4$ and $\Prob(\max = 1)=3/4$.  What is the luck of each outcome?
-\item \label{q:intro-coins} Take 3 independent trials like problem \ref{q:intro-coin}.  Note there are $2^3$ outcomes but only 4 distinct probabilites.  Show that
+\item \label{q:intro-coins} Take 3 independent trials like problem \ref{q:intro-coin}.  Note there are $2^3$ outcomes but only 4 distinct probabilities.  Show that
   \begin{gather*}
     L((1,1,1))=\frac{27}{128} \approx 0.2109 \\
     L((0,1,1))=L((1,0,1))=L((1,1,0))=\frac{81}{128} \approx 0.6328 \\
