@@ -1,6 +1,7 @@
 \chapter{Computation}
 Unfortunately, the explicit computations for luck may be impractical.  However, if $n$ independent samples are taken $S=(x_1, \ldots, x_n)$, then it can be estimated as: 
 \begin{align*}
+\index{luck $L$ ! estimate (computation)}
  \ell(x) = & \frac{1}{n} \left\{\text{\# of outcomes in S more probable than $x$}\right\}  \\
  & + \frac{1}{2n} \left\{\text{\# of outcomes in S equally probable to $x$}\right\} 
 \end{align*}
@@ -11,10 +12,13 @@ E(\ell(x))=L(x) \,,
 \end{equation}
 and
 \begin{equation}
+\index{luck $L$ ! computational variance}
 E((\ell(x)-L(x))^2) \leq \frac{1}{n} L(x) \cdot (1-L(x)) \leq \frac{1}{4n}\,.
 \end{equation}
 
-\begin{example}{Multinomial.} We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionnaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
+\begin{example}{Multinomial.} 
+\index{examples ! multinomial estimate}
+We are aware of no computationally efficient way to exactly compute the luck for a multinomial distribution other than the explicit sum.  Suppose there is a questionnaire with 4 possible answers with category probabilities $0.1$, $0.2$, $0.3$, and $0.4$.  How lucky would it be to get $13$, $15$, $27$ and $45$ responses of each respective answer in 100 samples? 
 
 % This example is small enough to compute the exact luck of $0.6287498$,  indicating this is a fairly typical result.
 
