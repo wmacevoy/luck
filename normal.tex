@@ -110,7 +110,7 @@ We can also use (\ref{eq:normal-luck-approx}) to disprove an observation came fr
 \end{example}
 
 \subsection{Combining Normal Luck}
-The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parameterized by $\mu^{(x)}$ , $\Sigma^{(x)}$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
+The approximate result (\ref{eq:normal-luck-approx}) leads to a rule for combining (normal) luck:  Suppose there are two independent normal distributions parametrized by $\mu^{(x)}$ , $\Sigma^{(x)}$ of dimension $n_x$, and $\mu^{(y)}$, $\Sigma^{(y)}$ of dimension $n_y$.  What is the luck of a single combined observation $(x,y)$?
 \begin{align}
 L(x,y) &\approx \frac{1}{2}\left[1+\erf(\sqrt{R_x(x)^2+R_y(y)^2}-\sqrt{d_{fx}+d_{fy}-\frac{1}{2}}) \right] \,,
 \intertext{where}
@@ -151,7 +151,7 @@ Similarly, $n$ repeated independent experiments $A$ can be combined with
 \index{$z$-luck $z_L$ ! combine $A^n$}
   \label{eq:zl-combine-n}
 \begin{split}
-z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}-\sqrt{d_f^A-\frac{1}{2}}\right)^2}} \\
+z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}+\sqrt{d_f^A-\frac{1}{2}}\right)^2}} \\
          &-\sqrt{n\cdot d_f^A - \frac{1}{2}} \,,
 \end{split}
 \end{equation}
@@ -178,7 +178,7 @@ Combining luck-adjusted $z$-scores is very useful for understanding the implicat
 
 \subsection{Scilab Reference Code}
 
-The listings in figures \ref{fig:mnprobln}-\ref{fig:mnapproxluck} give Scilab functions for basic luck calculations for multivariate normal distributions.
+The listings in figures \ref{fig:mnprobln}-\ref{fig:normalluck} give Scilab functions for basic luck calculations for multivariate normal distributions.
 
 \begin{figure}
 \caption{\label{fig:mnprobln}Scilab listing to compute the natural log of the probability of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ matrix of outcomes, $\mu$ is a $d_f \times 1$ column vector of the mean, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
@@ -257,7 +257,7 @@ endfunction
 \item Generalizing (\ref{eq:zl-combine}) and (\ref{eq:zl-combine-n}), for $n$ independent experiments $\{A_k\}_{k=1}^{n}$:
   \begin{equation*}
 \begin{split}
-z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}-\sqrt{d_f^{A_k}-\frac{1}{2}}\right)^2}} \\
+z_L^{A^n}=&\sqrt{\sum_{k=1}^{n}{\left(z_L^{A_k}+\sqrt{d_f^{A_k}-\frac{1}{2}}\right)^2}} \\
          &-\sqrt{\left(\sum_{k=1}^{n} d_f^{A_k}\right) - \frac{1}{2}} \,,
 \end{split}
 \end{equation*}
