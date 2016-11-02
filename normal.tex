@@ -187,10 +187,26 @@ The listings in figures \ref{fig:mnprobln}-\ref{fig:mnapproxluck} give Scilab fu
 function lnp=mnprobln(x,mu,Sigma)
   [df,nsamps]=size(x);
   sigma=chol(Sigma)';
-  z=sigma\(x-mu*ones(1,nsamps));
-  R2=sum(z.^2,'r');
-  lnp=-R2/2-(df/2*log(2*%pi)+...
+  one=ones(1,nsamps);  
+  z=sigma\(x-mu*one);
+  r2=sum(z.^2,'r');
+  lnp=-r2/2-(df/2*log(2*%pi)+...
        sum(log(diag(sigma))));
+endfunction
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}
+\caption{\label{fig:zluck}Scilab listing to compute the $z$-luck.  $x$ is a $d_f \times n_{\text{samps}}$ matrix of outcomes, $\mu$ is a $d_f \times 1$ column vector of the mean, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
+\lstset{language=Scilab}
+\begin{lstlisting}
+function zl=zluck(x,mu,Sigma)
+  [df,nsamps]=size(x);
+  sigma=chol(Sigma)';
+  one=ones(1,nsamps);
+  z=sigma\(x-mu*one);
+  r=sqrt(sum(z.^2,'r'));
+  zl=r-sqrt(df-1/2);
 endfunction
 \end{lstlisting}
 \end{figure}
@@ -199,29 +215,24 @@ endfunction
 \caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ of outcomes, $\mu$ is a $d_f \times 1$ column vector of the means, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome.}
 \lstset{language=Scilab}
 \begin{lstlisting}
-function L=mnluck(x,mu,Sigma)
+function [L,U]=mnluck(x,mu,Sigma)
   [df,nsamps]=size(x);
   one=ones(1,nsamps);
-  sigma=chol(Sigma)';
-  z=sigma\(x-mu*one);
-  R2=sum(z.^2,'r');
-  L=cdfgam("PQ",R2/2,df/2*one,one);
+  zl=zluck(x,mu,Sigma);
+  r2=(zl+sqrt(df/2)).^2;
+  [L,U]=cdfgam("PQ",r2/2,(df/2)*one,one);
 endfunction
 \end{lstlisting}
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:mnapproxluck}Like {\tt mnluck} in figure~\ref{fig:mnluck}, but approximates luck via (\ref{eq:normal-luck-approx}).}
+\caption{\label{fig:normalluck}Like {\tt mnluck} in figure~\ref{fig:mnluck}, but approximates luck via (\ref{eq:normal-luck-approx}).}
 \lstset{language=Scilab}
 \begin{lstlisting}
-function L=mnapproxluck(x,mu,Sigma)
-  [df,nsamps]=size(x);
-  one=ones(1,nsamps);
-  sigma=chol(Sigma)';
-  z=sigma\(x-mu*one);
-  R=sqrt(sum(z.^2,'r'));
-  zl=R-sqrt(df-1/2);
-  L=0.5*(1+erf(zl));
+function [L,U]=normalluck(x,mu,Sigma)
+  zl=zluck(x,mu,Sigma);
+  L=0.5*erfc(-zl);
+  U=0.5*erfc(zl);
 endfunction
 \end{lstlisting}
 \end{figure}
