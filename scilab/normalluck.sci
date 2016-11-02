@@ -1,6 +1,6 @@
-exec("zluck.sci",2);
+exec("zluck.sci",-1);
 
-function [L,U]=mnapproxluck(x,mu,Sigma)
+function [L,U]=normalluck(x,mu,Sigma)
   zl=zluck(x,mu,Sigma);
   L=0.5*erfc(-zl);
   U=0.5*erfc(zl);
