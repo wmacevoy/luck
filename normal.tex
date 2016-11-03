@@ -197,7 +197,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:zluck}Scilab listing to compute the $z$-luck.  $x$ is a $d_f \times n_{\text{samps}}$ matrix of outcomes, $\mu$ is a $d_f \times 1$ column vector of the mean, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result {\tt lnp} is a $1 \times n_{\text{samps}}$ row vector.}
+\caption{\label{fig:zluck}Scilab listing to compute the $z$-luck.  $x$ is a $d_f \times n_{\text{samps}}$ matrix of outcomes, $\mu$ is a $d_f \times 1$ column vector of the mean, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result {\tt zl} is a $1 \times n_{\text{samps}}$ row vector.}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function zl=zluck(x,mu,Sigma)
@@ -212,7 +212,7 @@ endfunction
 \end{figure}
 
 \begin{figure}
-\caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ of outcomes, $\mu$ is a $d_f \times 1$ column vector of the means, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome.}
+\caption{\label{fig:mnluck}Scilab listing to efficiently compute the luck of multivariate normal outcomes.  $x$ is a $d_f \times n_{\text{samps}}$ of outcomes, $\mu$ is a $d_f \times 1$ column vector of the means, and $\Sigma$ is a $d_f \times d_f$ covariance matrix.  The result $L$ is a $1 \times n_{\text{samps}}$ row vector of the luck associated with each outcome ($U=1-L$).}
 \lstset{language=Scilab}
 \begin{lstlisting}
 function [L,U]=mnluck(x,mu,Sigma)
