@@ -47,6 +47,27 @@ n_i=\sqrt{p_i}
 This has the same form as the general Gaussian distribution, except it is one lower dimension, yielding,
 \begin{equation}
 \index{multinomial ! luck (approximate)}
+\label{eq:multinomial-approx-luck}
 L(x)=\frac{\gamma((n-1)/2,|z|^2/2)}{\Gamma((n-1)/2)} \,.
 \end{equation}
+
+Comparing (\ref{eq:multinomial-approx-luck}) with the normal distribution result (\ref{eq:luck-normal}), the $z$-luck value should be
+\begin{align}
+z_L &= \sum_{i=1}^{n}{\frac{(x_i-Np_i)^2}{Np_i}}-\sqrt{n-\frac{3}{2}} \,, \\
+d_f &= n-1 \,.
+\end{align}
+
+\section{Summary}
+\begin{itemize}
+\item The probability of obtaining $\{x_i\}_{i=1}^{n}$ counts after $N$ samples from $n$ bins with probabilities $\{p_i\}_{i=1}^{n}$ is given by the multinomial distribution,
+\begin{equation}
+P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{n} \frac{p_i^{x_i}}{x_i!} \,. 
+\end{equation}
+\item There is no generally simple closed form to compute the luck associated with this distribution (see the next section on computation).
+\item Because of the constraint $\sum x_i = N$, one degree of freedom is lost, resulting in
+\begin{align}
+z_L &= \sum_{i=1}^{n}{\frac{(x_i-Np_i)^2}{Np_i}}-\sqrt{n-\frac{3}{2}} \,, \\
+d_f &= n-1 \,.
+\end{align}
+\end{itemize}
 
