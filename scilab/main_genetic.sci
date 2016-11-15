@@ -2,9 +2,9 @@ clear();
 exec("mnsamp.sci",-1);
 exec("zluck.sci",-1);
 
-df=1;
+df=10;
 nsamps=1000;
-population=ceil(1000/df);
+population=100;
 generations=20;
 
 x=zeros(df,population);
@@ -18,6 +18,7 @@ Sigma2=zeros(df,df,nsamps);
 mu2=zeros(df,nsamps);
 q=zeros(nsamps+1);
 mates=zeros(2,nsamps+1);
+w=zeros(1,3);
 
 // goal PDF
 mu0=rand(df,1);
@@ -36,18 +37,29 @@ Sigma1(:,:,3)=Sigma0;
 
 for i=1:nsamps
   x=mnsamp(population,mu1(:,i),Sigma1(:,:,i));
-  zl1(i)=norm(zluck(x,mu0,Sigma0)+sqrt(df-1/2))-sqrt(population*df-1/2);
+  zl=zluck(x,mu0,Sigma0);
+  zl_mu=sum(zl) ./ length(zl);
+  zl_sigma=sum((zl-zl_mu).^2) ./ length(zl);
+  zl_total=norm(zl+sqrt(df-1/2))-sqrt(population*df-1/2);
+  zl_bar=(1/sqrt(population))*(zl_total+sqrt(population*df-1/2))-sqrt(df-1/2);
+  bias=sqrt(df-1/(2*population))-sqrt(df-1/2);
+  zl1(i)=zl_bar-bias;
+  zl2(i)=zl_total;
 end
 
-zltotal1=norm(zl1+sqrt(population*df-1/2))-sqrt(nsamps*population*df-1/2);
+zltotal1=norm(sqrt(population)*(zl1+bias+sqrt(df-1/2))-sqrt(population*df-1/2)) ...
+         -sqrt(nsamps*population*df-1/2);
+zltotal2=norm(zl2+sqrt(population*df-1/2))-sqrt(nsamps*population*df-1/2);
 zlbar1=(1/sqrt(nsamps))*(zltotal1+sqrt(nsamps*population*df-1/2))-sqrt(population*df-1/2);
 
 for generation=1:generations
   // probability of mating
-  q(2:nsamps+1)=exp(-(abs(zl1)-min(abs(zl1))));
+  zl1=abs(zl1);
+  min_zl1=min(zl1);
+  q(2:nsamps+1)=exp(-(zl1-min_zl1));
   q=q./sum(q);
   // mate cumulative probability map
-  mates=[cumsum(q);0:nsamps];
+  mates=[cumsum(q)';0:nsamps];
   // mate pairs + random errors
   for i=1:nsamps
     p1=ceil(interpln(mates,rand()));
