@@ -6,7 +6,7 @@ The $\rchi^2_k$ distribution is a non-symmetric distribution with support in the
 \label{eq:chi2-pdf}
 \end{equation}
 \index{Chi2 $\rchi^2$ ! mean $\mu$}
-\index{Chi2 $\rchi^2$ ! variance $\sigma^2}
+\index{Chi2 $\rchi^2$ ! variance $\sigma^2$}
 The mean $\mu$ is $k$ and the variance $\sigma^2$ is $2k$.
 
 The cumulative distribution of $\rchi^2$ is surprisingly similar to luck for the $k$ degree-of-freedom normal distribution (\ref{eq:normal-luck-as-integral}),
@@ -25,7 +25,7 @@ For $k=1$ and $k=2$ this distribution is monotonically decreasing, and so the lu
 L[\rchi^2_k](x) = \CDF[\rchi^2_k](x) \text{, when $k=1$ or $k=2$.}
 \end{equation}
 
-However, for $k > 2$, the distribution is continuous with a single maximum at $x=k-2$ and is otherwise monotonic.  So the luck of an outcome is the integral of the PDF \ref{eq:chi2-pdf} between the observation $x$ and what we call the conjugate point $x^*$ where the distribution values are equal.  This is illustrated in Figure~\ref{fig:chi2-conj} for $k=4$ and $x=5$.
+However, for $k > 2$, the distribution is continuous with a single maximum at $x=k-2$ and is otherwise monotonic.  So the luck of an outcome is the integral of the PDF (\ref{eq:chi2-pdf}) between the observation $x$ and what we call the conjugate point $x^*$ where the distribution values are equal.  This is illustrated in Figure~\ref{fig:chi2-conj} for $k=4$ and $x=5$.
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.75\linewidth]{graphics/chi2-conj.pdf}
@@ -78,9 +78,9 @@ Finally $x^* = \lim_{n\rightarrow \infty} x_n^*$ when $k>2$ and $x \neq k-2$.
 A plot of luck $L$ vs $p$-value for $\rchi^2_4$ is given in Figure~\ref{fig:chi2}.
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.75\linewidth]{img/chi2.png}
+\includegraphics[width=0.75\linewidth]{img/chi2.pdf}
 \end{center}
-\caption{$p$-value (red) vs $L$ (blue) for the $\rchi^2$ distribution for $k=4$ (in green).  There is no simple relationship between $L$ and $p$.}
+\caption{$p$-value (dotted) vs $L$ (solid) for the $\rchi^2$ distribution for $k=4$ (dashed).  There is no simple relationship between $L$ and $p$.}
 \label{fig:chi2}
 \end{figure}
 

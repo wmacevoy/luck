@@ -18,8 +18,9 @@ zip : ../luck.zip
 	cd ..; zip luck.zip $$(find luck -path luck/.git -prune -o -type f)
 
 all : graphs main.tex introduction.tex normal.tex multinomial.tex computation.tex
+	if [ -f main.idx ] ; then makeindex main; fi
 	pdflatex main
-#	latexmk -pdf main
+
 
 graphs : $(GRAPHICS_PDF)
 
