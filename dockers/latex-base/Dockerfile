@@ -1,5 +1,5 @@
 # fork of https://github.com/blang/latex-docker / Benedikt Lang <mail@blang.io> 
-FROM ubuntu:xenial
+FROM debian:jessie
 MAINTAINER Warren MacEvoy <wmacevoy@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -18,10 +18,19 @@ RUN wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz; \
 
 ENV PATH="/usr/local/texlive/2018/bin/x86_64-linux:${PATH}"
 
-ENV HOME /data
 WORKDIR /data
-
+ENV HOME /home
 # Install latex packages
 RUN tlmgr install latexmk
 
-VOLUME ["/data"]
+VOLUME ["/data","/home"]
+
+# needed for basic build rules
+RUN apt-get update
+RUN apt-get install -y python-software-properties
+RUN apt-get install -y apt-file
+RUN apt-file update
+RUN apt-get install -y software-properties-common
+
+# needed for asymptote to run
+RUN apt-get install -y freeglut3 ghostscript libglu1 libosmesa6 
