@@ -74,11 +74,11 @@ RUN echo skip tlmgr install \\
     asymptote \\
     bera \\
     booktabs \\
+    catchfile \\
     ccicons \\
     collection-fontsrecommended \\
     fancyvrb \\
     fpl \\
-    genmisc \\
     hardwrap \\
     l3kernel \\
     l3packages \\
@@ -90,6 +90,7 @@ RUN echo skip tlmgr install \\
     paralist \\
     palatino \\
     placeins \\
+    ragged2e \\
     relenc \\
     setspace \\
     siunitx \\

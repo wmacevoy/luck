@@ -48,6 +48,7 @@ RUN tlmgr install \
     asymptote \
     bera \
     booktabs \
+    catchfile \
     ccicons \
     collection-fontsrecommended \
     fancyvrb \
@@ -64,6 +65,7 @@ RUN tlmgr install \
     paralist \
     palatino \
     placeins \
+    ragged2e \
     relenc \
     setspace \
     siunitx \
