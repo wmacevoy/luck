@@ -1,4 +1,4 @@
-FROM "algorithms-fall2018-public/latex-base:latest"
+FROM "luck/latex-base:latest"
 #
 # I know "scheme-full" is tempting, but three hours later you may have wished you picked out the packages...
 #
@@ -53,7 +53,6 @@ RUN tlmgr install \
     collection-fontsrecommended \
     fancyvrb \
     fpl \
-    genmisc \
     hardwrap \
     l3kernel \
     l3packages \
@@ -62,6 +61,7 @@ RUN tlmgr install \
     mathpazo \
     microtype \
     ms \
+    nth \
     paralist \
     palatino \
     placeins \
