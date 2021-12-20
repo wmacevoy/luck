@@ -31,7 +31,8 @@ RUN wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz; \
 #	rm install-tl-unx.tar.gz
 
 RUN ls -l /usr/local/texlive
-ENV TEXLIVE_DIR="/usr/local/texlive/2020"
+RUN sh -c "ln -s /usr/local/texlive/2[0-9][0-9][0-9] /usr/local/texlive/latest"
+ENV TEXLIVE_DIR="/usr/local/texlive/latest"
 ENV TEXLIVE_BIN="${TEXLIVE_DIR}/bin/x86_64-linux"
 ENV PATH="${TEXLIVE_BIN}:${PATH}"
 

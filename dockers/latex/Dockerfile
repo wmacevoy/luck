@@ -78,3 +78,6 @@ RUN tlmgr install \
     xifthen \
     xindy \
     xkeyval
+
+RUN tlmgr install \
+    etoolbox
