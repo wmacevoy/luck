@@ -81,3 +81,9 @@ RUN tlmgr install \
 
 RUN tlmgr install \
     etoolbox
+
+# Install sympy
+
+RUN apt update
+RUN apt install -y python3-pip
+RUN pip3 install mpmath sympy
