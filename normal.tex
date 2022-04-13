@@ -43,7 +43,7 @@ where $R = |\sqrt{\Sigma^{-1}} (x-\mu)|$.  This can be evaluated in spherical co
 \label{eq:normal-luck-as-integral}
 L(x)    &=\frac{1}{\sqrt{(2\pi)^{d_f}}} \int_{0}^{R} \frac{d_f \pi^{d_f/2}}{\Gamma(\frac{d_f}{2}+1)} r^{d_f-1} e^{-\frac{1}{2} r^2} \, dr \,, \\
 \index{luck $L$ ! normal (exact)}
-&=\frac{\gamma(n/2,R^2/2)}{\Gamma(n/2)} \,.
+&=\frac{\gamma(d_f/2,R^2/2)}{\Gamma(d_f/2)} \,.
 \label{eq:luck-normal}
 \end{align}
 \marginnote{\lstinline[language=Scilab]{L=cdfgam("PQ",R^2/2,df/2,1)}}
@@ -59,7 +59,7 @@ For any value of $d_f$, but particularly for large values, we find the following
 \begin{equation}
 \label{eq:normal-luck-approx}
 \index{luck $L$ ! normal (approximate)}
-L(x) \approx \frac{1}{2}\left[1+\erf(|\sqrt{\Sigma^{-1}} (x-\mu)|-\sqrt{d_f-1/2})\right] \,.
+L(x) \approx \frac{1}{2}\left[1+\erf\left(\left|\sqrt{\Sigma^{-1}} (x-\mu)\right|-\sqrt{d_f-1/2}\right)\right] \,.
 \end{equation}
 \begin{figure}
   \caption{Exact (blue) vs approximate (red) luck for normal distribution for $d_f=1$, $10$, and $100$.}
