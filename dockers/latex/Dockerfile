@@ -87,3 +87,5 @@ RUN tlmgr install \
 RUN apt update
 RUN apt install -y python3-pip
 RUN pip3 install mpmath sympy
+
+RUN rm -rf /usr/local/texlive/2023/texmf-dist/tex/latex/units

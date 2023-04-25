@@ -1,8 +1,17 @@
 # find directory of this sourced context
 
-pushd $(dirname "${BASH_SOURCE[0]}") >/dev/null
-latex_docker_bin="$PWD"
-popd >/dev/null
+if [ $SHELL = "/bin/bash" ] ; then
+    pushd $(dirname "${BASH_SOURCE[0]}") >/dev/null
+    latex_docker_bin="$PWD"
+    popd >/dev/null
+elif [ $SHELL = "/bin/zsh" ] ; then
+    pushd $(dirname "${(%):-%N}") >/dev/null
+    latex_docker_bin="$PWD"
+    popd >/dev/null
+else
+    echo "Unknown shell $SHELL"
+    exit 1
+fi
 
 # remove directory from path
 PATH=":$PATH:"
@@ -13,5 +22,6 @@ PATH="$latex_docker_bin${PATH%:}"
 
 # invalidate cache
 hash -r
+
 
 
