@@ -253,8 +253,21 @@ L[{\cal N}_{1d}(\cdot;\mu,\sigma^2)](x)=\erf \left|\frac{x-\mu}{\sqrt{2} \sigma}
     \end{equation*}
 \end{itemize}
 
+
 \section{Exercises}
+For the concept questions argue for discrete or finite probabilities only.
 \begin{enumerate}
+  \item Can you show that no discrete probability has perfectly unlucky outcomes?  That is, $L(x)=0$ is impossible?
+  \item Can you show that it is impossible to observe perfect luck?  That is $L(x)=1$ implies $p(x)=0$ for any discrete probabilty space.  Hint: define $\Omega'(x)=\{y | p(y) < p(x) \}$ as the set of outcomes less likely than $x$, and note that $\{\Omega(x),\omega{x},\Omega'(x)\}$ partition the probabilty space so $|\Omega(x)|+|\omega(x)|+|\Omega'(x)|=1$.
+  \item Why is the expected value of luck always $\frac{1}{2}$?
+  \item What is the relationship between luck and probability?
+  \item Can you think of an example of an event that has a low probability but a high luck?
+  \item Can you think of an example of an event that has a high probability but a low luck?
+  \item What is the difference between luck and randomness?
+  \item How can understanding luck be useful in fields like statistics or decision making?
+  \item Can you think of a real-life scenario where considering luck could help you make a better decision?
+  \item Can you think of a situation where someone's perceived luck might be different from their actual luck?
+  
 \item \label{q:intro-coin} Take the maximum of two fair coin flips (0 or 1), so $\Prob(\max = 0)=1/4$ and $\Prob(\max = 1)=3/4$.  What is the luck of each outcome?
 \item \label{q:intro-coins} Take 3 independent trials like problem \ref{q:intro-coin}.  Note there are $2^3$ outcomes but only 4 distinct probabilities.  Show that
   \begin{gather*}
@@ -277,5 +290,82 @@ L[{\cal N}_{1d}(\cdot;\mu,\sigma^2)](x)=\erf \left|\frac{x-\mu}{\sqrt{2} \sigma}
   \begin{equation*}  
   L=1-2^{-85} \approx 1-2.585\times 10^{-26}
   \end{equation*}
+\end{enumerate}
+
+\section{Solutions}
+
+
+\begin{enumerate}
+  \item Setting $L=0$ in $L=|\Omega(x)|+\frac{1}{2}|\omega(x)|$ means $|\Omega(x)\| = 0$ and $|\Omega(x)\| = 0$, for a discrete probability this is impossible, since the probability this {\em and all more likely} outcomes is zero, then all the probabilities are zero.  That is a contradiction since the probabilities should sum to $1$.
+  \item Define $\Omega'(x)$ as set of outcomes with probablity smaller than $p(x)$, since this a partition of the probability space $||\Omega(x)|+|\omega(x)|+|\Omega'(x)|=1$.  Subtractiing the requirement that $|\Omega(x)|+\frac{1}{2}|\omega(x)|=1$, we get $\frac{1}{2}|\omega(x)|+|\Omega'(x)|=0$.  Since both of these terms are non-negative, we have $|\omega(x)|=0$ and $|\Omega'(x)|=0$.  So, for a discrete probability, the probability of the outcome must be exactly zero (a miracle). For continuous probability it must be measure zero, which is a mathematical way of saying a miracle as well. You should never observe a perfectly lucky outcome.
+  \item TBD. % $E(L)=\Sigma_x L(x) p(x) = \Sigma_{\omega(x)} L(x) |\omega(x)\| = |\Omega(x)|p(x) Why is the expected value of luck always $\frac{1}{2}$?  Luck assigns the same value to all outcomes with the same probability, so $\omega(x)$ are equivalence classes 
+  \item Probaility is assigning a non-negative likelyhood $p(x)$ to each posssible outcome $x$ in a probability space.  For example $x$ could be a password and $p(x)$ could be the probability that a given user will use that as a password the next time they are asked to create a password.  Luck is a way to assign a number $L(x)$ to the outcome of choosing a password.  It gives a concrete measure to the idea of how lucky ($L(x) \approx 1$) or unlucky ($L(x) \approx 0$) observing that result is.
+  \item Use $p(x)=2^{-x}$, $x=1,\ldots,\infty$ as a discrete probability space.  As $x$ grows, the probablity decreases exponentially, but the related luck gets closer to 1: $L(x) = 1-\frac{3}{2} \cdot 2^{-x}$.
+  \item This isn't really possible, since $L(x) \geq \frac{1}{2} |\omega(x)| \geq \frac{1}{2} p(x)$, it can't be smaller than 1/2 of the probability itself.  So the best you can do is to make this equal.  For the previous example that is $p(1)=1/2$ for which the luck is $1/4$.  For a discrete distribution, the worst luck will be for the most likely outcome.
+  \item If a system is correctly described by some probabilities $p(x)$, the observed luck will look as uniformly random as possible.
+  \item Much of statistics are tools to help decide if a given probablity distribution correctly describes the system.  Luck is a way to mathematically assesss that which fits reasonably well with the common notions of luck.
+  \item Luck is more intuitive than $p$-value, which is meaningless to anyone unfamiliar with statistics. This allows a statistician to convey a result more easily.  It also identifies both outlying (lucky) or surprizingly conformant (unlucky) outcomes.
+  \item Uniform probability spaces are unintitive.  For example, gettiing a 100 heads in a row is as equally likely as any other sequence.  The mathematical luck of this case is 1/2, while a human would view it as impossibly lucky.  Looking at that sequence from a non-uniform space (maximums over pairs, for example) allows us to identify the degree of human surprize in this result.
+\item
+The domain is $\{0,1\}$, the two possible values of the maximum, with $p(1)=\frac{3}{4}$ and $p(0)=\frac{1}{4}$, in decreasing order of probability.  So $L(1)=/\frac{1}{2} p(1) = \frac{1}{2} \cdot \frac{3}{4} = \frac{3}{8}$, and $L(0)=p(1)+\frac{1}{2} p(0) = \frac{3}{4} + \frac{1}{2} \cdot \frac{1}{4} = \frac{7}{8}$.
+
+\item For a single trial, the probability for a maximum of $m$ is
+\begin{equation}
+  p_1(m)=\begin{cases}
+           3/4& \text{ if } m = 1,\\
+           1/4& \text{ if } m = 0
+         \end{cases}
+\end{equation}
+The probabilities for three independent trials are given by product of likelyhoods of the outcome of each trial: $p_3(m_1,m_2,m_3)=p_1(m_1) \cdot p_1(m_2) \cdot p_1(m_3)$, the rest is applying definitions:
+\begin{table}
+  \caption{This is arranged in increasing luck (which is decreasing probability). Getting exactly $x=4$ heads is unlucky, requiring only $L=14\%$ luck, while getting $x=0$ or $x=8$ heads is almost $100\%$ luck.}
+  \begin{tabular}{|c|S[table-format=2.4]|c|S[table-format=2.4]|c|S[table-format=2.4]|c|S[table-format=2.4]|S[table-format=2.4]|}
+  \multicolumn{1}{c}{$|x|$} &
+  \multicolumn{1}{c}{$p(x)$} &
+  \multicolumn{1}{c}{$\Omega(x)$} &
+  \multicolumn{1}{c}{$|\Omega(x)|$} &
+  \multicolumn{1}{c}{$\omega(x)$} &
+  \multicolumn{1}{c}{$|\omega(x)|$} &
+  \multicolumn{1}{c}{$L(x)$} \\
+  \hline
+       0 & 0.4219 &  \{\} & 0.0000 & \{(1,1,1)\} & 0.4219 & 0.2109 \\
+       1 & 0.1406 & \{(1,1,1)\} & 0.4219 & \{(0,1,1),(1,0,1),(0,0,1)\} & 0.4219 & 0.6328 \\
+       2 & 0.0469 & \{(1,1,0),(1,0,1),(0,1,1)\} & 0.8438 & \{(1,0,0),(0,1,0),(0,0,1)\} & 0.2188 & 0.8203 \\
+       3 & 0.0156 & \{(1,1,0),(1,0,1),(0,1,1),(1,0,0),(0,1,0),(0,0,1)\} & 0.9844 & \{(1,1,1)\} & 0.0625 & 0.9609 \\
+  \hline
+  \end{tabular}
+  \end{table}
+  
+\begin{align*}
+&L((1,1,1))=\frac{27}{128} \approx 0.2109 ,,\
+&L((0,1,1))=L((1,0,1))=L((1,1,0))=\frac{81}{128} \approx 0.6328 ,,\
+&L((1,0,0))=L((0,1,0))=L((0,0,1))=\frac{117}{128} \approx 0.9141 ,,\
+&L((0,0,0))=\frac{127}{128} \approx 0.9922 ,.
+\end{align*}
+
+\item The luck of the outcome depends on the specific outcome generated. However, on average, the luck of the outcome is $\frac{1}{2}$.
+
+\item The luck of the outcome depends on the specific sequence generated. However, on average, the luck of the outcome is $\frac{1}{2}$.
+
+\item The luck of the exponential distribution is given by:
+\begin{align*}
+L(x) &= \int_x^\infty \lambda \exp(-\lambda y) , dy \
+&= \exp(-\lambda x) ,,
+\end{align*}
+so the luck of an outcome $x$ is $\exp(-\lambda x)$.
+
+\item Taken as a sequence of fair coin tosses, the probability of getting 85 heads in a row is $(1/2)^{85}$, which is a very small probability. However, the probability of getting any specific sequence of 85 coin tosses is also $(1/2)^{85}$, so the luck of getting this specific sequence is neither lucky nor unlucky.
+
+\item When the 84 heads are grouped into 42 pairs, each pair has a luck of $3/4$, since there are 3 out of 4 possible outcomes that are more likely than the outcome in each pair. Thus, the overall luck of this sequence is given by:
+\begin{equation*}
+L = \left( \frac{3}{4} \right)^{42} \approx 2.828 \times 10^{-6} ,,
+\end{equation*}
+which is very unlucky.
+
+\item The minimum-of-pairs problem for the 42 head-pairs is equivalent to the maximum-of-pairs problem for the 42 tail-pairs. Since the two problems are equivalent, their lucks must be the same. The luck of the maximum-of-pairs problem is given by:
+\begin{equation*}
+L = 1 - \left( \frac{1}{2} \right)^{42} \approx 1 - 2.585 \times 10^{-26} ,,
+\end{equation*}
+which is very lucky.
 \end{enumerate}
 
