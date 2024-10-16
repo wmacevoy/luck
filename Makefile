@@ -17,7 +17,7 @@ zip : ../luck.zip
 	/bin/rm -rf ../luck.zip
 	cd ..; zip luck.zip $$(find luck -path luck/.git -prune -o -type f)
 
-all : graphs main.tex introduction.tex normal.tex multinomial.tex computation.tex
+all : graphs application.tex chi2.tex computation.tex conclusion.tex introduction.tex luck.tex main.tex model.tex multinomial.tex normal.tex proofs.tex randomness.tex stirling.tex summary.tex
 	if [ -f main.idx ] ; then makeindex main; fi
 	pdflatex main
 
@@ -29,3 +29,8 @@ pdf : all
 
 qqwing : qqwing.cpp
 	$(CXX) -g -o $@ $<
+
+
+slides : graphs slides.tex
+	pdflatex slides
+

@@ -46,13 +46,16 @@ RUN echo skip tlmgr install \
 #
 RUN tlmgr install \
     asymptote \
+    amsmath \
     bera \
+    beamer \
     booktabs \
     catchfile \
     ccicons \
     collection-fontsrecommended \
     fancyvrb \
     fpl \
+    hyperref \
     hardwrap \
     l3kernel \
     l3packages \
@@ -60,7 +63,6 @@ RUN tlmgr install \
     listings \
     mathpazo \
     microtype \
-    ms \
     nth \
     paralist \
     palatino \
@@ -84,9 +86,9 @@ RUN tlmgr install \
 
 # Install sympy
 
-RUN apt update
-RUN apt install -y python3-pip
-RUN pip3 install mpmath sympy
+RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get install -y python3-pip
+RUN pip3 install mpmath sympy numpy
 
 # Remove units package to avoid conflict with siunitx
 # RUN rm -rf /usr/local/texlive/2023/texmf-dist/tex/latex/units
