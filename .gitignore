@@ -1,0 +1,15 @@
+*.log
+*.aux
+*.nav
+*.out
+*.toc
+*.pre
+*.snm
+*.lot
+*.ind
+*.ilg
+*.idx
+*.lof
+*~
+\#*
+.\#*
