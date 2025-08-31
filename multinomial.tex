@@ -12,7 +12,7 @@ P_{\text{multinomial}}(x;p)={N!}\prod_{i=1}^{n} \frac{p_i^{x_i}}{x_i!} \,.
 The counts $x_i$ are not independent (they must sum to $N$), but if the probabilities are small, then the multinomial distribution can be treated as a product of independent Poisson distributions:
 \begin{equation}
 \index{poisson ! probability}
-P_{\text{poisson}}(x;p) = \prod_{i=1}^{N_P} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
+P_{\text{poisson}}(x;p) = \prod_{i=1}^{n} \frac{e^{-p_i} p_i^{x_i}}{x_i!} \,.
 \end{equation}
 
 \subsection{Approximating the Multinomial as a Normal Distribution}
