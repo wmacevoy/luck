@@ -1,0 +1,60 @@
+% Wild Luck -- companion volume to Luck
+% Applied catalog: same machinery, different problems.
+
+\documentclass{tufte-book}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{colorlinks}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Luck}{Luck}
+\DeclareMathOperator{\Prob}{Prob}
+\DeclareMathOperator{\Var}{Var}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{example}
+\newtheorem{example}{Example}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+\title{Wild Luck}
+\author[W. MacEvoy]{Warren D. MacEvoy}
+\publisher{Personal Notes}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\include{preface}
+
+\tableofcontents
+
+\mainmatter
+
+\part{Reading Luck}
+\include{coin}
+% \include{calibration}
+% \include{decision}
+
+\part{Computing with Luck}
+% \include{engine}
+% \include{testing}
+% \include{selection}
+% \include{state}
+% \include{drift}
+% \include{design}
+% \include{anomaly}
+
+\backmatter
+% \bibliography{bibliography}
+% \bibliographystyle{plainnat}
+
+\end{document}

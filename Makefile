@@ -1,36 +1,47 @@
-GRAPHICS_ASY=$(wildcard graphics/*.asy)
-GRAPHICS_PDF=$(patsubst graphics/%.asy,graphics/%.pdf,$(GRAPHICS_ASY))
-VIEW=evince
+LATEXMK ?= latexmk
+LUALATEX_FLAGS ?= -cd -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -shell-escape
 
-graphics/%.pdf : graphics/%.asy
+MAIN_TEX := main.tex
+WILD_TEX := wild/main.tex
+
+GRAPHICS_ASY := $(wildcard graphics/*.asy)
+GRAPHICS_PDF := $(patsubst graphics/%.asy,graphics/%.pdf,$(GRAPHICS_ASY))
+
+.PHONY: all main wild graphs clean test test-python test-scilab test-r
+
+all: main wild
+
+main: main.pdf
+
+wild: wild/main.pdf
+
+graphs: $(GRAPHICS_PDF)
+
+graphics/%.pdf: graphics/%.asy
 	asy -f pdf -o $@ $<
 
-clean :
-	/bin/rm -rf main.pdf main.log $$(find . -name '*~' -o -name '*#' -o -name '.#*')
+main.pdf: graphs
 
-zip : ../luck.zip
+%.pdf: %.tex
+	$(LATEXMK) $(LUALATEX_FLAGS) $<
+	@'$(CURDIR)/tools/check-log.sh' '$(<:.tex=.log)' '$(<:.tex=.pdf)'
 
+clean:
+	$(LATEXMK) -C $(MAIN_TEX) || true
+	$(LATEXMK) -C $(WILD_TEX) || true
+	rm -f $(GRAPHICS_PDF)
 
-.PHONY: ../luck.zip
+# --- code & tests ---
 
-../luck.zip :
-	/bin/rm -rf ../luck.zip
-	cd ..; zip luck.zip $$(find luck -path luck/.git -prune -o -type f)
+test: test-python test-scilab test-r
 
-all : graphs application.tex chi2.tex computation.tex conclusion.tex introduction.tex luck.tex main.tex model.tex multinomial.tex normal.tex proofs.tex randomness.tex stirling.tex summary.tex
-	if [ -f main.idx ] ; then makeindex main; fi
-	pdflatex main
+test-python:
+	cd python && python3 test_luck_ties.py
+	cd python && python3 test_luck_extremes.py
 
+test-scilab:
+	@echo "scilab tests are interactive functions; run them by exec()'ing"
+	@echo "the test_*.sci files in a scilab session."
 
-graphs : $(GRAPHICS_PDF)
-
-pdf : all
-	$(VIEW) main.pdf &
-
-qqwing : qqwing.cpp
-	$(CXX) -g -o $@ $<
-
-
-slides : graphs slides.tex
-	pdflatex slides
-
+test-r:
+	cd R/tests/testthat && Rscript -e 'testthat::test_dir(".", stop_on_failure=TRUE, stop_on_warning=TRUE)'

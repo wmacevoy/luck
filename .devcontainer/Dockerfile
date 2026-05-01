@@ -1,42 +1,20 @@
-FROM debian:stable
+FROM devcontainer-latex:latest
 
-RUN echo base run && ( \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-      ca-certificates \
-      git \
-      make \
-      perl \
-    && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* )
+# Reference implementations of the luck statistics live in scilab/, R/,
+# python/, and maxima/.  This image adds the runtimes needed to execute
+# them; the LaTeX toolchain comes from the base.
 
-RUN echo texlive run && ( apt-get update && \
-    apt-get install -y --no-install-recommends \
-      texlive \
-      asymptote \
-      latexmk \
-      xindy \
-      ghostscript \
-    && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* )
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo tufte run && (\
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-        texlive-fonts-extra \
-        texlive-fonts-recommended \
-        texlive-latex-base \
-        texlive-latex-extra \
-        texlive-latex-recommended \
-        texlive-plain-generic \
-        texlive-science \
-        && \
-        apt-get clean && \
-        rm -rf /var/lib/apt/lists/* )
-
-WORKDIR /data
-ENV HOME=/home
-
-VOLUME ["/data","/home"]
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python3 \
+        python3-pip \
+        python3-numpy \
+        python3-scipy \
+        r-base \
+        r-cran-testthat \
+        scilab \
+        wxmaxima \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*

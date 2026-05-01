@@ -1,0 +1,51 @@
+\chapter*{Preface}
+
+\textit{Wild Luck} is a companion to \textit{Luck}.  The first book defined
+luck and computed it.  This one uses it.
+
+The bet is that one definition --- $L(x) = |\Omega(x)| + \tfrac{1}{2}|\omega(x)|$,
+the probability of an outcome at least as common as $x$, with ties
+half-counted --- is enough machinery to do most of the everyday statistical
+work that real domains demand: rejecting a forecast as miscalibrated,
+deciding when a filter has lost track of its system, choosing between
+competing models, recognizing when ``rare'' has crossed into ``too rare to
+believe.''  Each chapter pulls one of two levers on the same statistic.
+
+\paragraph{The Read lever} ``Given a model and an observation, what is
+$\ell(x)$, and what should I do about it?''  The answer drives one-shot
+interpretation, anomaly detection, hypothesis testing, and any decision
+where someone has to act on a single event.
+
+\paragraph{The Drive lever} ``Given many observations, find a model where
+$\ell$ is uniform.''  The answer drives parameter fitting, state
+estimation, drift tracking, and model selection.  Same statistic, opposite
+direction.
+
+Every chapter that follows is a worked example of one of these two moves
+in a specific domain.  The unification is the point: someone who has
+internalized the Read/Drive duality can carry it from weather forecasting
+to Kalman filtering to clinical decision-making without learning a new
+hammer for every nail.
+
+\paragraph{What this book is not.}  It is not a survey of optimal methods.
+The Kalman filter has decades of optimization literature; classical
+hypothesis testing has Neyman--Pearson; model selection has AIC/BIC.  Each
+chapter compares luck-based methods to those alternatives, honestly.  Luck
+wins on \textit{transferability} --- one statistic, one diagnostic,
+graded against one noise floor --- not on raw efficiency.  When you know
+the alternative, the Neyman--Pearson likelihood-ratio test will reject
+faster.  When you do not, $\ell$ is what is left, and that is most of the
+real cases.
+
+\paragraph{What this book assumes.}  The reader has seen \textit{Luck} or
+is willing to consult it.  Each chapter opens with an
+\textit{Ingredients} box pointing to the specific theorems, definitions,
+and recipes drawn from the first book.  The chapters do not re-derive.
+That keeps this book a catalog, not a textbook --- read any chapter
+independently, in any order, after Chapter~\ref{ch:coin}.
+
+\paragraph{Notation.}  $L$ is the analytic luck $|\Omega| + \tfrac{1}{2}
+|\omega|$.  $\ell$ is the count-based estimator from a sample.  $C =
+\log_2(\ell/(1-\ell))$ is the \emph{coin-luck}: how many coin-flips ahead
+of (positive) or behind (negative) typical, an outcome lies.  These are
+the running characters of every chapter.

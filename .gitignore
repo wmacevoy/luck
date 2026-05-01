@@ -10,6 +10,17 @@
 *.ilg
 *.idx
 *.lof
+*.fdb_latexmk
+*.fls
+*.bbl
+*.blg
 *~
 \#*
 .\#*
+
+# build artifacts
+.DS_Store
+__pycache__/
+python/luck_config.json
+main.pdf
+graphics/*.pdf
