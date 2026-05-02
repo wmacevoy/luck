@@ -34,7 +34,6 @@
 \usepackage{nth}     % 1st, 2nd, ...
 \usepackage{microtype} % Improves character and word spacing
 \usepackage{asymptote} % for asymptote graphics
-\usepackage{ccicons}
 \usepackage{lipsum} % Inserts dummy text
 \usepackage{booktabs} % Better horizontal rules in tables
 \usepackage{graphicx} % Needed to insert images into the document
@@ -176,8 +175,22 @@
 \publisher{Personal Notes} % Publisher
 
 %----------------------------------------------------------------------------------------
-\usepackage{ccicons}
+
 \begin{document}
+
+% Workaround for tufte-book + TeX Live 2022 case-changing breakage.
+% tufte-common's \allcaps and \smallcaps expand to \MakeTextUppercase /
+% \MakeTextLowercase (textcase), and even rerouting to the LaTeX
+% kernel's \MakeUppercase / \MakeLowercase still breaks under lualatex
+% on TL2022.  Drop case-changing entirely from these macros -- the
+% small-caps font shape (\scshape) provides the visual effect on its
+% own; the typographic difference is a faux-smallcaps fallback for
+% characters the font lacks, which we don't need.
+\renewcommand{\allcaps}[1]{\textsmallcaps{#1}}
+\renewcommand{\smallcaps}[1]{\textsmallcaps{#1}}
+\renewcommand{\allcapsspacing}[1]{#1}
+\renewcommand{\smallcapsspacing}[1]{#1}
+\renewcommand{\textsc}[1]{\textsmallcaps{#1}}
 
 \def\asydir{graphics}
 \begin{asydef}
@@ -207,7 +220,7 @@ Copyright \copyright\ \the\year\ \thanklessauthor
 
 \par\smallcaps{www.coloradomesa.edu}
 
-\par \ccbyncsa\ [\url{http://creativecommons.org/licenses/by-nc-sa/4.0}]
+\par CC BY-NC-SA 4.0\ [\url{http://creativecommons.org/licenses/by-nc-sa/4.0}]
 
 You are free to:
 \begin{itemize}
