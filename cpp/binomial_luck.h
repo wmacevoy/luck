@@ -24,7 +24,13 @@ namespace luck {
     return std::exp(binomial_log_pmf<R>(n, p, q, R(k)));
   }
 
-  // sum(prob(k),el in [a,b)),sum(prob(k),el=k+1..n)))
+  // Sum of pmf(j) over the half-open index range [a, b).
+  //
+  // This is a self-contained O(b-a) fallback. The point of binomial_mass is the
+  // *pattern*: less/equal/more are determined by a contiguous index band, so the
+  // band sums are just CDF differences. A backend with a binomial CDF (= the
+  // regularized incomplete beta, I_q(n-k,k+1)) should drop this enumeration and
+  // evaluate the band endpoints directly -- O(1) in n instead of O(n).
   template <typename R>
   R binomial_sum(int n, R p, R q, int a, int b)
   {
@@ -45,10 +51,15 @@ namespace luck {
   //   less  = sum_{j: pmf(j) <  pmf(k)} pmf(j)
   //   equal = sum_{j: pmf(j) == pmf(k)} pmf(j)   (= pmf(k) generically, 2*pmf(k) at a tied peak)
   //   more  = sum_{j: pmf(j) >  pmf(k)} pmf(j)
-  // Strategy: cheap closed-form pmf ratios to one neighbor on each side cover
-  // strict-mode and tied-peak cases. Otherwise find the real "twin" x* on the
-  // opposite side of the mode via bquad_refine on the (concave) log-pmf, then
-  // sum the middle band via the pmf recurrence.
+  // Strategy: the pmf is unimodal, so {j: pmf(j) >= pmf(k)} is a contiguous
+  // band with k as one endpoint and its "twin" el (the equal-height index on
+  // the far side of the mode) as the other. Find el on the (monotone) log-pmf
+  // flank, then less/equal/more are fixed by that band.
+  //
+  // Here the band is summed with binomial_sum (O(n)). In a backend with a
+  // binomial CDF this is the useful reference pattern: with the band endpoints
+  // known, less = CDF(el-1) [+ tail], more = CDF(k-1) - CDF(el), etc. -- two
+  // O(1) CDF calls, no enumeration. See the note on binomial_sum above.
   // ---------------------------------------------------------------------------
   template <typename R>
   mass<R> binomial_mass(int n, R p, R q,int k) {
